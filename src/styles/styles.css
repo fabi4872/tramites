@@ -1,0 +1,56 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.gestor-tramite-abm-tab{
+    background-color: #f0eded;
+}
+.gestor-tramite-abm-tab .nav-link{
+    color: black;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    line-height: 1.5;
+    min-width: 7rem;
+}
+
+.repositorio-icon{
+    color: #0B5ED7;
+}
+.repositorio-icon-button{
+    border: none;
+}
+.repositorio-span{
+    font-weight: 500;
+    padding-top: .1rem;
+}
+.repositorio-seccion-input{
+    height: 5rem;
+}
+.repositorio-tabla{
+    overflow: auto;
+}
+h5{
+    font-weight: 100;
+    font-style: italic;
+}
+
+/* Componente: ModalConsulta.jsx */
+.modal-consulta .modal-content {
+    border-radius: 0;
+}
+.modal-consulta .modal-header {
+    border: none;
+}
+.modal-consulta p {
+    font-size: 0.875rem;
+}
+.modal-codigo-gris{
+    color: #9b9b9b;
+}
+.nuevo-tramite-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
