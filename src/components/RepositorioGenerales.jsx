@@ -240,36 +240,35 @@ const RepositorioGenerales = () => {
                             <tr key={submotivo.id}>
                               <td>
                                 <div className="d-flex justify-content-center align-items-center">
-                                  <small className="pt-2">
+                                  <small>
                                     {motivo.descripcionOV}
                                   </small>
                                 </div>
                               </td>
                               <td>
                                 <div className="d-flex justify-content-center align-items-center">
-                                  <small className="pt-2">
+                                  <small>
                                     {motivo.descripcionRepositorio}
                                   </small>
                                 </div>
                               </td>
                               <td>
                                 <div className="d-flex justify-content-center align-items-center">
-                                  <small className="pt-2">
+                                  <small>
                                     {submotivo.descripcionOV}
                                   </small>
                                 </div>
                               </td>
                               <td>
                                 <div className="d-flex justify-content-center align-items-center">
-                                  <small className="pt-2">
+                                  <small>
                                     {submotivo.descripcionRepositorio}
                                   </small>
                                 </div>
                               </td>
                               <td>
-                                <div className="pt-2 d-flex justify-content-center align-items-center">
+                                <div className="d-flex justify-content-center align-items-center">
                                   <Form.Check
-                                    className="repositorio-check"
                                     type="switch"
                                     id="sn_consulta"
                                     name="sn_consulta"
@@ -279,9 +278,8 @@ const RepositorioGenerales = () => {
                                 </div>
                               </td>
                               <td>
-                                <div className="pt-2 d-flex justify-content-center align-items-center">
+                                <div className="d-flex justify-content-center align-items-center">
                                   <Form.Check
-                                    className="repositorio-check"
                                     type="switch"
                                     id="sn_pedido"
                                     name="sn_pedido"
@@ -291,9 +289,8 @@ const RepositorioGenerales = () => {
                                 </div>
                               </td>
                               <td>
-                                <div className="pt-2 d-flex justify-content-center align-items-center">
+                                <div className="d-flex justify-content-center align-items-center">
                                   <Form.Check
-                                    className="repositorio-check"
                                     type="switch"
                                     id="sn_reclamo"
                                     name="sn_reclamo"
