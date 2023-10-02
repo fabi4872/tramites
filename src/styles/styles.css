@@ -25,8 +25,9 @@
     font-weight: 500;
     padding-top: .1rem;
 }
-.repositorio-seccion-input{
-    height: 5rem;
+.repositorio-seccion{
+    height: 7rem;
+    margin-top: 4rem;
 }
 .repositorio-tabla{
     overflow: auto;

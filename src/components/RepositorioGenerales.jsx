@@ -84,9 +84,6 @@ const RepositorioGenerales = () => {
     submotivo: {}
   });
   const [show, setShow] = useState(false);
-  
-  // Handlers
-  const [nuevaConsulta, setNuevaConsulta] = useState(false);
   const [consultaInput, setConsultaInput] = useState('');
   const [data, setData] = useState({
     consultas: []
@@ -107,10 +104,6 @@ const RepositorioGenerales = () => {
     handleShow();
   };
 
-  const consultaHandler = () => {
-    setNuevaConsulta(true);
-  }
-
   const cargarConsultaHandler = () => {
     consultaInput && (
       setData((currentData) => ({
@@ -121,9 +114,8 @@ const RepositorioGenerales = () => {
         ],
       }))
     )
-    
-    setConsultaInput('');
-    setNuevaConsulta(false);
+
+    setConsultaInput("");
   }
 
   const cargarMotivoHandler = (item, motivo) => {
@@ -156,33 +148,34 @@ const RepositorioGenerales = () => {
         />
       )}
 
-      <Row className="repositorio-seccion-input">
-        <Col xs={12} lg={4} className="d-flex align-items-center">
-          <Button
-            variant="default"
-            className="mr-3 repositorio-icon-button"
-            onClick={() => consultaHandler()}
-          >
-            <MdOutlineAddBox className="repositorio-icon" size={20} />
-          </Button>
-          <span className="repositorio-span">NUEVA ETIQUETA CONSULTA</span>
-        </Col>
-
-        {nuevaConsulta && (
-          <Col xs={12} lg={4} className="d-flex align-items-center">
+      <Form.Group className="repositorio-seccion">
+        <Row>
+          <Col xs={12} lg={{ span: 6, offset: 3 }} className="d-flex align-items-center"> 
+            <Form.Label
+              className="nuevo-tramite-label"
+              htmlFor="consulta"
+            >
+              Nueva Etiqueta Consultar Por
+            </Form.Label>
+          </Col>
+        </Row>
+      
+        <Row>
+          <Col xs={12} lg={{ span: 6, offset: 3 }} className="d-flex align-items-center"> 
             <Form.Control
               type="text"
               id="consulta"
+              name="consulta"
               aria-describedby="descripcion de consulta"
               value={consultaInput}
               onChange={(e) => setConsultaInput(e.target.value)}
             />
-            <Button variant="primary" onClick={() => cargarConsultaHandler()}>
-              OK
+            <Button variant="danger" onClick={() => cargarConsultaHandler()}>
+              GUARDAR
             </Button>
           </Col>
-        )}
-      </Row>
+        </Row>
+      </Form.Group>
 
       <Container className="mt-3 mb-3">
         {data.consultas.map((item) => (
