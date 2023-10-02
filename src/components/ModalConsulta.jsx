@@ -9,6 +9,11 @@ const ModalConsulta = ({show, handleClose, registro}) => {
     setCantidad(nuevaCantidad);
   };
 
+    // Handlers
+    const handleChange = (event) => {
+    
+    };
+
   return (
     <Modal
       show={show}
@@ -154,6 +159,7 @@ const ModalConsulta = ({show, handleClose, registro}) => {
                       name="sn_warning"
                       label=""
                       checked={true}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </Col>
@@ -169,6 +175,7 @@ const ModalConsulta = ({show, handleClose, registro}) => {
                       name="sn_solicitud_doc"
                       label=""
                       checked={true}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </Col>
@@ -184,6 +191,7 @@ const ModalConsulta = ({show, handleClose, registro}) => {
                       name="sn_adjunto_obligatorio"
                       label=""
                       checked={true}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </Col>
@@ -199,6 +207,7 @@ const ModalConsulta = ({show, handleClose, registro}) => {
                       name="sn_formulario"
                       label=""
                       checked={true}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </Col>
@@ -319,7 +328,7 @@ const ModalConsulta = ({show, handleClose, registro}) => {
           <Container>
             <Row className="mt-4 justify-content-center d-flex text-center">
               <Col className="mb-2" xs={12}>
-                <Button variant="danger" onClick={handleClose}>Guardar</Button>
+                <Button variant="danger" onClick={handleClose}>GUARDAR</Button>
               </Col>
             </Row>
           </Container>

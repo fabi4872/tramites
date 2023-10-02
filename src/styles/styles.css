@@ -29,14 +29,27 @@
 .repositorio-tabla{
     overflow: auto;
 }
+.repositorio-icon-blue{
+    color: #0D6EFD;
+}
+.repositorio-icon-green{
+    color: green;
+}
 .repositorio-icon-yellow{
-    color: rgb(182, 182, 15);
+    color: rgb(141, 141, 3);
 }
 .repositorio-icon-red{
     color: red;
 }
 .repositorio-icon-margin{
     margin-left: 1rem;
+}
+.repositorio-tabla-mensaje{
+    font-style: italic;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Componente: ModalConsulta.jsx */
@@ -77,6 +90,10 @@
     cursor: pointer;
 }
 
+h5{
+    font-weight: 100;
+    font-style: italic;
+}
 table {
     border-collapse: collapse;
     border: .1rem solid rgb(248, 176, 176) !important;

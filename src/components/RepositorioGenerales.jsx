@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Accordion, Button, Col, Container, Form, Row, Table } from 'react-bootstrap';
 import { MdOutlineAddBox } from 'react-icons/md';
-import { AiOutlineSetting } from 'react-icons/ai';
+import { AiOutlineSetting, AiOutlineMinusSquare } from 'react-icons/ai';
 import { BiEditAlt } from 'react-icons/bi';
 import { BsTrash } from 'react-icons/bs';
 import ModalConsulta from './ModalConsulta';
@@ -92,6 +92,10 @@ const RepositorioGenerales = () => {
   })
 
   // Handlers
+  const handleChange = (event) => {
+    
+  };
+
   const handleClose = () => setShow(false);
   
   const handleShow = () => setShow(true);
@@ -111,8 +115,8 @@ const RepositorioGenerales = () => {
       setData((currentData) => ({
         ...currentData,
         consultas: [
-          ...currentData.consultas,
           { id: currentData.consultas.length + 1, codigo: currentData.consultas.length + 1, descripcion: consultaInput, motivos: [] },
+          ...currentData.consultas,
         ],
       }))
     )
@@ -139,6 +143,26 @@ const RepositorioGenerales = () => {
         // Verifica si el motivo ya está presente antes de agregarlo
         if (!consultaActual.motivos.includes(motivo)) {
           const nuevosMotivos = [...consultaActual.motivos, motivo];
+          consultaActual.motivos = nuevosMotivos;
+          newData.consultas[consultaIndex] = consultaActual;
+        }
+      }
+  
+      return newData;
+    });
+  }
+
+  const disociarMotivoHandler = (item, motivo) => {
+    setData((currentData) => {
+      const newData = { ...currentData };
+      const consultaIndex = newData.consultas.findIndex((consulta) => consulta.id === item.id);
+  
+      if (consultaIndex !== -1) {
+        const consultaActual = { ...newData.consultas[consultaIndex] };
+  
+        // Verifica si el motivo ya está presente antes de quitarlo
+        if (consultaActual.motivos.includes(motivo)) {
+          const nuevosMotivos = consultaActual.motivos.filter((m) => m !== motivo);
           consultaActual.motivos = nuevosMotivos;
           newData.consultas[consultaIndex] = consultaActual;
         }
@@ -201,47 +225,93 @@ const RepositorioGenerales = () => {
                 <Accordion.Header>
                   {item.descripcion.trim().toUpperCase()}
                 </Accordion.Header>
-                <Accordion.Body className="mt-3" style={{ position: "relative" }}>
+                <Accordion.Body
+                  className="mt-3"
+                  style={{ position: "relative" }}
+                >
                   <div style={{ position: "absolute", right: "1rem", top: 0 }}>
-                  <button
-                    className="btn repositorio-icon-margin repositorio-icon-button"
-                    onClick={() => editarConsultaPor(item)}
-                  >
-                    <BiEditAlt className="repositorio-icon-yellow" size={20} />
-                  </button>
-                  <button
-                    className="btn repositorio-icon-button"
-                    onClick={() => eliminarConsultaPor(item)}
-                  >
-                    <BsTrash className="repositorio-icon-red" size={20} />
-                  </button>
+                    <button
+                      className="btn repositorio-icon-margin repositorio-icon-button"
+                      onClick={() => editarConsultaPor(item)}
+                    >
+                      <BiEditAlt
+                        className="repositorio-icon-yellow"
+                        size={20}
+                      />
+                    </button>
+                    <button
+                      className="btn repositorio-icon-button"
+                      onClick={() => eliminarConsultaPor(item)}
+                    >
+                      <BsTrash className="repositorio-icon-red" size={20} />
+                    </button>
                   </div>
-                  <div className="custom-select">
-                    <h5>Asignar motivos</h5>
-                    <div className="mt-4 options">
-                      {motivos
-                        .filter((motivo) => !item.motivos.includes(motivo))
-                        .map((motivo) => (
-                          <div
-                            key={motivo.id}
-                            className="option d-flex align-items-center"
-                          >
-                            <span className="repositorio-span">
-                              {motivo.descripcionOV.trim().toUpperCase()}
-                            </span>
-                            <button
-                              className="btn repositorio-icon-button"
-                              onClick={() => cargarMotivoHandler(item, motivo)}
-                            >
-                              <MdOutlineAddBox
-                                className="repositorio-icon"
-                                size={20}
-                              />
-                            </button>
-                          </div>
-                        ))}
+
+                  {motivos.filter((motivo) => !item.motivos.includes(motivo))
+                    .length !== 0 && (
+                    <div className="mt-5 custom-select">
+                      <h5>Asociar motivos</h5>
+                      <div className="mt-4 options">
+                        <Row>
+                          {motivos
+                            .filter((motivo) => !item.motivos.includes(motivo))
+                            .map((motivo) => (
+                              <Col key={motivo.id} xs={12} lg={4}>
+                                <div className="option d-flex align-items-center">
+                                  <span className="repositorio-span">
+                                    {motivo.descripcionOV.trim().toUpperCase()}
+                                  </span>
+                                  <button
+                                    className="btn repositorio-icon-button"
+                                    onClick={() =>
+                                      cargarMotivoHandler(item, motivo)
+                                    }
+                                  >
+                                    <MdOutlineAddBox
+                                      className="repositorio-icon repositorio-icon-green"
+                                      size={20}
+                                    />
+                                  </button>
+                                </div>
+                              </Col>
+                            ))}
+                        </Row>
+                      </div>
                     </div>
-                  </div>
+                  )}
+
+                  {motivos.filter((motivo) => item.motivos.includes(motivo))
+                    .length !== 0 && (
+                    <div className="mt-5 custom-select">
+                      <h5>Disociar motivos</h5>
+                      <div className="mt-4 options">
+                        <Row>
+                          {motivos
+                            .filter((motivo) => item.motivos.includes(motivo))
+                            .map((motivo) => (
+                              <Col key={motivo.id} xs={12} lg={4}>
+                                <div className="option d-flex align-items-center">
+                                  <span className="repositorio-span">
+                                    {motivo.descripcionOV.trim().toUpperCase()}
+                                  </span>
+                                  <button
+                                    className="btn repositorio-icon-button"
+                                    onClick={() =>
+                                      disociarMotivoHandler(item, motivo)
+                                    }
+                                  >
+                                    <AiOutlineMinusSquare
+                                      className="repositorio-icon repositorio-icon-red"
+                                      size={20}
+                                    />
+                                  </button>
+                                </div>
+                              </Col>
+                            ))}
+                        </Row>
+                      </div>
+                    </div>
+                  )}
 
                   <Container className="repositorio-tabla">
                     <Table className="mt-5" striped bordered hover>
@@ -258,6 +328,17 @@ const RepositorioGenerales = () => {
                         </tr>
                       </thead>
                       <tbody>
+                        {item.motivos.length === 0 && (
+                          <tr>
+                            <td colSpan={8}>
+                              <div className="d-flex justify-content-center">
+                                <small className="repositorio-tabla-mensaje">
+                                  No hay resultados disponibles
+                                </small>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
                         {item.motivos.map((motivo) =>
                           motivo.subMotivos.map((submotivo) => (
                             <tr key={submotivo.id}>
@@ -291,6 +372,7 @@ const RepositorioGenerales = () => {
                                     name="sn_consulta"
                                     label=""
                                     checked={true}
+                                    onChange={handleChange}
                                   />
                                 </div>
                               </td>
@@ -302,6 +384,7 @@ const RepositorioGenerales = () => {
                                     name="sn_pedido"
                                     label=""
                                     checked={true}
+                                    onChange={handleChange}
                                   />
                                 </div>
                               </td>
@@ -313,6 +396,7 @@ const RepositorioGenerales = () => {
                                     name="sn_reclamo"
                                     label=""
                                     checked={true}
+                                    onChange={handleChange}
                                   />
                                 </div>
                               </td>
@@ -331,7 +415,7 @@ const RepositorioGenerales = () => {
                                     }
                                   >
                                     <AiOutlineSetting
-                                      className="repositorio-icon"
+                                      className="repositorio-icon repositorio-icon-blue"
                                       size={20}
                                     />
                                   </Button>
