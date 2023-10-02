@@ -257,7 +257,7 @@ const RepositorioGenerales = () => {
                             .filter((motivo) => !item.motivos.includes(motivo))
                             .map((motivo) => (
                               <Col key={motivo.id} xs={12} lg={4}>
-                                <div className="option d-flex align-items-center">
+                                <div className="option d-flex justify-content-center align-items-center">
                                   <span className="repositorio-span">
                                     {motivo.descripcionOV.trim().toUpperCase()}
                                   </span>
@@ -290,7 +290,7 @@ const RepositorioGenerales = () => {
                             .filter((motivo) => item.motivos.includes(motivo))
                             .map((motivo) => (
                               <Col key={motivo.id} xs={12} lg={4}>
-                                <div className="option d-flex align-items-center">
+                                <div className="option d-flex justify-content-center align-items-center">
                                   <span className="repositorio-span">
                                     {motivo.descripcionOV.trim().toUpperCase()}
                                   </span>

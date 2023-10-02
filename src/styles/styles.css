@@ -4,6 +4,18 @@
     box-sizing: border-box;
 }
 
+.header {
+    background-color: #efeeee;
+    height: 9rem;
+}
+.header-paragraph {
+    font-size: 1rem;
+    font-weight: bold;
+}
+.header-paragraph-margin-top{
+    margin-top: -1.9rem;
+}
+
 .gestor-tramite-abm-tab{
     background-color: #f0eded;
 }
@@ -13,6 +25,10 @@
     font-weight: 500;
     line-height: 1.5;
     min-width: 7rem;
+}
+
+.tabs-margin-top{
+    margin-top: -2.6rem;
 }
 
 .repositorio-icon-button{
