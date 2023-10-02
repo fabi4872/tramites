@@ -23,7 +23,6 @@ const ModalConsulta = ({show, handleClose, registro}) => {
 
       <Modal.Body>
         <Container>
-          <p className="mb-3 font-weight-bold">Detalle de Trámite</p>
           <Row>
             <Col xs={12} lg={6}>
               <p>
@@ -319,11 +318,9 @@ const ModalConsulta = ({show, handleClose, registro}) => {
 
           <Container>
             <Row className="mt-4 justify-content-center d-flex text-center">
-              <Col className="mb-4" xs={12}>
-                {/* Contenido adicional si es necesario */}
+              <Col className="mb-2" xs={12}>
+                <Button variant="danger" onClick={handleClose}>Guardar</Button>
               </Col>
-
-              <Button variant="primary" onClick={handleClose}>Guardar</Button>
             </Row>
           </Container>
         </Container>

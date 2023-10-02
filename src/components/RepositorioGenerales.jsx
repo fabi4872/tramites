@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Accordion, Button, Col, Container, Form, Row, Table } from 'react-bootstrap';
 import { MdOutlineAddBox } from 'react-icons/md';
 import { AiOutlineSetting } from 'react-icons/ai';
+import { BiEditAlt } from 'react-icons/bi';
+import { BsTrash } from 'react-icons/bs';
 import ModalConsulta from './ModalConsulta';
 
 const motivos = [
@@ -118,6 +120,14 @@ const RepositorioGenerales = () => {
     setConsultaInput("");
   }
 
+  const editarConsultaPor = (item) => {
+
+  }
+
+  const eliminarConsultaPor = (item) => {
+
+  }  
+
   const cargarMotivoHandler = (item, motivo) => {
     setData((currentData) => {
       const newData = { ...currentData };
@@ -150,18 +160,23 @@ const RepositorioGenerales = () => {
 
       <Form.Group className="repositorio-seccion">
         <Row>
-          <Col xs={12} lg={{ span: 6, offset: 3 }} className="d-flex align-items-center"> 
-            <Form.Label
-              className="nuevo-tramite-label"
-              htmlFor="consulta"
-            >
-              Nueva Etiqueta Consultar Por
+          <Col
+            xs={12}
+            lg={{ span: 6, offset: 3 }}
+            className="d-flex align-items-center"
+          >
+            <Form.Label className="nuevo-tramite-label" htmlFor="consulta">
+              Consultar Por
             </Form.Label>
           </Col>
         </Row>
-      
+
         <Row>
-          <Col xs={12} lg={{ span: 6, offset: 3 }} className="d-flex align-items-center"> 
+          <Col
+            xs={12}
+            lg={{ span: 6, offset: 3 }}
+            className="d-flex align-items-center"
+          >
             <Form.Control
               type="text"
               id="consulta"
@@ -169,6 +184,7 @@ const RepositorioGenerales = () => {
               aria-describedby="descripcion de consulta"
               value={consultaInput}
               onChange={(e) => setConsultaInput(e.target.value)}
+              placeholder="Nuevo Consultar Por"
             />
             <Button variant="danger" onClick={() => cargarConsultaHandler()}>
               GUARDAR
@@ -185,7 +201,21 @@ const RepositorioGenerales = () => {
                 <Accordion.Header>
                   {item.descripcion.trim().toUpperCase()}
                 </Accordion.Header>
-                <Accordion.Body className="mt-3">
+                <Accordion.Body className="mt-3" style={{ position: "relative" }}>
+                  <div style={{ position: "absolute", right: "1rem", top: 0 }}>
+                  <button
+                    className="btn repositorio-icon-margin repositorio-icon-button"
+                    onClick={() => editarConsultaPor(item)}
+                  >
+                    <BiEditAlt className="repositorio-icon-yellow" size={20} />
+                  </button>
+                  <button
+                    className="btn repositorio-icon-button"
+                    onClick={() => eliminarConsultaPor(item)}
+                  >
+                    <BsTrash className="repositorio-icon-red" size={20} />
+                  </button>
+                  </div>
                   <div className="custom-select">
                     <h5>Asignar motivos</h5>
                     <div className="mt-4 options">
@@ -233,23 +263,17 @@ const RepositorioGenerales = () => {
                             <tr key={submotivo.id}>
                               <td>
                                 <div className="d-flex justify-content-center align-items-center">
-                                  <small>
-                                    {motivo.descripcionOV}
-                                  </small>
+                                  <small>{motivo.descripcionOV}</small>
                                 </div>
                               </td>
                               <td>
                                 <div className="d-flex justify-content-center align-items-center">
-                                  <small>
-                                    {motivo.descripcionRepositorio}
-                                  </small>
+                                  <small>{motivo.descripcionRepositorio}</small>
                                 </div>
                               </td>
                               <td>
                                 <div className="d-flex justify-content-center align-items-center">
-                                  <small>
-                                    {submotivo.descripcionOV}
-                                  </small>
+                                  <small>{submotivo.descripcionOV}</small>
                                 </div>
                               </td>
                               <td>

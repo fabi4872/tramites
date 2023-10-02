@@ -15,9 +15,6 @@
     min-width: 7rem;
 }
 
-.repositorio-icon{
-    color: red;
-}
 .repositorio-icon-button{
     border: none;
 }
@@ -31,6 +28,15 @@
 }
 .repositorio-tabla{
     overflow: auto;
+}
+.repositorio-icon-yellow{
+    color: rgb(182, 182, 15);
+}
+.repositorio-icon-red{
+    color: red;
+}
+.repositorio-icon-margin{
+    margin-left: 1rem;
 }
 
 /* Componente: ModalConsulta.jsx */
