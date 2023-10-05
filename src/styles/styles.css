@@ -99,6 +99,11 @@
     padding: 0;
 }
 .form-switch .form-check-input{
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+.form-switch .form-check-input:checked{
     background-color: red;
     border: red;
     padding: 0;
@@ -120,6 +125,8 @@ table {
 th{
     background-color: rgb(255, 234, 234) !important;
     color: rgb(247, 103, 103) !important;
+    font-size: .875rem;
+    font-weight: 500;
 }
 tr {
     /* PARA MARCAR LA SEPARACION LAS CELDAS DE LA TABLA  */
@@ -132,4 +139,7 @@ td {
     padding: 0;
     margin: 0;
     float: center;
+}
+.rbt-close-content{
+    display: none !important;
 }
