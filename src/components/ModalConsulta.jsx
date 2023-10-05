@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Card, Col, Container, Form, Modal, Row } from "react-bootstrap";
 
@@ -67,8 +67,8 @@ const ModalConsulta = ({show, handleClose, registro}) => {
             </Col>
           </Row>
 
-          <Card className="mt-3 mb-3">
-            <Card.Header style={{ background: "#CFE2FF" }}>Motivos y submotivos</Card.Header>
+          <Card className="mt-3 mb-3 accordion-item">
+            <Card.Header className="modal-card-header">Motivos y submotivos</Card.Header>
 
             <Card.Body className="mt-2">
               <Row>
@@ -79,9 +79,6 @@ const ModalConsulta = ({show, handleClose, registro}) => {
                   >
                     <div className="d-flex flex-column">
                       Descripción motivo OV
-                      <small className="mt-1 font-italic modal-codigo-gris">
-                        Código: {config.cod_motivo_ov}
-                      </small>
                     </div>
                   </Form.Label>
 
@@ -103,9 +100,6 @@ const ModalConsulta = ({show, handleClose, registro}) => {
                   >
                     <div className="d-flex flex-column">
                       Descripción motivo repositorio
-                      <small className="mt-1 font-italic modal-codigo-gris">
-                        Código: {config.cod_motivo_repositorio}
-                      </small>
                     </div>
                   </Form.Label>
 
@@ -129,9 +123,6 @@ const ModalConsulta = ({show, handleClose, registro}) => {
                   >
                     <div className="d-flex flex-column">
                       Descripción submotivo OV
-                      <small className="mt-1 font-italic modal-codigo-gris">
-                        Código: {config.cod_submotivo_ov}
-                      </small>
                     </div>
                   </Form.Label>
 
@@ -153,9 +144,6 @@ const ModalConsulta = ({show, handleClose, registro}) => {
                   >
                     <div className="d-flex flex-column">
                       Descripción submotivo repositorio
-                      <small className="mt-1 font-italic modal-codigo-gris">
-                        Código: {config.id_submotivo_repositorio}
-                      </small>
                     </div>
                   </Form.Label>
 
@@ -173,13 +161,13 @@ const ModalConsulta = ({show, handleClose, registro}) => {
             </Card.Body>
           </Card>
 
-          <Card className="mt-3 mb-3">
-            <Card.Header style={{ background: "#CFE2FF" }}>Centro de control</Card.Header>
+          <Card className="mt-3 mb-3 accordion-item">
+            <Card.Header className="modal-card-header">Centro de control</Card.Header>
             <Card.Body>
               <Row className="mt-3">
                 <Col xs={6} lg={3} className="mb-3">
                   <Form.Group className="d-flex flex-column justify-content-center align-items-center mb-0">
-                    <Form.Label>Alerta</Form.Label>
+                    <Form.Label style={{ fontWeight: "bold", color: "#333", fontSize: ".875rem" }}>Alerta</Form.Label>
 
                     <Form.Check
                       className="pl-5"
@@ -195,7 +183,7 @@ const ModalConsulta = ({show, handleClose, registro}) => {
 
                 <Col xs={6} lg={3} className="mb-3">
                   <Form.Group className="d-flex flex-column justify-content-center align-items-center mb-0">
-                    <Form.Label>Documentación</Form.Label>
+                    <Form.Label style={{ fontWeight: "bold", color: "#333", fontSize: ".875rem" }}>Documentación</Form.Label>
 
                     <Form.Check
                       className="pl-5"
@@ -211,7 +199,7 @@ const ModalConsulta = ({show, handleClose, registro}) => {
 
                 <Col xs={6} lg={3} className="mb-3">
                   <Form.Group className="d-flex flex-column justify-content-center align-items-center mb-0">
-                    <Form.Label>Botón adjunto</Form.Label>
+                    <Form.Label style={{ fontWeight: "bold", color: "#333", fontSize: ".875rem" }}>Adjuntos</Form.Label>
 
                     <Form.Check
                       className="pl-5"
@@ -227,7 +215,7 @@ const ModalConsulta = ({show, handleClose, registro}) => {
 
                 <Col xs={6} lg={3} className="mb-3">
                   <Form.Group className="d-flex flex-column justify-content-center align-items-center mb-0">
-                    <Form.Label>Formulario</Form.Label>
+                    <Form.Label style={{ fontWeight: "bold", color: "#333", fontSize: ".875rem" }}>Formulario</Form.Label>
 
                     <Form.Check
                       className="pl-5"
@@ -336,6 +324,7 @@ const ModalConsulta = ({show, handleClose, registro}) => {
                     aria-label="cantidad adjuntos"
                     value={cantidad}
                     onChange={handleCantidadChange}
+                    disabled={!data.sn_adjunto_obligatorio}
                   >
                     <option>Seleccione</option>
                     <option value="1">1</option>

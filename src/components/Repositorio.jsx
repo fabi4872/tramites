@@ -57,7 +57,17 @@ const Repositorio = ({ motivos, consultasPor }) => {
             const motivoEncontrado = motivos.find(
               (m) => m.id_motivo_repositorio === motivoCombo.id_motivo_repositorio
             );
-            consultaActualizada.submotivos = motivoEncontrado.subMotivos;
+            console.log(consultaActualizada);
+           
+            // Filtrar submotivos que ya estén dentro de las configuraciones del consultar por
+            const consultaIndex = data.consultasPor.findIndex((consulta) => consulta.cod_consultar === codigoConsulta);
+            if (consultaIndex !== -1) {
+              consultaActualizada.submotivos = motivoEncontrado.subMotivos.filter((element) => {
+                return !data.consultasPor[consultaIndex].configuraciones.some((configuracion) => {
+                  return configuracion.txt_submotivo_ov === element.txt_submotivo_ov;
+                });
+              });
+            }            
           } else {
             consultaActualizada.submotivo_selected = [];
             consultaActualizada.submotivos = [];
@@ -127,6 +137,9 @@ const Repositorio = ({ motivos, consultasPor }) => {
         const consultaActual = { ...newData.consultasPor[consultaIndex] };
         consultaActual.configuraciones.push(handleObtenerConfiguracionPorDefecto(motivo[0], submotivo[0]));
         newData.consultasPor[consultaIndex] = consultaActual;
+        
+        // Limpiar combos
+        handleChangeTypeahead(consultaActual.cod_consultar, [], "motivo");
       }
 
       return newData;
@@ -135,6 +148,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
 
   const handleObtenerConfiguracionPorDefecto = (motivo, submotivo) => {
     return {
+      sn_activo: true,
       id_motivo_repositorio: motivo.id_motivo_repositorio,
       cod_motivo_ov: motivo.cod_motivo_ov,
       cod_motivo_repositorio: motivo.cod_motivo_repositorio,
@@ -185,11 +199,14 @@ const Repositorio = ({ motivos, consultasPor }) => {
           <Col
             xs={12}
             lg={{ span: 6, offset: 3 }}
-            className="d-flex align-items-center"
+            className="mb-3 d-flex flex-column justify-content-center align-items-start"
           >
-            <Form.Label className="nuevo-tramite-label" htmlFor="consulta">
-              Consultar Por
+            <Form.Label style={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "#E41625", fontWeight: "bold" }} className="m-0" htmlFor="consulta">
+              Consultar por
             </Form.Label>
+            <small style={{ fontFamily: "sans-serif", fontSize: "1.2rem", color: "#6F6F6F" }} htmlFor="consulta">
+              Ingrese nuevas etiquetas consultar por
+            </small>
           </Col>
         </Row>
 
@@ -206,9 +223,10 @@ const Repositorio = ({ motivos, consultasPor }) => {
               aria-describedby="descripcion de consulta"
               value={consultaInput}
               onChange={(e) => setConsultaInput(e.target.value)}
-              placeholder="Nuevo Consultar Por"
+              placeholder="Nueva etiqueta consultar por..."
+              style={{ padding: ".8rem" }}
             />
-            <Button variant="danger" onClick={() => handleCargarConsultaHandler()}>
+            <Button style={{ padding: ".8rem" }} variant="danger" onClick={() => handleCargarConsultaHandler()}>
               GUARDAR
             </Button>
           </Col>
@@ -234,14 +252,14 @@ const Repositorio = ({ motivos, consultasPor }) => {
                     >
                       <BiEditAlt
                         className="repositorio-icon-yellow"
-                        size={20}
+                        size={25}
                       />
                     </button>
                     <button
                       className="btn repositorio-icon-button"
                       onClick={() => handleEliminarConsultaPor(item)}
                     >
-                      <BsTrash className="repositorio-icon-red" size={20} />
+                      <BsTrash className="repositorio-icon-red" size={25} />
                     </button>
                   </div>
 
@@ -318,7 +336,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
                           dataConfigEtiquetas.find((config) => config.cod_consultar === item.cod_consultar)?.motivo_selected,
                           dataConfigEtiquetas.find((config) => config.cod_consultar === item.cod_consultar)?.submotivo_selected)}
                         className="mt-4"
-                        variant="outline-danger"
+                        variant="primary"
                         disabled={
                           !dataConfigEtiquetas.find(
                             (config) =>
@@ -393,7 +411,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
                                   }
                                 >
                                   <AiOutlineSetting
-                                    className="repositorio-icon repositorio-icon-red"
+                                    className="repositorio-icon repositorio-icon"
                                     size={20}
                                   />
                                 </Button>
