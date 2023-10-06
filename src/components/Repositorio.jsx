@@ -224,9 +224,9 @@ const Repositorio = ({ motivos, consultasPor }) => {
               value={consultaInput}
               onChange={(e) => setConsultaInput(e.target.value)}
               placeholder="Nueva etiqueta consultar por..."
-              style={{ padding: ".8rem" }}
+              style={{ padding: ".7rem" }}
             />
-            <Button style={{ padding: ".8rem" }} variant="danger" onClick={() => handleCargarConsultaHandler()}>
+            <Button style={{ padding: ".7rem" }} variant="danger" onClick={() => handleCargarConsultaHandler()}>
               GUARDAR
             </Button>
           </Col>
