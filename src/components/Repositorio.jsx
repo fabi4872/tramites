@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import PropTypes from "prop-types";
-import { Accordion, Button, Col, Container, Form, Row, Table } from 'react-bootstrap';
+import { Accordion, Alert, Button, Col, Container, Form, Row, Table } from 'react-bootstrap';
 import { AiOutlineSetting } from 'react-icons/ai';
 import { BiEditAlt } from 'react-icons/bi';
 import { BsTrash } from 'react-icons/bs';
+import { ImSwitch } from 'react-icons/im';
 import ModalConsulta from './ModalConsulta';
 import { Typeahead } from 'react-bootstrap-typeahead';
 
@@ -56,9 +57,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
           if (motivoCombo) {
             const motivoEncontrado = motivos.find(
               (m) => m.id_motivo_repositorio === motivoCombo.id_motivo_repositorio
-            );
-            console.log(consultaActualizada);
-           
+            );           
             // Filtrar submotivos que ya estén dentro de las configuraciones del consultar por
             const consultaIndex = data.consultasPor.findIndex((consulta) => consulta.cod_consultar === codigoConsulta);
             if (consultaIndex !== -1) {
@@ -124,9 +123,49 @@ const Repositorio = ({ motivos, consultasPor }) => {
 
   }
 
-  const handleEliminarConsultaPor = (item) => {
+  const handleActivarEliminarConsultaPor = (codigoConsulta, estadoActual) => {
+    setData((currentData) => {
+      const newData = { ...currentData };
+      const consultaIndex = newData.consultasPor.findIndex((consulta) => consulta.cod_consultar === codigoConsulta);
+  
+      if (consultaIndex !== -1) {
+        const consultaActual = { ...newData.consultasPor[consultaIndex] };
+        consultaActual.sn_activo = !estadoActual;
+        newData.consultasPor[consultaIndex] = consultaActual;
+      }
 
+      return newData;
+    });
   }  
+
+  const handleActivarEliminarConfiguracion = (codigoConsulta, config, estadoActual) => {
+    setData((currentData) => {
+      const newData = { ...currentData };
+      const consultaIndex = newData.consultasPor.findIndex((consulta) => consulta.cod_consultar === codigoConsulta);
+  
+      if (consultaIndex !== -1) {
+        const consultaActual = { ...newData.consultasPor[consultaIndex] };
+        const configIndex = consultaActual.configuraciones.findIndex(
+          (c) =>
+            c.id_motivo_repositorio === config.id_motivo_repositorio &&
+            c.id_submotivo_repositorio === config.id_submotivo_repositorio
+        );
+  
+        // Si se encuentra el índice de configuración
+        if (configIndex !== -1) {
+          // Reemplaza la configuración con el objeto config
+          consultaActual.configuraciones[configIndex].sn_activo = !estadoActual;
+        }
+  
+        newData.consultasPor[consultaIndex] = consultaActual;
+        
+        // Limpiar combos
+        handleChangeTypeahead(consultaActual.cod_consultar, [], "motivo");
+      }
+
+      return newData;
+    });
+  }
 
   const handleAsociarAConfiguraciones = (codigoConsulta, motivo, submotivo) => {
     setData((currentData) => {
@@ -201,10 +240,26 @@ const Repositorio = ({ motivos, consultasPor }) => {
             lg={{ span: 6, offset: 3 }}
             className="mb-3 d-flex flex-column justify-content-center align-items-start"
           >
-            <Form.Label style={{ fontFamily: "sans-serif", fontSize: "1.5rem", color: "#E41625", fontWeight: "bold" }} className="m-0" htmlFor="consulta">
+            <Form.Label
+              style={{
+                fontFamily: "sans-serif",
+                fontSize: "1.5rem",
+                color: "#E41625",
+                fontWeight: "bold",
+              }}
+              className="m-0"
+              htmlFor="consulta"
+            >
               Consultar por
             </Form.Label>
-            <small style={{ fontFamily: "sans-serif", fontSize: "1.2rem", color: "#6F6F6F" }} htmlFor="consulta">
+            <small
+              style={{
+                fontFamily: "sans-serif",
+                fontSize: "1.2rem",
+                color: "#6F6F6F",
+              }}
+              htmlFor="consulta"
+            >
               Ingrese nuevas etiquetas consultar por
             </small>
           </Col>
@@ -226,7 +281,11 @@ const Repositorio = ({ motivos, consultasPor }) => {
               placeholder="Nueva etiqueta consultar por..."
               style={{ padding: ".7rem" }}
             />
-            <Button style={{ padding: ".7rem" }} variant="danger" onClick={() => handleCargarConsultaHandler()}>
+            <Button
+              style={{ padding: ".7rem" }}
+              variant="danger"
+              onClick={() => handleCargarConsultaHandler()}
+            >
               GUARDAR
             </Button>
           </Col>
@@ -245,10 +304,21 @@ const Repositorio = ({ motivos, consultasPor }) => {
                   className="mt-3"
                   style={{ position: "relative" }}
                 >
+                  <Row>
+                    <Col
+                      style={{
+                        color: `${item.sn_activo ? "green" : "#E41625"}`,
+                      }}
+                      variant={`${item.sn_activo ? "success" : "danger"}`}
+                    >
+                      <strong>{item.sn_activo ? "Activo" : "Eliminado"}</strong>
+                    </Col>
+                  </Row>
                   <div style={{ position: "absolute", right: "1rem", top: 0 }}>
                     <button
                       className="btn repositorio-icon-margin repositorio-icon-button"
                       onClick={() => handleEditarConsultaPor(item)}
+                      disabled={!item.sn_activo}
                     >
                       <BiEditAlt
                         className="repositorio-icon-yellow"
@@ -257,9 +327,21 @@ const Repositorio = ({ motivos, consultasPor }) => {
                     </button>
                     <button
                       className="btn repositorio-icon-button"
-                      onClick={() => handleEliminarConsultaPor(item)}
+                      onClick={() =>
+                        handleActivarEliminarConsultaPor(
+                          item.cod_consultar,
+                          item.sn_activo
+                        )
+                      }
                     >
-                      <BsTrash className="repositorio-icon-red" size={25} />
+                      {item.sn_activo ? (
+                        <BsTrash className="repositorio-icon-red" size={25} />
+                      ) : (
+                        <ImSwitch
+                          className="repositorio-icon-green"
+                          size={25}
+                        />
+                      )}
                     </button>
                   </div>
 
@@ -288,6 +370,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
                             "motivo"
                           )
                         }
+                        disabled={!item.sn_activo}
                         clearButton
                       />
                     </Col>
@@ -321,6 +404,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
                             "submotivo"
                           )
                         }
+                        disabled={!item.sn_activo}
                         clearButton
                       />
                     </Col>
@@ -331,10 +415,19 @@ const Repositorio = ({ motivos, consultasPor }) => {
                       className="d-flex justify-content-center align-items-end"
                     >
                       <Button
-                        onClick={() => handleAsociarAConfiguraciones(
-                          item.cod_consultar, 
-                          dataConfigEtiquetas.find((config) => config.cod_consultar === item.cod_consultar)?.motivo_selected,
-                          dataConfigEtiquetas.find((config) => config.cod_consultar === item.cod_consultar)?.submotivo_selected)}
+                        onClick={() =>
+                          handleAsociarAConfiguraciones(
+                            item.cod_consultar,
+                            dataConfigEtiquetas.find(
+                              (config) =>
+                                config.cod_consultar === item.cod_consultar
+                            )?.motivo_selected,
+                            dataConfigEtiquetas.find(
+                              (config) =>
+                                config.cod_consultar === item.cod_consultar
+                            )?.submotivo_selected
+                          )
+                        }
                         className="mt-4"
                         variant="primary"
                         disabled={
@@ -357,13 +450,14 @@ const Repositorio = ({ motivos, consultasPor }) => {
                           <th>Motivo Repositorio</th>
                           <th>Submotivo OV</th>
                           <th>Submotivo Repositorio</th>
+                          <th>Estado</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>
                       <tbody>
                         {item.configuraciones.length === 0 && (
                           <tr>
-                            <td colSpan={8}>
+                            <td colSpan={6}>
                               <div className="d-flex justify-content-center">
                                 <small className="repositorio-tabla-mensaje">
                                   No hay resultados disponibles
@@ -376,22 +470,22 @@ const Repositorio = ({ motivos, consultasPor }) => {
                         {item.configuraciones.map((config, i) => (
                           <tr key={i}>
                             <td>
-                              <div className="d-flex justify-content-center align-items-center">
+                              <div className="d-flex align-items-center">
                                 <small>{config.txt_motivo_ov}</small>
                               </div>
                             </td>
                             <td>
-                              <div className="d-flex justify-content-center align-items-center">
+                              <div className="d-flex align-items-center">
                                 <small>{config.txt_motivo_repositorio}</small>
                               </div>
                             </td>
                             <td>
-                              <div className="d-flex justify-content-center align-items-center">
+                              <div className="d-flex align-items-center">
                                 <small>{config.txt_submotivo_ov}</small>
                               </div>
                             </td>
                             <td>
-                              <div className="d-flex justify-content-center align-items-center">
+                              <div className="d-flex align-items-center">
                                 <small>
                                   {config.txt_submotivo_repositorio}
                                 </small>
@@ -399,7 +493,23 @@ const Repositorio = ({ motivos, consultasPor }) => {
                             </td>
                             <td>
                               <div className="d-flex justify-content-center align-items-center">
+                                <small
+                                  style={{
+                                    color: `${
+                                      config.sn_activo ? "green" : "#E41625"
+                                    }`,
+                                  }}
+                                >
+                                  <strong>
+                                    {config.sn_activo ? "Activo" : "Eliminado"}
+                                  </strong>
+                                </small>
+                              </div>
+                            </td>
+                            <td>
+                              <div className="d-flex justify-content-center align-items-center">
                                 <Button
+                                  disabled={!item.sn_activo}
                                   variant="default"
                                   className="repositorio-icon-button"
                                   onClick={() =>
@@ -415,6 +525,31 @@ const Repositorio = ({ motivos, consultasPor }) => {
                                     size={20}
                                   />
                                 </Button>
+                                {config.sn_activo ? (
+                                  <Button
+                                    variant="default"
+                                    className="repositorio-icon-button"
+                                    onClick={() => handleActivarEliminarConfiguracion(item.cod_consultar, config, config.sn_activo)}
+                                    disabled={!item.sn_activo}
+                                  >
+                                    <BsTrash
+                                      className="repositorio-icon-red"
+                                      size={20}
+                                    />
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    variant="default"
+                                    className="repositorio-icon-button"
+                                    onClick={() => handleActivarEliminarConfiguracion(item.cod_consultar, config, config.sn_activo)}
+                                    disabled={!item.sn_activo}
+                                  >
+                                    <ImSwitch
+                                      className="repositorio-icon-green"
+                                      size={20}
+                                    />
+                                  </Button>
+                                )}
                               </div>
                             </td>
                           </tr>
