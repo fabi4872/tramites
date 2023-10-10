@@ -7,6 +7,7 @@ import { BsTrash } from 'react-icons/bs';
 import { ImSwitch } from 'react-icons/im';
 import ModalConsulta from './ModalConsulta';
 import { Typeahead } from 'react-bootstrap-typeahead';
+import Swal from 'sweetalert2';
 
 const Repositorio = ({ motivos, consultasPor }) => {
   const [selectedRowData, setSelectedRowData] = useState({
@@ -223,6 +224,45 @@ const Repositorio = ({ motivos, consultasPor }) => {
     } 
   }
 
+  // SweetAlert2
+  const handleSweetAlert = (funcion, mensajeSuccess, esRevertible) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    
+    swalWithBootstrapButtons.fire({
+      title: '¿Desea confirmar?',
+      text: !esRevertible ? "¡No podrá revertir esto!" : "Esta acción puede revertirse",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      customContainerClass: 'sweet-alert-container'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        funcion();
+        swalWithBootstrapButtons.fire(
+          '¡Felicidades!',
+          mensajeSuccess,
+          'success'
+        )
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Cancelado',
+          'Operación cancelada por el usuario',
+          'error'
+        )
+      }
+    })
+  }
+
   return (
     <Container className="mt-0 mb-5">
       {selectedRowData && (
@@ -284,7 +324,13 @@ const Repositorio = ({ motivos, consultasPor }) => {
             <Button
               style={{ padding: ".7rem" }}
               variant="danger"
-              onClick={() => handleCargarConsultaHandler()}
+              onClick={() =>
+                handleSweetAlert(
+                  () => handleCargarConsultaHandler(),
+                  "La etiqueta ha sido agregada satisfactoriamente",
+                  false
+                )
+              }
             >
               GUARDAR
             </Button>
@@ -304,31 +350,45 @@ const Repositorio = ({ motivos, consultasPor }) => {
                   className="mt-3"
                   style={{ position: "relative" }}
                 >
-                  <Row style={{ margin: "0 1rem" }} className="d-flex justify-content-end align-items-center">
-                    <Toast
-                      
-                      className="d-inline-block"
-                      xs={4}
-                      lg={4}
-                    >
+                  <Row
+                    style={{ margin: "0 1rem" }}
+                    className="d-flex justify-content-end align-items-center"
+                  >
+                    <Toast className="d-inline-block mt-2" xs={4} lg={4}>
                       <Toast.Header closeButton={false}>
                         <img
                           src="holder.js/20x20?text=%20"
                           className="rounded me-2"
                           alt=""
-                          style={{ border: `.15rem solid ${item.sn_activo ? "green" : "#E41625"}` }}
+                          style={{
+                            border: `.15rem solid ${
+                              item.sn_activo ? "green" : "#E41625"
+                            }`,
+                          }}
                         />
                         <strong className="me-auto">ESTADO</strong>
                       </Toast.Header>
                       <Toast.Body
-                        style={{ color: `${item.sn_activo ? "green" : "#E41625"}` }}
+                        style={{
+                          color: `${item.sn_activo ? "green" : "#E41625"}`,
+                        }}
                         variant={`${item.sn_activo ? "success" : "danger"}`}
                       >
-                        <strong>{item.sn_activo ? "Registro Activo" : "Registro Eliminado"}</strong>
+                        <strong>
+                          {item.sn_activo
+                            ? "Registro Activo"
+                            : "Registro Eliminado"}
+                        </strong>
                       </Toast.Body>
                     </Toast>
                   </Row>
-                  <div style={{ position: "absolute", right: "3.3rem", top: "1rem" }}>
+                  <div
+                    style={{
+                      position: "absolute",
+                      right: "3.3rem",
+                      top: "1.5rem",
+                    }}
+                  >
                     <button
                       className="btn repositorio-icon-margin repositorio-icon-button"
                       onClick={() => handleEditarConsultaPor(item)}
@@ -342,9 +402,16 @@ const Repositorio = ({ motivos, consultasPor }) => {
                     <button
                       className="btn repositorio-icon-button"
                       onClick={() =>
-                        handleActivarEliminarConsultaPor(
-                          item.cod_consultar,
-                          item.sn_activo
+                        handleSweetAlert(
+                          () =>
+                            handleActivarEliminarConsultaPor(
+                              item.cod_consultar,
+                              item.sn_activo
+                            ),
+                          `La etiqueta ha sido ${
+                            item.sn_activo ? "eliminada" : "activada"
+                          } satisfactoriamente`,
+                          true
                         )
                       }
                     >
@@ -359,7 +426,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
                     </button>
                   </div>
 
-                  <Row className="mt-4">
+                  <Row style={{ margin: "0 2rem" }} className="mt-4 mb-2">
                     <Col xs={12} lg={5}>
                       <Form.Label className="mt-3 nuevo-tramite-label">
                         Motivos
@@ -429,9 +496,11 @@ const Repositorio = ({ motivos, consultasPor }) => {
                       className="d-flex justify-content-center align-items-end"
                     >
                       <Button
+                        style={{ width: "100%" }}
                         onClick={() =>
-                          handleAsociarAConfiguraciones(
-                            item.cod_consultar,
+                          handleSweetAlert(
+                            () => handleAsociarAConfiguraciones(
+                              item.cod_consultar,
                             dataConfigEtiquetas.find(
                               (config) =>
                                 config.cod_consultar === item.cod_consultar
@@ -439,7 +508,9 @@ const Repositorio = ({ motivos, consultasPor }) => {
                             dataConfigEtiquetas.find(
                               (config) =>
                                 config.cod_consultar === item.cod_consultar
-                            )?.submotivo_selected
+                            )?.submotivo_selected),
+                              "Motivo y submotivo asociados satisfactoriamente",
+                              false
                           )
                         }
                         className="mt-4"
@@ -539,43 +610,34 @@ const Repositorio = ({ motivos, consultasPor }) => {
                                     size={20}
                                   />
                                 </Button>
-                                {config.sn_activo ? (
-                                  <Button
-                                    variant="default"
-                                    className="repositorio-icon-button"
-                                    onClick={() =>
-                                      handleActivarEliminarConfiguracion(
+
+                                <Button
+                                  variant="default"
+                                  className="repositorio-icon-button"
+                                  onClick={() =>
+                                    handleSweetAlert(
+                                      () => handleActivarEliminarConfiguracion(
                                         item.cod_consultar,
                                         config,
-                                        config.sn_activo
-                                      )
-                                    }
-                                    disabled={!item.sn_activo}
-                                  >
+                                        config.sn_activo),
+                                        `La configuración ha sido ${config.sn_activo ? "eliminada" : "activada"} satisfactoriamente`,
+                                        true
+                                    )
+                                  }
+                                  disabled={!item.sn_activo}
+                                >
+                                  {config.sn_activo ? (
                                     <BsTrash
                                       className="repositorio-icon-red"
                                       size={20}
                                     />
-                                  </Button>
-                                ) : (
-                                  <Button
-                                    variant="default"
-                                    className="repositorio-icon-button"
-                                    onClick={() =>
-                                      handleActivarEliminarConfiguracion(
-                                        item.cod_consultar,
-                                        config,
-                                        config.sn_activo
-                                      )
-                                    }
-                                    disabled={!item.sn_activo}
-                                  >
+                                  ) : (
                                     <ImSwitch
                                       className="repositorio-icon-green"
                                       size={20}
                                     />
-                                  </Button>
-                                )}
+                                  )}
+                                </Button>
                               </div>
                             </td>
                           </tr>

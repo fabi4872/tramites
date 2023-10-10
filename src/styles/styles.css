@@ -135,9 +135,9 @@ table {
 th{
     background-color: #F8F8F8 !important;
     font-size: .875rem !important;
-    color: #E41625 !important;
+    color: #595C5F !important;
     font-weight: 700 !important;
-    border-bottom: .15rem solid #E41625 !important;
+    border-bottom: .15rem solid #595C5F !important;
 }
 tr {
     /* PARA MARCAR LA SEPARACION LAS CELDAS DE LA TABLA  */
@@ -154,4 +154,10 @@ td {
 }
 .rbt-close-content{
     display: none !important;
+}
+.btn-success {
+    margin: 0 1rem;
+}
+.btn-danger {
+    margin: 0 1rem;
 }
