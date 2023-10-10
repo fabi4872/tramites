@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PropTypes from "prop-types";
-import { Accordion, Alert, Button, Col, Container, Form, Row, Table } from 'react-bootstrap';
+import { Accordion, Alert, Button, Col, Container, Form, Row, Table, Toast } from 'react-bootstrap';
 import { AiOutlineSetting } from 'react-icons/ai';
 import { BiEditAlt } from 'react-icons/bi';
 import { BsTrash } from 'react-icons/bs';
@@ -304,17 +304,31 @@ const Repositorio = ({ motivos, consultasPor }) => {
                   className="mt-3"
                   style={{ position: "relative" }}
                 >
-                  <Row>
-                    <Col
-                      style={{
-                        color: `${item.sn_activo ? "green" : "#E41625"}`,
-                      }}
-                      variant={`${item.sn_activo ? "success" : "danger"}`}
+                  <Row style={{ margin: "0 1rem" }} className="d-flex justify-content-end align-items-center">
+                    <Toast
+                      
+                      className="d-inline-block"
+                      xs={4}
+                      lg={4}
                     >
-                      <strong>{item.sn_activo ? "Activo" : "Eliminado"}</strong>
-                    </Col>
+                      <Toast.Header closeButton={false}>
+                        <img
+                          src="holder.js/20x20?text=%20"
+                          className="rounded me-2"
+                          alt=""
+                          style={{ border: `.15rem solid ${item.sn_activo ? "green" : "#E41625"}` }}
+                        />
+                        <strong className="me-auto">ESTADO</strong>
+                      </Toast.Header>
+                      <Toast.Body
+                        style={{ color: `${item.sn_activo ? "green" : "#E41625"}` }}
+                        variant={`${item.sn_activo ? "success" : "danger"}`}
+                      >
+                        <strong>{item.sn_activo ? "Registro Activo" : "Registro Eliminado"}</strong>
+                      </Toast.Body>
+                    </Toast>
                   </Row>
-                  <div style={{ position: "absolute", right: "1rem", top: 0 }}>
+                  <div style={{ position: "absolute", right: "3.3rem", top: "1rem" }}>
                     <button
                       className="btn repositorio-icon-margin repositorio-icon-button"
                       onClick={() => handleEditarConsultaPor(item)}
@@ -529,7 +543,13 @@ const Repositorio = ({ motivos, consultasPor }) => {
                                   <Button
                                     variant="default"
                                     className="repositorio-icon-button"
-                                    onClick={() => handleActivarEliminarConfiguracion(item.cod_consultar, config, config.sn_activo)}
+                                    onClick={() =>
+                                      handleActivarEliminarConfiguracion(
+                                        item.cod_consultar,
+                                        config,
+                                        config.sn_activo
+                                      )
+                                    }
                                     disabled={!item.sn_activo}
                                   >
                                     <BsTrash
@@ -541,7 +561,13 @@ const Repositorio = ({ motivos, consultasPor }) => {
                                   <Button
                                     variant="default"
                                     className="repositorio-icon-button"
-                                    onClick={() => handleActivarEliminarConfiguracion(item.cod_consultar, config, config.sn_activo)}
+                                    onClick={() =>
+                                      handleActivarEliminarConfiguracion(
+                                        item.cod_consultar,
+                                        config,
+                                        config.sn_activo
+                                      )
+                                    }
                                     disabled={!item.sn_activo}
                                   >
                                     <ImSwitch
