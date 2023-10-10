@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Card, Col, Container, Form, Modal, Row } from "react-bootstrap";
 
-const ModalConsulta = ({show, handleClose, registro}) => {
+const ModalConsulta = ({show, handleClose, registro, handleSweetAlert}) => {
   const { rubro, tipoConsulta, config } = registro;
   const [cantidad, setCantidad] = useState(0);
   const [data, setData] = useState(config);
@@ -376,7 +376,12 @@ const ModalConsulta = ({show, handleClose, registro}) => {
           <Container>
             <Row className="mt-4 justify-content-center d-flex text-center">
               <Col className="mb-2" xs={12}>
-                <Button variant="danger" onClick={handleClose}>
+                <Button variant="danger"  onClick={() =>
+                handleSweetAlert(
+                  () => handleClose(),
+                  "Los cambios fueron guardados satisfactoriamente",
+                  true
+                )}>
                   GUARDAR
                 </Button>
               </Col>
@@ -392,7 +397,8 @@ const ModalConsulta = ({show, handleClose, registro}) => {
 ModalConsulta.propTypes = {
   show: PropTypes.bool,
   handleClose: PropTypes.func,
-  registro: PropTypes.object
+  registro: PropTypes.object,
+  handleSweetAlert: PropTypes.func
 }
 
 export default ModalConsulta;

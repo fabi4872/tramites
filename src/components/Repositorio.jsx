@@ -270,6 +270,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
           show={show}
           handleClose={handleClose}
           registro={selectedRowData}
+          handleSweetAlert={handleSweetAlert}
         />
       )}
 
@@ -376,8 +377,8 @@ const Repositorio = ({ motivos, consultasPor }) => {
                       >
                         <strong>
                           {item.sn_activo
-                            ? "Registro Activo"
-                            : "Registro Eliminado"}
+                            ? "Activo"
+                            : "Eliminado"}
                         </strong>
                       </Toast.Body>
                     </Toast>
