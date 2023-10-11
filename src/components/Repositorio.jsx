@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from "prop-types";
 import { Accordion, Button, Col, Container, Form, Row, Table, Toast } from 'react-bootstrap';
 import { AiOutlineSetting } from 'react-icons/ai';
-import { BiEditAlt } from 'react-icons/bi';
+import { BiEditAlt, BiListCheck } from 'react-icons/bi';
 import { BsTrash } from 'react-icons/bs';
 import { ImSwitch } from 'react-icons/im';
 import ModalConsulta from './ModalConsulta';
@@ -28,7 +28,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
   data.consultasPor.forEach(element => {
     dataConfig.push({
       cod_consultar: element.cod_consultar,
-      nueva_descripcion: "",
+      es_edicion: false,
       motivo_selected: [],
       submotivo_selected: [],
       submotivos: [],
@@ -109,7 +109,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
         ...dataConfigEtiquetas,
         {
           cod_consultar: data.consultasPor.length + 1,
-          nueva_descripcion: "",
+          es_edicion: false,
           motivo_selected: [],
           submotivo_selected: [],
         }
@@ -119,8 +119,19 @@ const Repositorio = ({ motivos, consultasPor }) => {
     }
   };
   
-  const handleEditarConsultaPor = (item) => {
+  const handleEditarConsultaPor = (codigoConsulta) => {
+    setDataConfigEtiquetas((currentData) => {
+      const newData = [ ...currentData ];
+      const consultaIndex = newData.findIndex((consulta) => consulta.cod_consultar === codigoConsulta);
+  
+      if (consultaIndex !== -1) {
+        const consultaActual = { ...newData[consultaIndex] };
+        consultaActual.es_edicion = !consultaActual.es_edicion;
+        newData[consultaIndex] = consultaActual;
+      }
 
+      return newData;
+    });
   }
 
   const handleActivarEliminarConsultaPor = (codigoConsulta, estadoActual) => {
@@ -179,6 +190,49 @@ const Repositorio = ({ motivos, consultasPor }) => {
         
         // Limpiar combos
         handleChangeTypeahead(consultaActual.cod_consultar, [], "motivo");
+      }
+
+      return newData;
+    });
+  }
+
+  const handleChangeConsultaDescripcion = (e, codigoConsulta) => {
+    const { value } = e.target;
+    setData((currentData) => {
+      const newData = { ...currentData };
+      const consultaIndex = newData.consultasPor.findIndex((consulta) => consulta.cod_consultar === codigoConsulta);
+  
+      if (consultaIndex !== -1) {
+        const consultaActual = { ...newData.consultasPor[consultaIndex] };
+        consultaActual.descripcion = value;
+        newData.consultasPor[consultaIndex] = consultaActual;
+      }
+
+      return newData;
+    });
+  };
+
+  const handleOnClickConfirmEdit = (text, codigoConsulta) => {
+    setDataConfigEtiquetas((currentData) => {
+      const newData = [ ...currentData ];
+      const consultaIndex = newData.findIndex((consulta) => consulta.cod_consultar === codigoConsulta);
+  
+      if (consultaIndex !== -1) {
+        const consultaActual = { ...newData[consultaIndex] };
+        consultaActual.es_edicion = !consultaActual.es_edicion;
+        newData[consultaIndex] = consultaActual;
+      }
+
+      return newData;
+    });
+    setData((currentData) => {
+      const newData = { ...currentData };
+      const consultaIndex = newData.consultasPor.findIndex((consulta) => consulta.cod_consultar === codigoConsulta);
+  
+      if (consultaIndex !== -1) {
+        const consultaActual = { ...newData.consultasPor[consultaIndex] };
+        consultaActual.descripcion = text;
+        newData.consultasPor[consultaIndex] = consultaActual;
       }
 
       return newData;
@@ -350,6 +404,46 @@ const Repositorio = ({ motivos, consultasPor }) => {
                   className="mt-3"
                   style={{ position: "relative" }}
                 >
+                  {
+                    (dataConfigEtiquetas.find(
+                      (config) =>
+                        config.cod_consultar === item.cod_consultar
+                    )?.es_edicion) && (
+                      <Col xs={12} lg={6}
+                        style={{ position: "absolute", top: "-4.35rem", zIndex: "99" }}
+                        className="mt-2 d-flex justify-content-center align-items-center"
+                      >
+                        <Form.Control
+                          type="text"
+                          id={`descripcion${item.cod_consultar}`}
+                          aria-describedby="descripcion nueva consultar por"
+                          value={item.descripcion}
+                          onChange={(e) =>
+                            handleChangeConsultaDescripcion(e, item.cod_consultar)
+                          }
+                        />
+                        <Button
+                          variant="default"
+                          className="repositorio-icon-button"
+                          onClick={() =>
+                            handleSweetAlert(
+                              () => handleOnClickConfirmEdit(
+                                item.descripcion,
+                                item.cod_consultar
+                              ),
+                              "La descripción de etiqueta ha sido guardada satisfactoriamente",
+                              true
+                            )
+                          }
+                        >
+                          <BiListCheck
+                            className="repositorio-icon-green"
+                            size={25}
+                          />
+                        </Button>
+                      </Col>
+                    )
+                  }
                   <Row
                     style={{ margin: "0 1rem" }}
                     className="d-flex justify-content-end align-items-center"
@@ -387,17 +481,19 @@ const Repositorio = ({ motivos, consultasPor }) => {
                       top: "1.5rem",
                     }}
                   >
-                    <button
+                    <Button
+                      variant="default"
                       className="btn repositorio-icon-margin repositorio-icon-button"
-                      onClick={() => handleEditarConsultaPor(item)}
+                      onClick={() => handleEditarConsultaPor(item.cod_consultar)}
                       disabled={!item.sn_activo}
                     >
                       <BiEditAlt
                         className="repositorio-icon-yellow"
                         size={25}
                       />
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                      variant="default"
                       className="btn repositorio-icon-button"
                       onClick={() =>
                         handleSweetAlert(
@@ -421,7 +517,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
                           size={25}
                         />
                       )}
-                    </button>
+                    </Button>
                   </div>
 
                   <Row style={{ margin: "0 2rem" }} className="mt-4 mb-2">

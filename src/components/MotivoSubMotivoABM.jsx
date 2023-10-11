@@ -262,7 +262,8 @@ const MotivoSubMotivoABM = ({ motivos }) => {
                   top: "1rem",
                 }}
               >
-                <button
+                <Button
+                  variant="default"
                   className="btn repositorio-icon-button"
                   onClick={() =>
                     handleSweetAlert(
@@ -279,7 +280,7 @@ const MotivoSubMotivoABM = ({ motivos }) => {
                   ) : (
                     <ImSwitch className="repositorio-icon-green" size={25} />
                   )}
-                </button>
+                </Button>
               </div>
             </div>
 
