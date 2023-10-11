@@ -68,13 +68,13 @@ const GestorMotivoSubMotivoABM = () => {
           id="fill-tab-example"
         >
           <Tab eventKey="art" title="ART">
-            Repositorio ART
+            <MotivoSubMotivoABM motivos={ [] } />
           </Tab>
           <Tab eventKey="generales" title="Generales">
             <MotivoSubMotivoABM motivos={ motivosGenerales } />
           </Tab>
           <Tab eventKey="vida" title="Vida">
-            Repositorio Vida
+            <MotivoSubMotivoABM motivos={ [] } />
           </Tab>
         </Tabs>
       </Container>

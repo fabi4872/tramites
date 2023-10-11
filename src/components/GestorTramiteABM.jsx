@@ -95,8 +95,11 @@ const GestorTramiteABM = () => {
           id="fill-tab-example"
         >
           <Tab eventKey="art" title="ART">
-            Repositorio ART
-          </Tab>
+            <Repositorio 
+              motivos={ [] }
+              motivosOv = { [] }
+              consultasPor={ rubros[0].consultasPor } />
+            </Tab>
           <Tab eventKey="generales" title="Generales">
             <Repositorio 
               motivos={ motivosGenerales }
@@ -104,7 +107,10 @@ const GestorTramiteABM = () => {
               consultasPor={ rubros[1].consultasPor } />
           </Tab>
           <Tab eventKey="vida" title="Vida">
-            Repositorio Vida
+            <Repositorio 
+              motivos={ [] }
+              motivosOv = { [] }
+              consultasPor={ rubros[2].consultasPor } />
           </Tab>
         </Tabs>
       </Container>
