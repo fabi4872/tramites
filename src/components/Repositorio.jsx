@@ -380,7 +380,7 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
               }}
               htmlFor="consulta"
             >
-              Ingrese nuevas etiquetas consultar por
+              Ingrese nuevas etiquetas de consultas por
             </small>
           </Col>
         </Row>
