@@ -88,9 +88,9 @@
     border-bottom: .15rem solid #E41625;
 }
 .modal-card-header-edicion{
-    color: #595C5F !important;
     font-weight: 700;
-    border-bottom: .15rem solid #CCC;
+    color: #333;
+    border: 0;
 }
 .nuevo-tramite-label {
     display: block;

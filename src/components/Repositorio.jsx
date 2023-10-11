@@ -375,9 +375,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
                         variant={`${item.sn_activo ? "success" : "danger"}`}
                       >
                         <strong>
-                          {item.sn_activo
-                            ? "Activo"
-                            : "Eliminado"}
+                          {item.sn_activo ? "Activo" : "Eliminado"}
                         </strong>
                       </Toast.Body>
                     </Toast>
@@ -499,18 +497,20 @@ const Repositorio = ({ motivos, consultasPor }) => {
                         style={{ width: "100%" }}
                         onClick={() =>
                           handleSweetAlert(
-                            () => handleAsociarAConfiguraciones(
-                              item.cod_consultar,
-                            dataConfigEtiquetas.find(
-                              (config) =>
-                                config.cod_consultar === item.cod_consultar
-                            )?.motivo_selected,
-                            dataConfigEtiquetas.find(
-                              (config) =>
-                                config.cod_consultar === item.cod_consultar
-                            )?.submotivo_selected),
-                              "Motivo y submotivo asociados satisfactoriamente",
-                              false
+                            () =>
+                              handleAsociarAConfiguraciones(
+                                item.cod_consultar,
+                                dataConfigEtiquetas.find(
+                                  (config) =>
+                                    config.cod_consultar === item.cod_consultar
+                                )?.motivo_selected,
+                                dataConfigEtiquetas.find(
+                                  (config) =>
+                                    config.cod_consultar === item.cod_consultar
+                                )?.submotivo_selected
+                              ),
+                            "Motivo y submotivo asociados satisfactoriamente",
+                            false
                           )
                         }
                         className="mt-4"
@@ -576,7 +576,13 @@ const Repositorio = ({ motivos, consultasPor }) => {
                                 </small>
                               </div>
                             </td>
-                            <td>
+                            <td
+                              style={{
+                                background: `${
+                                  config.sn_activo ? "#E1FFE3" : "#FFE1E1"
+                                }`,
+                              }}
+                            >
                               <div className="d-flex justify-content-center align-items-center">
                                 <small
                                   style={{
@@ -616,12 +622,18 @@ const Repositorio = ({ motivos, consultasPor }) => {
                                   className="repositorio-icon-button"
                                   onClick={() =>
                                     handleSweetAlert(
-                                      () => handleActivarEliminarConfiguracion(
-                                        item.cod_consultar,
-                                        config,
-                                        config.sn_activo),
-                                        `La configuración ha sido ${config.sn_activo ? "eliminada" : "activada"} satisfactoriamente`,
-                                        true
+                                      () =>
+                                        handleActivarEliminarConfiguracion(
+                                          item.cod_consultar,
+                                          config,
+                                          config.sn_activo
+                                        ),
+                                      `La configuración ha sido ${
+                                        config.sn_activo
+                                          ? "eliminada"
+                                          : "activada"
+                                      } satisfactoriamente`,
+                                      true
                                     )
                                   }
                                   disabled={!item.sn_activo}

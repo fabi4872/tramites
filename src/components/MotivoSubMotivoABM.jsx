@@ -189,7 +189,7 @@ const MotivoSubMotivoABM = ({ motivos }) => {
           className="m-0"
           htmlFor="consulta"
         >
-          Motivos de repositorio
+          Motivos y submotivos
         </Form.Label>
         <small
           style={{
@@ -199,7 +199,7 @@ const MotivoSubMotivoABM = ({ motivos }) => {
           }}
           htmlFor="consulta"
         >
-          Seleccione el motivo
+          Seleccione un motivo para su edición
         </small>
         <Typeahead
           className="mt-2 d-flex justify-content-between align-items-center"
@@ -216,7 +216,7 @@ const MotivoSubMotivoABM = ({ motivos }) => {
 
       {motivoSelected.length > 0 && (
         <Card className="mt-3 mb-3 accordion-item">
-          <Card.Header className="modal-card-header-edicion">
+          <Card.Header className="modal-card-header-edicion" style={{ background: "#CFE2FF" }}>
             Centro de edición
           </Card.Header>
           <Card.Body>
