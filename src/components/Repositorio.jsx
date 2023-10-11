@@ -370,7 +370,7 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
               className="m-0"
               htmlFor="consulta"
             >
-              Consultar por
+              Consultas por
             </Form.Label>
             <small
               style={{
