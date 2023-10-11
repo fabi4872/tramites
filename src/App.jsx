@@ -1,9 +1,9 @@
-import GestorTramiteABM from "./components/GestorTramiteABM";
+import GestorMotivoSubMotivoABM from "./components/GestorMotivoSubMotivoABM";
 
 function App() {
   return (
     <>
-      <GestorTramiteABM />
+      <GestorMotivoSubMotivoABM />
     </>
   );
 }

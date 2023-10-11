@@ -87,6 +87,11 @@
     font-weight: 700;
     border-bottom: .15rem solid #E41625;
 }
+.modal-card-header-edicion{
+    color: #595C5F !important;
+    font-weight: 700;
+    border-bottom: .15rem solid #CCC;
+}
 .nuevo-tramite-label {
     display: block;
     font-size: 0.875rem;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PropTypes from "prop-types";
-import { Accordion, Alert, Button, Col, Container, Form, Row, Table, Toast } from 'react-bootstrap';
+import { Accordion, Button, Col, Container, Form, Row, Table, Toast } from 'react-bootstrap';
 import { AiOutlineSetting } from 'react-icons/ai';
 import { BiEditAlt } from 'react-icons/bi';
 import { BsTrash } from 'react-icons/bs';
@@ -119,7 +119,6 @@ const Repositorio = ({ motivos, consultasPor }) => {
     }
   };
   
-
   const handleEditarConsultaPor = (item) => {
 
   }
