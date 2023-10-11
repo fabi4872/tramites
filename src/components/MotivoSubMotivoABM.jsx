@@ -151,7 +151,7 @@ const MotivoSubMotivoABM = ({ motivos }) => {
       if (result.isConfirmed) {
         funcion();
         swalWithBootstrapButtons.fire(
-          '¡Felicidades!',
+          '¡Operación exitosa!',
           mensajeSuccess,
           'success'
         )

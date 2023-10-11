@@ -51,10 +51,13 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
             consultaActualizada.motivo_ov_selected = item;
             consultaActualizada.motivo_selected = [];
             consultaActualizada.submotivo_selected = [];
+            consultaActualizada.submotivos = [];
+            consultaActualizada.motivos = [];
           }
           else if (tipo === "motivo") {
             consultaActualizada.motivo_selected = item;
             consultaActualizada.submotivo_selected = [];
+            consultaActualizada.submotivos = [];
           } else if (tipo === "submotivo") {
             consultaActualizada.submotivo_selected = item;
             item.length > 0 && (consultaActualizada.boton_asociar = true);
@@ -64,7 +67,7 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
           const motivoOvCombo = consultaActualizada.motivo_ov_selected[0];
           if (motivoOvCombo) {
             const motivoCombo = consultaActualizada.motivo_selected[0];
-            if (motivoCombo) {
+            if (motivoCombo !== undefined) {
               const consultaIndex = data.consultasPor.findIndex(
                 (consulta) => consulta.cod_consultar === codigoConsulta
               );
@@ -86,6 +89,7 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
               consultaActualizada.motivos = motivos.filter((element) => {
                 return motivoOvCombo.cod_motivo_ov === element.cod_motivo_ov;
               });
+              consultaActualizada.submotivos = [];
             }
           } else {
             consultaActualizada.motivo_selected = [];
@@ -322,7 +326,7 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
       if (result.isConfirmed) {
         funcion();
         swalWithBootstrapButtons.fire(
-          '¡Felicidades!',
+          '¡Operación exitosa!',
           mensajeSuccess,
           'success'
         )
@@ -401,6 +405,7 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
               style={{ padding: ".7rem" }}
               variant="danger"
               onClick={() =>
+                consultaInput.trim() !== "" &&
                 handleSweetAlert(
                   () => handleCargarConsultaHandler(),
                   "La etiqueta ha sido agregada satisfactoriamente",
@@ -513,7 +518,9 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
                       onClick={() =>
                         handleEditarConsultaPor(item.cod_consultar)
                       }
-                      disabled={!item.sn_activo}
+                      disabled={!item.sn_activo || dataConfigEtiquetas.find(
+                        (config) => config.cod_consultar === item.cod_consultar
+                      )?.es_edicion}
                     >
                       <BiEditAlt
                         className="repositorio-icon-yellow"
