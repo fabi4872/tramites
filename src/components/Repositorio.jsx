@@ -580,7 +580,7 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
                
                     <Col xs={12} lg={6}>
                       <Form.Label className="mt-3 nuevo-tramite-label">
-                        Motivos
+                        Motivos Repositorio
                       </Form.Label>
                       <Typeahead
                         className="d-flex justify-content-between align-items-center"
@@ -614,7 +614,7 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
 
                     <Col xs={12} lg={6}>
                       <Form.Label className="mt-3 nuevo-tramite-label">
-                        Submotivos
+                        Submotivos Repositorio
                       </Form.Label>
                       <Typeahead
                         className="d-flex justify-content-between align-items-center"
@@ -672,7 +672,7 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
                         }
                         className="mt-4"
                         variant="primary"
-                        disabled={
+                        disabled={!item.sn_activo ||
                           !dataConfigEtiquetas.find(
                             (config) =>
                               config.cod_consultar === item.cod_consultar
