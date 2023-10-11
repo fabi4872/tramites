@@ -5,6 +5,7 @@ import { Typeahead } from "react-bootstrap-typeahead";
 import { BiEditAlt, BiListCheck } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
 import { ImSwitch } from "react-icons/im";
+import Swal from "sweetalert2";
 
 const MotivoSubMotivoABM = ({ motivos }) => {
   const [motivosRepo, setMotivosRepo] = useState(motivos);
@@ -126,6 +127,45 @@ const MotivoSubMotivoABM = ({ motivos }) => {
     }
     return -1;
   }
+
+  // SweetAlert2
+  const handleSweetAlert = (funcion, mensajeSuccess, esRevertible) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    
+    swalWithBootstrapButtons.fire({
+      title: '¿Desea confirmar?',
+      text: !esRevertible ? "¡No podrá revertir esto!" : "Esta acción puede revertirse",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      customContainerClass: 'sweet-alert-container'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        funcion();
+        swalWithBootstrapButtons.fire(
+          '¡Felicidades!',
+          mensajeSuccess,
+          'success'
+        )
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Cancelado',
+          'Operación cancelada por el usuario',
+          'error'
+        )
+      }
+    })
+  }
  
   // useEffect
   useEffect(() => {
@@ -224,7 +264,15 @@ const MotivoSubMotivoABM = ({ motivos }) => {
               >
                 <button
                   className="btn repositorio-icon-button"
-                  onClick={() => handleEliminarActivarMotivo()}
+                  onClick={() =>
+                    handleSweetAlert(
+                      () => handleEliminarActivarMotivo(),
+                      `El motivo ha sido ${
+                        motivoSelected[0].sn_activo ? "eliminado" : "activado"
+                      } satisfactoriamente`,
+                      true
+                    )
+                  }
                 >
                   {motivoSelected[0].sn_activo ? (
                     <BsTrash className="repositorio-icon-red" size={25} />
@@ -273,6 +321,7 @@ const MotivoSubMotivoABM = ({ motivos }) => {
                       : ""
                   }
                   onChange={(e) => handleChangeMotivo(e)}
+                  disabled={!motivoSelected[0].sn_activo}
                 />
               </Col>
             </Row>
@@ -355,7 +404,13 @@ const MotivoSubMotivoABM = ({ motivos }) => {
                               )}
                             </div>
                           </td>
-                          <td>
+                          <td
+                            style={{
+                              background: `${
+                                submotivo.sn_activo ? "#E1FFE3" : "#FFE1E1"
+                              }`,
+                            }}
+                          >
                             <div className="d-flex justify-content-center align-items-center">
                               <small
                                 style={{
@@ -374,7 +429,9 @@ const MotivoSubMotivoABM = ({ motivos }) => {
                             <div className="d-flex justify-content-center align-items-center">
                               <Button
                                 disabled={
-                                  !submotivo.sn_activo || submotivo.es_edicion
+                                  !submotivo.sn_activo ||
+                                  submotivo.es_edicion ||
+                                  !motivoSelected[0].sn_activo
                                 }
                                 variant="default"
                                 className="repositorio-icon-button"
@@ -392,9 +449,18 @@ const MotivoSubMotivoABM = ({ motivos }) => {
                                 variant="default"
                                 className="repositorio-icon-button"
                                 onClick={() =>
-                                  handleEliminarActivarSubMotivo(
-                                    i,
-                                    !submotivo.sn_activo
+                                  handleSweetAlert(
+                                    () =>
+                                      handleEliminarActivarSubMotivo(
+                                        i,
+                                        !submotivo.sn_activo
+                                      ),
+                                    `El submotivo ha sido ${
+                                      submotivo.sn_activo
+                                        ? "eliminado"
+                                        : "activado"
+                                    } satisfactoriamente`,
+                                    true
                                   )
                                 }
                                 disabled={!motivoSelected[0].sn_activo}
@@ -425,7 +491,14 @@ const MotivoSubMotivoABM = ({ motivos }) => {
                 <Col className="mb-2" xs={12}>
                   <Button
                     variant="danger"
-                    onClick={() => setMotivoSelected(motivoSelected)}
+                    onClick={() =>
+                      handleSweetAlert(
+                        () => setMotivoSelected(motivoSelected),
+                        "Los cambios fueron guardados satisfactoriamente",
+                        true
+                      )
+                    }
+                    disabled={!motivoSelected[0].sn_activo}
                   >
                     GUARDAR
                   </Button>
