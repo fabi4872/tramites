@@ -9,7 +9,7 @@ import ModalConsulta from './ModalConsulta';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import Swal from 'sweetalert2';
 
-const Repositorio = ({ motivos, consultasPor }) => {
+const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
   const [selectedRowData, setSelectedRowData] = useState({
     rubro: "", 
     tipoConsulta: "", 
@@ -30,6 +30,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
       cod_consultar: element.cod_consultar,
       es_edicion: false,
       motivo_selected: [],
+      motivo_ov_selected: [],
       submotivo_selected: [],
       submotivos: [],
       boton_asociar: false 
@@ -45,7 +46,12 @@ const Repositorio = ({ motivos, consultasPor }) => {
           const consultaActualizada = { ...consulta };
           consultaActualizada.boton_asociar = false;
           
-          if (tipo === "motivo") {
+          if (tipo === "motivo_ov") {
+            consultaActualizada.motivo_ov_selected = item;
+            consultaActualizada.motivo_selected = [];
+            consultaActualizada.submotivo_selected = [];
+          }
+          else if (tipo === "motivo") {
             consultaActualizada.motivo_selected = item;
             consultaActualizada.submotivo_selected = [];
           } else if (tipo === "submotivo") {
@@ -53,22 +59,42 @@ const Repositorio = ({ motivos, consultasPor }) => {
             item.length > 0 && (consultaActualizada.boton_asociar = true);
           }
   
-          // Carga los submotivos a partir del motivo seleccionado
-          const motivoCombo = consultaActualizada.motivo_selected[0];
-          if (motivoCombo) {
-            const motivoEncontrado = motivos.find(
-              (m) => m.id_motivo_repositorio === motivoCombo.id_motivo_repositorio
-            );           
-            // Filtrar submotivos que ya estén dentro de las configuraciones del consultar por
-            const consultaIndex = data.consultasPor.findIndex((consulta) => consulta.cod_consultar === codigoConsulta);
-            if (consultaIndex !== -1) {
-              consultaActualizada.submotivos = motivoEncontrado.subMotivos.filter((element) => {
-                return !data.consultasPor[consultaIndex].configuraciones.some((configuracion) => {
-                  return configuracion.txt_submotivo_ov === element.txt_submotivo_ov;
-                });
-              });
-            }            
+          // Carga de combos
+          const motivoOvCombo = consultaActualizada.motivo_ov_selected[0];
+          if (motivoOvCombo) {
+            const motivoCombo = motivos.find(
+              (m) =>
+                m.cod_motivo_ov === motivoOvCombo.cod_motivo_ov
+            );
+            if (motivoCombo) {
+              const motivoEncontrado = motivos.find(
+                (m) =>
+                  m.id_motivo_repositorio === motivoCombo.id_motivo_repositorio
+              );
+              if (motivoEncontrado) {
+                consultaActualizada.motivo_selected = [motivoEncontrado];
+
+                // Filtrar submotivos que ya estén dentro de las configuraciones del consultar por
+                const consultaIndex = data.consultasPor.findIndex(
+                  (consulta) => consulta.cod_consultar === codigoConsulta
+                );
+                if (consultaIndex !== -1) {
+                  consultaActualizada.submotivos =
+                    motivoEncontrado.subMotivos.filter((element) => {
+                      return !data.consultasPor[
+                        consultaIndex
+                      ].configuraciones.some((configuracion) => {
+                        return (
+                          configuracion.txt_submotivo_ov ===
+                          element.txt_submotivo_ov
+                        );
+                      });
+                    });
+                }
+              }
+            }
           } else {
+            consultaActualizada.motivo_selected = [];
             consultaActualizada.submotivo_selected = [];
             consultaActualizada.submotivos = [];
             consultaActualizada.boton_asociar = false;
@@ -111,6 +137,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
           cod_consultar: data.consultasPor.length + 1,
           es_edicion: false,
           motivo_selected: [],
+          motivo_ov_selected: [],
           submotivo_selected: [],
         }
       ]);
@@ -171,7 +198,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
         newData.consultasPor[consultaIndex] = consultaActual;
         
         // Limpiar combos
-        handleChangeTypeahead(consultaActual.cod_consultar, [], "motivo");
+        handleChangeTypeahead(consultaActual.cod_consultar, [], "motivo_ov");
       }
 
       return newData;
@@ -189,7 +216,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
         newData.consultasPor[consultaIndex] = consultaActual;
         
         // Limpiar combos
-        handleChangeTypeahead(consultaActual.cod_consultar, [], "motivo");
+        handleChangeTypeahead(consultaActual.cod_consultar, [], "motivo_ov");
       }
 
       return newData;
@@ -404,46 +431,50 @@ const Repositorio = ({ motivos, consultasPor }) => {
                   className="mt-3"
                   style={{ position: "relative" }}
                 >
-                  {
-                    (dataConfigEtiquetas.find(
-                      (config) =>
-                        config.cod_consultar === item.cod_consultar
-                    )?.es_edicion) && (
-                      <Col xs={10} lg={6}
-                        style={{ position: "absolute", top: "-4.35rem", zIndex: "99" }}
-                        className="mt-2 d-flex justify-content-center align-items-center"
-                      >
-                        <Form.Control
-                          type="text"
-                          id={`descripcion${item.cod_consultar}`}
-                          aria-describedby="descripcion nueva consultar por"
-                          value={item.descripcion}
-                          onChange={(e) =>
-                            handleChangeConsultaDescripcion(e, item.cod_consultar)
-                          }
-                        />
-                        <Button
-                          variant="default"
-                          className="repositorio-icon-button"
-                          onClick={() =>
-                            handleSweetAlert(
-                              () => handleOnClickConfirmEdit(
+                  {dataConfigEtiquetas.find(
+                    (config) => config.cod_consultar === item.cod_consultar
+                  )?.es_edicion && (
+                    <Col
+                      xs={10}
+                      lg={6}
+                      style={{
+                        position: "absolute",
+                        top: "-4.35rem",
+                        zIndex: "99",
+                      }}
+                      className="mt-2 d-flex justify-content-center align-items-center"
+                    >
+                      <Form.Control
+                        type="text"
+                        id={`descripcion${item.cod_consultar}`}
+                        aria-describedby="descripcion nueva consultar por"
+                        value={item.descripcion}
+                        onChange={(e) =>
+                          handleChangeConsultaDescripcion(e, item.cod_consultar)
+                        }
+                      />
+                      <Button
+                        variant="default"
+                        className="repositorio-icon-button"
+                        onClick={() =>
+                          handleSweetAlert(
+                            () =>
+                              handleOnClickConfirmEdit(
                                 item.descripcion,
                                 item.cod_consultar
                               ),
-                              "La descripción de etiqueta ha sido guardada satisfactoriamente",
-                              true
-                            )
-                          }
-                        >
-                          <BiListCheck
-                            className="repositorio-icon-green"
-                            size={25}
-                          />
-                        </Button>
-                      </Col>
-                    )
-                  }
+                            "La descripción de etiqueta ha sido guardada satisfactoriamente",
+                            true
+                          )
+                        }
+                      >
+                        <BiListCheck
+                          className="repositorio-icon-green"
+                          size={25}
+                        />
+                      </Button>
+                    </Col>
+                  )}
                   <Row
                     style={{ margin: "0 1rem" }}
                     className="d-flex justify-content-end align-items-center"
@@ -484,7 +515,9 @@ const Repositorio = ({ motivos, consultasPor }) => {
                     <Button
                       variant="default"
                       className="btn repositorio-icon-margin repositorio-icon-button"
-                      onClick={() => handleEditarConsultaPor(item.cod_consultar)}
+                      onClick={() =>
+                        handleEditarConsultaPor(item.cod_consultar)
+                      }
                       disabled={!item.sn_activo}
                     >
                       <BiEditAlt
@@ -520,8 +553,37 @@ const Repositorio = ({ motivos, consultasPor }) => {
                     </Button>
                   </div>
 
-                  <Row style={{ margin: "0 2rem" }} className="mt-4 mb-2">
-                    <Col xs={12} lg={5}>
+                  <Row style={{ margin: "0 1rem" }} className="mt-4">
+                    <Col xs={12} lg={6}>
+                      <Form.Label className="mt-3 nuevo-tramite-label">
+                        Motivos OV
+                      </Form.Label>
+                      <Typeahead
+                        className="d-flex justify-content-between align-items-center"
+                        labelKey="txt_motivo_ov"
+                        id={`motivos_ov_${item.cod_consultar}`}
+                        name={`motivos_ov_${item.cod_consultar}`}
+                        options={motivosOv}
+                        placeholder="Seleccione"
+                        selected={
+                          dataConfigEtiquetas.find(
+                            (config) =>
+                              config.cod_consultar === item.cod_consultar
+                          )?.motivo_ov_selected || []
+                        }
+                        onChange={(selectedOptions) =>
+                          handleChangeTypeahead(
+                            item.cod_consultar,
+                            selectedOptions,
+                            "motivo_ov"
+                          )
+                        }
+                        disabled={!item.sn_activo}
+                        clearButton
+                      />
+                    </Col>
+               
+                    <Col xs={12} lg={6}>
                       <Form.Label className="mt-3 nuevo-tramite-label">
                         Motivos
                       </Form.Label>
@@ -530,7 +592,12 @@ const Repositorio = ({ motivos, consultasPor }) => {
                         labelKey="txt_motivo_repositorio"
                         id={`motivos_${item.cod_consultar}`}
                         name={`motivos_${item.cod_consultar}`}
-                        options={motivos}
+                        options={
+                          dataConfigEtiquetas.find(
+                            (config) =>
+                              config.cod_consultar === item.cod_consultar
+                          )?.motivo_selected || []
+                        }
                         placeholder="Seleccione"
                         selected={
                           dataConfigEtiquetas.find(
@@ -546,11 +613,10 @@ const Repositorio = ({ motivos, consultasPor }) => {
                           )
                         }
                         disabled={!item.sn_activo}
-                        clearButton
                       />
                     </Col>
 
-                    <Col xs={12} lg={5}>
+                    <Col xs={12} lg={6}>
                       <Form.Label className="mt-3 nuevo-tramite-label">
                         Submotivos
                       </Form.Label>
@@ -586,11 +652,10 @@ const Repositorio = ({ motivos, consultasPor }) => {
 
                     <Col
                       xs={12}
-                      lg={2}
+                      lg={6}
                       className="d-flex justify-content-center align-items-end"
                     >
                       <Button
-                        style={{ width: "100%" }}
                         onClick={() =>
                           handleSweetAlert(
                             () =>
@@ -765,6 +830,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
 
 Repositorio.propTypes = {
   motivos: PropTypes.array,
+  motivosOv: PropTypes.array,
   consultasPor: PropTypes.array
 }
 

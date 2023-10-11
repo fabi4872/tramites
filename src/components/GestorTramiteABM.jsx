@@ -22,67 +22,57 @@ const rubros = [
   }
 ];
 
+const motivosOvGenerales = [
+  { 
+    cod_motivo_ov: 1,
+    txt_motivo_ov: "Modificaciones en póliza OV"
+  },
+  { 
+    cod_motivo_ov: 2,
+    txt_motivo_ov: "Copia de póliza OV"
+  }
+]
+
 const motivosGenerales = [
   {
-    id_motivo_repositorio: "Seguros - Pólizas",
+    id_motivo_repositorio: "Seguros - Modificaciones en póliza",
+    txt_motivo_repositorio: "Modificaciones en póliza",
     cod_motivo_ov: 1,
     cod_motivo_repositorio: 1,
-    txt_motivo_ov: "Motivo póliza OV",
-    txt_motivo_repositorio: "Motivo póliza REPO",
+    txt_motivo_ov: "Modificaciones en póliza OV",
     subMotivos: [
       {
-        id_submotivo_repositorio: 1,
-        cod_submotivo_ov: 1,
-        txt_submotivo_ov: "Submotivo renovación póliza OV",
-        txt_submotivo_repositorio: "Submotivo renovación póliza REPO"
+        id_submotivo_repositorio: "76",
+        txt_submotivo_repositorio: "Conducto de pago",
+        cod_submotivo_ov: 76,
+        txt_submotivo_ov: "Conducto de pago OV"
       },
       {
-        id_submotivo_repositorio: 2,
-        cod_submotivo_ov: 2,
-        txt_submotivo_ov: "Submotivo baja póliza OV",
-        txt_submotivo_repositorio: "Submotivo baja póliza REPO"
+        id_submotivo_repositorio: "77",
+        txt_submotivo_repositorio: "Renovación",
+        cod_submotivo_ov: 77,
+        txt_submotivo_ov: "Renovación OV"
       },
       {
-        id_submotivo_repositorio: 3,
-        cod_submotivo_ov: 3,
-        txt_submotivo_ov: "Submotivo alta póliza OV",
-        txt_submotivo_repositorio: "Submotivo alta póliza REPO"
+        id_submotivo_repositorio: "79",
+        txt_submotivo_repositorio: "Endoso modificación",
+        cod_submotivo_ov: 79,
+        txt_submotivo_ov: "Endoso modificación OV"
       },
     ]
   },
   {
-    id_motivo_repositorio: "Seguros - Siniestros",
+    id_motivo_repositorio: "Seguros - Copia de póliza",
+    txt_motivo_repositorio: "Copia de póliza",
     cod_motivo_ov: 2,
     cod_motivo_repositorio: 2,
-    txt_motivo_ov: "Motivo siniestro OV",
-    txt_motivo_repositorio: "Motivo siniestro REPO",
+    txt_motivo_ov: "Copia de póliza OV",
     subMotivos: [
       {
-        id_submotivo_repositorio: 1,
-        cod_submotivo_ov: 1,
-        txt_submotivo_ov: "Submotivo renovación siniestro OV",
-        txt_submotivo_repositorio: "Submotivo renovación siniestro REPO"
-      },
-      {
-        id_submotivo_repositorio: 2,
-        cod_submotivo_ov: 2,
-        txt_submotivo_ov: "Submotivo baja siniestro OV",
-        txt_submotivo_repositorio: "Submotivo baja siniestro REPO"
-      }
-    ]
-  },
-  {
-    id_motivo_repositorio: "Seguros - Certificados",
-    cod_motivo_ov: 3,
-    cod_motivo_repositorio: 3,
-    txt_motivo_ov: "Motivo certificado OV",
-    txt_motivo_repositorio: "Motivo certificado REPO",
-    subMotivos: [
-      {
-        id_submotivo_repositorio: 1,
-        cod_submotivo_ov: 1,
-        txt_submotivo_ov: "Submotivo renovación certificado OV",
-        txt_submotivo_repositorio: "Submotivo renovación certificado REPO"
+        id_submotivo_repositorio: "22",
+        txt_submotivo_repositorio: "Copia física original",
+        cod_submotivo_ov: 22,
+        txt_submotivo_ov: "Copia física original OV",
       }
     ]
   }
@@ -108,7 +98,10 @@ const GestorTramiteABM = () => {
             Repositorio ART
           </Tab>
           <Tab eventKey="generales" title="Generales">
-            <Repositorio motivos={ motivosGenerales } consultasPor={ rubros[1].consultasPor } />
+            <Repositorio 
+              motivos={ motivosGenerales }
+              motivosOv = { motivosOvGenerales }
+              consultasPor={ rubros[1].consultasPor } />
           </Tab>
           <Tab eventKey="vida" title="Vida">
             Repositorio Vida
