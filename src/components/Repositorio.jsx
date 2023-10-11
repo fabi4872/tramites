@@ -32,6 +32,7 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
       motivo_selected: [],
       motivo_ov_selected: [],
       submotivo_selected: [],
+      motivos: [],
       submotivos: [],
       boton_asociar: false 
     })
@@ -62,41 +63,35 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
           // Carga de combos
           const motivoOvCombo = consultaActualizada.motivo_ov_selected[0];
           if (motivoOvCombo) {
-            const motivoCombo = motivos.find(
-              (m) =>
-                m.cod_motivo_ov === motivoOvCombo.cod_motivo_ov
-            );
+            const motivoCombo = consultaActualizada.motivo_selected[0];
             if (motivoCombo) {
-              const motivoEncontrado = motivos.find(
-                (m) =>
-                  m.id_motivo_repositorio === motivoCombo.id_motivo_repositorio
+              const consultaIndex = data.consultasPor.findIndex(
+                (consulta) => consulta.cod_consultar === codigoConsulta
               );
-              if (motivoEncontrado) {
-                consultaActualizada.motivo_selected = [motivoEncontrado];
-
-                // Filtrar submotivos que ya estén dentro de las configuraciones del consultar por
-                const consultaIndex = data.consultasPor.findIndex(
-                  (consulta) => consulta.cod_consultar === codigoConsulta
-                );
-                if (consultaIndex !== -1) {
-                  consultaActualizada.submotivos =
-                    motivoEncontrado.subMotivos.filter((element) => {
-                      return !data.consultasPor[
-                        consultaIndex
-                      ].configuraciones.some((configuracion) => {
-                        return (
-                          configuracion.txt_submotivo_ov ===
-                          element.txt_submotivo_ov
-                        );
-                      });
+              if (consultaIndex !== -1) {
+                consultaActualizada.submotivos = motivoCombo.subMotivos.filter(
+                  (element) => {
+                    return !data.consultasPor[
+                      consultaIndex
+                    ].configuraciones.some((configuracion) => {
+                      return (
+                        configuracion.txt_submotivo_ov ===
+                        element.txt_submotivo_ov
+                      );
                     });
-                }
+                  }
+                );
               }
+            } else {
+              consultaActualizada.motivos = motivos.filter((element) => {
+                return motivoOvCombo.cod_motivo_ov === element.cod_motivo_ov;
+              });
             }
           } else {
             consultaActualizada.motivo_selected = [];
             consultaActualizada.submotivo_selected = [];
             consultaActualizada.submotivos = [];
+            consultaActualizada.motivos = [];
             consultaActualizada.boton_asociar = false;
           }
   
@@ -596,7 +591,7 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
                           dataConfigEtiquetas.find(
                             (config) =>
                               config.cod_consultar === item.cod_consultar
-                          )?.motivo_selected || []
+                          )?.motivos || []
                         }
                         placeholder="Seleccione"
                         selected={
@@ -613,6 +608,7 @@ const Repositorio = ({ motivos, motivosOv, consultasPor }) => {
                           )
                         }
                         disabled={!item.sn_activo}
+                        clearButton
                       />
                     </Col>
 
