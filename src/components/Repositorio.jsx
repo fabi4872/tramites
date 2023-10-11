@@ -409,7 +409,7 @@ const Repositorio = ({ motivos, consultasPor }) => {
                       (config) =>
                         config.cod_consultar === item.cod_consultar
                     )?.es_edicion) && (
-                      <Col xs={12} lg={6}
+                      <Col xs={10} lg={6}
                         style={{ position: "absolute", top: "-4.35rem", zIndex: "99" }}
                         className="mt-2 d-flex justify-content-center align-items-center"
                       >
