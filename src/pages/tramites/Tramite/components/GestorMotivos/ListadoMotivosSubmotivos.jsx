@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
-import { BsTrash } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { addMotivosSubmotivosToMotivoOv } from "../../../../../modules/motivosOv";
@@ -36,7 +35,7 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
                         className="nuevo-tramite-label"
                         htmlFor={`typeahead-motivos_${motivoOv.id}_${index}`}
                     >
-                        Motivos
+                        Motivos Repositorio
                     </Form.Label>
 
                     <div className="d-flex justify-content-between align-items-center">
@@ -84,7 +83,7 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
                         className="nuevo-tramite-label"
                         htmlFor={`typeahead-submotivos_${motivoOv.id}_${index}`}
                     >
-                        Submotivos
+                        Submotivos Repositorio
                     </Form.Label>
 
                     <div className="d-flex justify-content-between align-items-center">

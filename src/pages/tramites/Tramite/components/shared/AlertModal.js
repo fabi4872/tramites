@@ -26,7 +26,7 @@ const HandleSweetAlert = (funcion, mensajeSuccess, esRevertible, ...args) => {
             if (result.isConfirmed) {
                 funcion(...args);
                 swalWithBootstrapButtons.fire(
-                    '¡Felicidades!',
+                    '¡Operación exitosa!',
                     mensajeSuccess,
                     'success'
                 );

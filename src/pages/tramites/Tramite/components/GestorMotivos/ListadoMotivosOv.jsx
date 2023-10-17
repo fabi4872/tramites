@@ -1,4 +1,4 @@
-import { Accordion, Button, Container, Row, Toast } from 'react-bootstrap';
+import { Accordion, Button, Col, Container, Row, Toast } from 'react-bootstrap';
 import PropTypes from "prop-types";
 import TablaAsociaciones from './TablaAsociaciones';
 import ListadoMotivosSubmotivos from './ListadoMotivosSubmotivos';
@@ -106,7 +106,10 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
                                                     onClick={() =>
                                                         HandleSweetAlert(
                                                             () =>
-                                                                handleEliminarActivarMotivo(m, !m.sn_activo),
+                                                                handleEliminarActivarMotivo(
+                                                                    m,
+                                                                    !m.sn_activo
+                                                                ),
                                                             `El motivo ha sido ${
                                                                 m.sn_activo
                                                                     ? "eliminado"
@@ -149,6 +152,27 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
                                             codigoRubro={codigoRubro}
                                             activo={m.sn_activo}
                                         />
+
+                                        <Container>
+                                            <Row className="mt-4 mb-3 justify-content-center d-flex text-center">
+                                                <Col className="mb-2" xs={12}>
+                                                    <Button
+                                                        style={{ fontWeight: "bold" }}
+                                                        variant="outline-danger"
+                                                        onClick={() =>
+                                                            HandleSweetAlert(
+                                                                () => null,
+                                                                "Los cambios fueron guardados correctamente",
+                                                                true
+                                                            )
+                                                        }
+                                                        disabled={!m.sn_activo}
+                                                    >
+                                                        GUARDAR
+                                                    </Button>
+                                                </Col>
+                                            </Row>
+                                        </Container>
                                     </Accordion.Body>
                                 </Accordion.Item>
                             </Accordion>

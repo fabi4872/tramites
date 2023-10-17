@@ -85,6 +85,7 @@ const InputMotivosOv = ({ codigoRubro, motivosOv }) => {
                             placeholder="Descripción de nuevo motivo..."
                         ></Form.Control>
                         <Button
+                            style={{ fontWeight: "bold" }}
                             className="input-motivos-btn"
                             variant="danger"
                             onClick={handleAgregarMotivoOv}
