@@ -13,7 +13,7 @@
     font-weight: bold;
 }
 .header-paragraph-margin-top{
-    margin-top: -1.9rem;
+    margin-top: -1.5rem;
 }
 
 .gestor-tramite-abm-tab{
@@ -53,7 +53,7 @@
     color: green;
 }
 .repositorio-icon-yellow{
-    color: rgb(252, 194, 34);
+    color: rgb(240, 121, 9);
 }
 .repositorio-icon-red{
     color: red;
@@ -166,4 +166,12 @@ td {
 }
 .btn-danger {
     margin: 0 1rem;
+}
+.header-centered .ag-header-cell-label {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
 }
