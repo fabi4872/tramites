@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { addMotivoOv } from "../../../../../modules/motivosOv";
 import { AiOutlineWarning } from "react-icons/ai";
-import { BiEraser } from "react-icons/bi";
 
 const InputMotivosOv = ({ codigoRubro, motivosOv }) => {
     const dispatch = useDispatch();
