@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { addMotivosSubmotivosToMotivoOv } from "../../../../../modules/motivosOv";
 import { BiEraser } from "react-icons/bi";
-import { AiOutlineWarning } from "react-icons/ai";
+import HandleSweetAlert from "../shared/AlertModal";
+import Swal from "sweetalert2";
 
 const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio, codigoRubro }) => {
     const dispatch = useDispatch();
@@ -22,36 +23,28 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
         
         if (itemEncontrado == -1) {
             const motivo = motivos[0];
-            const submotivo = submotivos[0];
-            dispatch(addMotivosSubmotivosToMotivoOv({ motivoOv, motivo, submotivo, codigoRubro }));
+            const submotivo = submotivos[0];            
+            HandleSweetAlert(
+                () => {
+                    dispatch(addMotivosSubmotivosToMotivoOv({ motivoOv, motivo, submotivo, codigoRubro }));
+                },
+                false
+            )
         }
         else {
             setAlert(true);
         }       
     };
 
+    const modal = (descripcion) => {
+        Swal.fire(descripcion);
+        setAlert(false);
+    }
+
     return (
         <Container mt={3} mb={3}>
+            {alert && modal("La asociación ya existe!")}
             <Row className="mt-5 mb-5">
-                {alert && (
-                    <div className="d-flex justify-content-center align-items-center">
-                        <Col xs={12} lg={4}>
-                            <Alert
-                                style={{ color: "#E41625", border: "none" }}
-                                className="mt-3"
-                                variant="danger"
-                            >
-                                <div className="d-flex justify-content-center align-items-center">
-                                    <AiOutlineWarning
-                                        size={30}
-                                        style={{ marginRight: ".5rem" }}
-                                    />
-                                    <strong>La asociación ya existe!</strong>
-                                </div>
-                            </Alert>
-                        </Col>
-                    </div>
-                )}
                 <Col xs={12} lg={5}>
                     <Form.Label
                         className="nuevo-tramite-label mt-4"

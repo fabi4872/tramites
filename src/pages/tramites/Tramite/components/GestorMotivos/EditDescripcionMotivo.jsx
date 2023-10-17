@@ -1,5 +1,4 @@
 import { Button, Col, Form } from "react-bootstrap";
-import HandleSweetAlert from "../shared/AlertModal";
 import { BiListCheck } from "react-icons/bi";
 import PropTypes from "prop-types";
 
@@ -27,16 +26,7 @@ const EditDescripcionMotivo = ({ input, motivoOv, indice, handleChange, handleOn
                     variant="default"
                     className="repositorio-icon-button"
                     onClick={() =>
-                        HandleSweetAlert(
-                            () =>
-                                handleOnClickEditConfirm(
-                                    motivoOv,
-                                    indice,
-                                    input
-                                ),
-                            "La descripción de etiqueta ha sido guardada satisfactoriamente",
-                            true
-                        )
+                        handleOnClickEditConfirm(motivoOv, indice, input)
                     }
                 >
                     <BiListCheck className="repositorio-icon-green" size={25} />

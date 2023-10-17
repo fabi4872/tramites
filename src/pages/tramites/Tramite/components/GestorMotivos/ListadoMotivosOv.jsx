@@ -8,9 +8,11 @@ import { editMotivoOv } from '../../../../../modules/motivosOv';
 import { useEffect, useState } from 'react';
 import EditDescripcionMotivo from './EditDescripcionMotivo';
 import ToastEstado from './ToastEstado';
+import Swal from 'sweetalert2';
 
 const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {    
     const dispatch = useDispatch();
+    const [alert, setAlert] = useState(false);
     const [edicion, setEdicion] = useState([]);
 
     // Handlers
@@ -53,23 +55,48 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
     }
 
     const handleOnClickEditConfirm = (motivoOv, numeroItem, valorNuevo) => {
-        const updatedMotivoOv = { ...motivoOv };
-        updatedMotivoOv.descripcion = valorNuevo.trim();
-        motivosOv = [
-            ...motivosOv.filter((elemento) => elemento.id !== motivoOv.id),
-            updatedMotivoOv,
-        ];
-        dispatch(editMotivoOv({ motivoOv: updatedMotivoOv, codigoRubro }));
-        setEdicion((currentData) => {
-            const updatedData = [...currentData];
-            updatedData[numeroItem] = {
-                ...updatedData[numeroItem],
-                esEdicion: false,
-                input: valorNuevo,
-            };
-            return updatedData;
+        setAlert(false);
+        if (valorNuevo.trim() !== "" && !existeMotivoOv(valorNuevo)) {
+            const updatedMotivoOv = { ...motivoOv };
+            updatedMotivoOv.descripcion = valorNuevo.trim();
+            motivosOv = [
+                ...motivosOv.filter((elemento) => elemento.id !== motivoOv.id),
+                updatedMotivoOv,
+            ];
+
+            HandleSweetAlert(() => {
+                dispatch(
+                    editMotivoOv({ motivoOv: updatedMotivoOv, codigoRubro })
+                );
+                setEdicion(
+                    (currentData) => {
+                        const updatedData = [...currentData];
+                        updatedData[numeroItem] = {
+                            ...updatedData[numeroItem],
+                            esEdicion: false,
+                            input: valorNuevo,
+                        };
+                        return updatedData;
+                    },
+                    true
+                );
+            });
+        } else {
+            setAlert(true);
+        }
+    };    
+
+    // Funciones
+    const existeMotivoOv = (descripcion) => {
+        return motivosOv.some((item) => {
+            return item.descripcion.toLowerCase() === descripcion.trim().toLowerCase();
         });
-    };
+    }
+
+    const modal = (descripcion) => {
+        Swal.fire(descripcion);
+        setAlert(false);
+    }
 
     // useEffect
     useEffect(() => {
@@ -83,7 +110,8 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
 
     return (
         <>
-            <Container style={{ marginBottom: "6rem" }}>
+        {alert && modal("Descripción existente o inválida!")}
+            <Container style={{ marginBottom: "4rem" }}>
                 {motivosOv.length > 0 &&
                     motivosOv.map((m, i) => (
                         <Row key={m.id}>
@@ -97,11 +125,29 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
                                         style={{ position: "relative" }}
                                     >
                                         {edicion[i]?.esEdicion && (
-                                            <EditDescripcionMotivo input={edicion[i]?.input} motivoOv={m} indice={i} handleChange={handleChange} handleOnClickEditConfirm={handleOnClickEditConfirm} />
+                                            <EditDescripcionMotivo
+                                                input={edicion[i]?.input}
+                                                motivoOv={m}
+                                                indice={i}
+                                                handleChange={handleChange}
+                                                handleOnClickEditConfirm={
+                                                    handleOnClickEditConfirm
+                                                }
+                                            />
                                         )}
 
-                                        <ToastEstado motivoOv={m} esEdicion={edicion[i]?.esEdicion} item={i} handleOnClickEdit={handleOnClickEdit} handleEliminarActivarMotivo={handleEliminarActivarMotivo} />
-                                        
+                                        <ToastEstado
+                                            motivoOv={m}
+                                            esEdicion={edicion[i]?.esEdicion}
+                                            item={i}
+                                            handleOnClickEdit={
+                                                handleOnClickEdit
+                                            }
+                                            handleEliminarActivarMotivo={
+                                                handleEliminarActivarMotivo
+                                            }
+                                        />
+
                                         <ListadoMotivosSubmotivos
                                             motivoOv={m}
                                             index={i}
@@ -111,7 +157,7 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
                                             }
                                             codigoRubro={codigoRubro}
                                         />
-                                        
+
                                         <TablaAsociaciones
                                             motivoOv={m}
                                             motivosRepositorioAsociados={handleGetAsociacionesByMotivoOv(
@@ -131,7 +177,6 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
                                                         onClick={() =>
                                                             HandleSweetAlert(
                                                                 () => null,
-                                                                "Los cambios fueron guardados correctamente",
                                                                 true
                                                             )
                                                         }

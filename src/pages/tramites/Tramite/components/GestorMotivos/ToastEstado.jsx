@@ -57,9 +57,6 @@ const ToastEstado = ({ motivoOv, esEdicion, item, handleOnClickEdit, handleElimi
                     onClick={() =>
                         HandleSweetAlert(
                             () => handleEliminarActivarMotivo(motivoOv, !motivoOv.sn_activo),
-                            `El motivo ha sido ${
-                                motivoOv.sn_activo ? "eliminado" : "activado"
-                            } correctamente`,
                             true
                         )
                     }

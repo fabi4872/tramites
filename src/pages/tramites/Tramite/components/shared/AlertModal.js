@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 
-const HandleSweetAlert = (funcion, mensajeSuccess, esRevertible, ...args) => {
+const HandleSweetAlert = (funcion, esRevertible = true, ...args) => {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: 'btn btn-success',
@@ -27,7 +27,7 @@ const HandleSweetAlert = (funcion, mensajeSuccess, esRevertible, ...args) => {
                 funcion(...args);
                 swalWithBootstrapButtons.fire(
                     '¡Operación exitosa!',
-                    mensajeSuccess,
+                    'Los cambios han sido guardados correctamente',
                     'success'
                 );
             } else if (result.dismiss === Swal.DismissReason.cancel) {

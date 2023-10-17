@@ -1,10 +1,10 @@
-import { Alert, Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import HandleSweetAlert from "../shared/AlertModal";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { addMotivoOv } from "../../../../../modules/motivosOv";
-import { AiOutlineWarning } from "react-icons/ai";
+import Swal from "sweetalert2";
 
 const InputMotivosOv = ({ codigoRubro, motivosOv }) => {
     const dispatch = useDispatch();
@@ -23,7 +23,6 @@ const InputMotivosOv = ({ codigoRubro, motivosOv }) => {
                     dispatch(addMotivoOv({ motivoInput, codigoRubro }));
                     setMotivoInput('');
                 },
-                'Se agregó el motivo OV correctamente',
                 esRevertible
             )
         ) : (
@@ -37,31 +36,16 @@ const InputMotivosOv = ({ codigoRubro, motivosOv }) => {
             return item.descripcion.toLowerCase() === motivoInput.trim().toLowerCase();
         });
     }
+
+    const modal = (descripcion) => {
+        Swal.fire(descripcion);
+        setAlert(false);
+    }
   
     return (
         <>
-            <Form.Group style={{ margin: "6rem 0" }}>
-                {alert && (
-                    <Row className="d-flex justify-content-center align-items-center mb-3">
-                        <Col xs={12} lg={4}>
-                            <Alert
-                                style={{ color: "#E41625", border: "none" }}
-                                className="mt-3"
-                                variant="danger"
-                            >
-                                <div className="d-flex justify-content-center align-items-center">
-                                    <AiOutlineWarning
-                                        size={30}
-                                        style={{ marginRight: ".5rem" }}
-                                    />
-                                    <strong>
-                                        El motivo ingresado ya existe o es inválido!
-                                    </strong>
-                                </div>
-                            </Alert>
-                        </Col>
-                    </Row>
-                )}
+            {alert && modal("Motivo existente o inválido!")}
+            <Form.Group style={{ margin: "4rem 0" }}>
                 <Row>
                     <Col
                         xs={12}
@@ -105,7 +89,10 @@ const InputMotivosOv = ({ codigoRubro, motivosOv }) => {
                             name="motivoInput"
                             aria-describedby="descripcion de motivo OV"
                             value={motivoInput}
-                            onChange={(e) => {setMotivoInput(e.target.value); !e.target.value.trim() && setAlert(false)}}
+                            onChange={(e) => {
+                                setMotivoInput(e.target.value);
+                                !e.target.value.trim() && setAlert(false);
+                            }}
                             placeholder="Descripción de nuevo motivo..."
                         ></Form.Control>
                         <Button

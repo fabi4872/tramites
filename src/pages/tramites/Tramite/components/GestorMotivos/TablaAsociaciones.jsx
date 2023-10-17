@@ -241,11 +241,6 @@ const TablaAsociaciones = ({ motivoOv, motivosRepositorioAsociados, codigoRubro,
                                                                             item.id,
                                                                             !item.sn_activo
                                                                         ),
-                                                                    `La asociación ha sido ${
-                                                                        item.sn_activo
-                                                                            ? "eliminada"
-                                                                            : "activada"
-                                                                    } correctamente`,
                                                                     true
                                                                 )
                                                             }
