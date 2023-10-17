@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { addMotivoOv } from "../../../../../modules/motivosOv";
 import { AiOutlineWarning } from "react-icons/ai";
+import { BiEraser } from "react-icons/bi";
 
 const InputMotivosOv = ({ codigoRubro, motivosOv }) => {
     const dispatch = useDispatch();
@@ -15,8 +16,9 @@ const InputMotivosOv = ({ codigoRubro, motivosOv }) => {
     const handleAgregarMotivoOv = () => {
         const esRevertible = false;
         setAlert(false);
+        setMotivoInput(motivoInput.trim());
 
-        !existeMotivoOv() ? (
+        motivoInput && !existeMotivoOv() ? (
             HandleSweetAlert(
                 () => {
                     dispatch(addMotivoOv({ motivoInput, codigoRubro }));
@@ -48,13 +50,13 @@ const InputMotivosOv = ({ codigoRubro, motivosOv }) => {
                                 className="mt-3"
                                 variant="danger"
                             >
-                                <div className="d-flex align-items-center">
+                                <div className="d-flex justify-content-center align-items-center">
                                     <AiOutlineWarning
                                         size={30}
-                                        style={{ marginRight: "1rem" }}
+                                        style={{ marginRight: ".5rem" }}
                                     />
                                     <strong>
-                                        El motivo ingresado ya existe!
+                                        El motivo ingresado ya existe o es inválido!
                                     </strong>
                                 </div>
                             </Alert>
@@ -104,7 +106,7 @@ const InputMotivosOv = ({ codigoRubro, motivosOv }) => {
                             name="motivoInput"
                             aria-describedby="descripcion de motivo OV"
                             value={motivoInput}
-                            onChange={(e) => setMotivoInput(e.target.value)}
+                            onChange={(e) => {setMotivoInput(e.target.value); !e.target.value.trim() && setAlert(false)}}
                             placeholder="Descripción de nuevo motivo..."
                         ></Form.Control>
                         <Button

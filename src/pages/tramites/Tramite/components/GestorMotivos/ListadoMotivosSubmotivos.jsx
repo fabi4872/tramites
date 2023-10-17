@@ -33,6 +33,25 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
     return (
         <Container mt={3} mb={3}>
             <Row className="mt-5 mb-5">
+                {alert && (
+                    <div className="d-flex justify-content-center align-items-center">
+                        <Col xs={12} lg={4}>
+                            <Alert
+                                style={{ color: "#E41625", border: "none" }}
+                                className="mt-3"
+                                variant="danger"
+                            >
+                                <div className="d-flex justify-content-center align-items-center">
+                                    <AiOutlineWarning
+                                        size={30}
+                                        style={{ marginRight: ".5rem" }}
+                                    />
+                                    <strong>La asociación ya existe!</strong>
+                                </div>
+                            </Alert>
+                        </Col>
+                    </div>
+                )}
                 <Col xs={12} lg={5}>
                     <Form.Label
                         className="nuevo-tramite-label mt-4"
@@ -70,6 +89,7 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
                             onClick={() => {
                                 setSelectedMotivo(null);
                                 setSelectedSubmotivo(null);
+                                setAlert(false);
                             }}
                             disabled={!selectedMotivo || !activo}
                         >
@@ -117,7 +137,7 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
                             style={{ border: "none" }}
                             variant="default"
                             className="btn-limpiar-submotivo"
-                            onClick={() => setSelectedSubmotivo(null)}
+                            onClick={() => {setSelectedSubmotivo(null); setAlert(false)}}
                             disabled={!selectedSubmotivo || !activo}
                         >
                             <BiEraser className="repositorio-icon" size={22} />
@@ -149,26 +169,6 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
                     </Button>
                 </Col>
             </Row>
-
-            {alert && (
-                <Row className="d-flex justify-content-center align-items-center mb-3">
-                    <Col xs={12} lg={4}>
-                        <Alert
-                            style={{ color: "#E41625", border: "none" }}
-                            className="mt-3"
-                            variant="danger"
-                        >
-                            <div className="d-flex align-items-center">
-                                <AiOutlineWarning
-                                    size={30}
-                                    style={{ marginRight: "1rem" }}
-                                />
-                                <strong>La asociación ya existe!</strong>
-                            </div>
-                        </Alert>
-                    </Col>
-                </Row>
-            )}
         </Container>
     );
 };
