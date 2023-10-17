@@ -78,7 +78,7 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
                     </div>
                 </Col>
 
-                <Col xs={12} md={5}>
+                <Col xs={12} lg={5}>
                     <Form.Label
                         className="nuevo-tramite-label"
                         htmlFor={`typeahead-submotivos_${motivoOv.id}_${index}`}
@@ -128,7 +128,7 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
                     </div>
                 </Col>
 
-                <Col xs={12} md={2} className="d-flex justify-content-center align-items-center mt-4">
+                <Col xs={12} lg={2} className="d-flex justify-content-center align-items-center mt-4">
                     <Button
                         style={{ width: "100%" }}
                         variant="primary"
