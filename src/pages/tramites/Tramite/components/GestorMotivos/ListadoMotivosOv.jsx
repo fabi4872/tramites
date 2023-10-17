@@ -1,14 +1,13 @@
-import { Accordion, Button, Col, Container, Form, Row, Toast } from 'react-bootstrap';
+import { Accordion, Button, Col, Container, Row } from 'react-bootstrap';
 import PropTypes from "prop-types";
 import TablaAsociaciones from './TablaAsociaciones';
 import ListadoMotivosSubmotivos from './ListadoMotivosSubmotivos';
 import { useDispatch } from 'react-redux';
 import HandleSweetAlert from '../shared/AlertModal';
-import { ImSwitch } from 'react-icons/im';
-import { BsTrash } from 'react-icons/bs';
 import { editMotivoOv } from '../../../../../modules/motivosOv';
 import { useEffect, useState } from 'react';
-import { BiEditAlt, BiListCheck } from 'react-icons/bi';
+import EditDescripcionMotivo from './EditDescripcionMotivo';
+import ToastEstado from './ToastEstado';
 
 const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {    
     const dispatch = useDispatch();
@@ -31,7 +30,6 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
     };
 
     const handleOnClickEdit = (numeroItem, valorNuevo) => {
-        console.log(numeroItem, valorNuevo);
         setEdicion((currentData) => {
             const updatedData = [...currentData];
             updatedData[numeroItem] = {
@@ -55,7 +53,6 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
     }
 
     const handleOnClickEditConfirm = (motivoOv, numeroItem, valorNuevo) => {
-        console.log(numeroItem);
         const updatedMotivoOv = { ...motivoOv };
         updatedMotivoOv.descripcion = valorNuevo.trim();
         motivosOv = [
@@ -100,159 +97,11 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
                                         style={{ position: "relative" }}
                                     >
                                         {edicion[i]?.esEdicion && (
-                                            <Col
-                                                xs={10}
-                                                lg={6}
-                                                style={{
-                                                    position: "absolute",
-                                                    top: "-3.35rem",
-                                                    zIndex: "99",
-                                                }}
-                                                className="mt-2 d-flex justify-content-center align-items-center"
-                                            >
-                                                <Form.Control
-                                                    type="text"
-                                                    id={`descripcion${m.id}`}
-                                                    aria-describedby="descripcion nueva consultar por"
-                                                    value={edicion[i]?.input}
-                                                    onChange={(e) =>
-                                                        handleChange(e, i)
-                                                    }
-                                                />
-                                                <Button
-                                                    variant="default"
-                                                    className="repositorio-icon-button"
-                                                    onClick={() =>
-                                                        HandleSweetAlert(
-                                                            () =>
-                                                                handleOnClickEditConfirm(
-                                                                    m,
-                                                                    i,
-                                                                    edicion[i]
-                                                                        ?.input
-                                                                ),
-                                                            "La descripción de etiqueta ha sido guardada satisfactoriamente",
-                                                            true
-                                                        )
-                                                    }
-                                                >
-                                                    <BiListCheck
-                                                        className="repositorio-icon-green"
-                                                        size={25}
-                                                    />
-                                                </Button>
-                                            </Col>
+                                            <EditDescripcionMotivo input={edicion[i]?.input} motivoOv={m} indice={i} handleChange={handleChange} handleOnClickEditConfirm={handleOnClickEditConfirm} />
                                         )}
-                                        <div style={{ position: "relative" }}>
-                                            <Row
-                                                style={{ margin: "0 .5rem" }}
-                                                className="d-flex justify-content-end align-items-center"
-                                            >
-                                                <Toast
-                                                    className="d-inline-block mt-3 mb-3"
-                                                    xs={4}
-                                                    lg={4}
-                                                >
-                                                    <Toast.Header
-                                                        closeButton={false}
-                                                    >
-                                                        <img
-                                                            src="holder.js/20x20?text=%20"
-                                                            className="rounded me-2"
-                                                            alt=""
-                                                            style={{
-                                                                border: `.15rem solid ${
-                                                                    m.sn_activo
-                                                                        ? "green"
-                                                                        : "#E41625"
-                                                                }`,
-                                                            }}
-                                                        />
-                                                        <strong className="me-auto">
-                                                            ESTADO
-                                                        </strong>
-                                                    </Toast.Header>
-                                                    <Toast.Body
-                                                        style={{
-                                                            color: `${
-                                                                m.sn_activo
-                                                                    ? "green"
-                                                                    : "#E41625"
-                                                            }`,
-                                                        }}
-                                                        variant={`${
-                                                            m.sn_activo
-                                                                ? "success"
-                                                                : "danger"
-                                                        }`}
-                                                    >
-                                                        <strong>
-                                                            {m.sn_activo
-                                                                ? "Activo"
-                                                                : "Eliminado"}
-                                                        </strong>
-                                                    </Toast.Body>
-                                                </Toast>
-                                            </Row>
-                                            <div
-                                                style={{
-                                                    position: "absolute",
-                                                    right: "2rem",
-                                                    top: "1rem",
-                                                }}
-                                            >
-                                                <Button
-                                                    variant="default"
-                                                    className="btn repositorio-icon-margin repositorio-icon-button"
-                                                    onClick={() =>
-                                                        handleOnClickEdit(
-                                                            i,
-                                                            !edicion[i]?.esEdicion
-                                                        )
-                                                    }
-                                                    disabled={
-                                                        !m.sn_activo ||
-                                                        edicion[i]?.esEdicion
-                                                    }
-                                                >
-                                                    <BiEditAlt
-                                                        className="repositorio-icon-yellow"
-                                                        size={25}
-                                                    />
-                                                </Button>
-                                                <Button
-                                                    variant="default"
-                                                    className="btn repositorio-icon-button"
-                                                    onClick={() =>
-                                                        HandleSweetAlert(
-                                                            () =>
-                                                                handleEliminarActivarMotivo(
-                                                                    m,
-                                                                    !m.sn_activo
-                                                                ),
-                                                            `El motivo ha sido ${
-                                                                m.sn_activo
-                                                                    ? "eliminado"
-                                                                    : "activado"
-                                                            } correctamente`,
-                                                            true
-                                                        )
-                                                    }
-                                                >
-                                                    {m.sn_activo ? (
-                                                        <BsTrash
-                                                            className="repositorio-icon-red"
-                                                            size={25}
-                                                        />
-                                                    ) : (
-                                                        <ImSwitch
-                                                            className="repositorio-icon-green"
-                                                            size={25}
-                                                        />
-                                                    )}
-                                                </Button>
-                                            </div>
-                                        </div>
+
+                                        <ToastEstado motivoOv={m} esEdicion={edicion[i]?.esEdicion} item={i} handleOnClickEdit={handleOnClickEdit} handleEliminarActivarMotivo={handleEliminarActivarMotivo} />
+                                        
                                         <ListadoMotivosSubmotivos
                                             motivoOv={m}
                                             index={i}
@@ -262,6 +111,7 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
                                             }
                                             codigoRubro={codigoRubro}
                                         />
+                                        
                                         <TablaAsociaciones
                                             motivoOv={m}
                                             motivosRepositorioAsociados={handleGetAsociacionesByMotivoOv(
