@@ -1,18 +1,21 @@
 import { useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { addMotivosSubmotivosToMotivoOv } from "../../../../../modules/motivosOv";
 import { BiEraser } from "react-icons/bi";
+import { AiOutlineWarning } from "react-icons/ai";
 
 const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio, codigoRubro }) => {
     const dispatch = useDispatch();
 
     const [selectedMotivo, setSelectedMotivo] = useState();
     const [selectedSubmotivo, setSelectedSubmotivo] = useState();
+    const [alert, setAlert] = useState(false);
 
     const handleAgregarMotivo = (motivoOv, motivos, submotivos) => {
+        setAlert(false);
         const itemEncontrado = motivoOv.motivos_submotivos_repositorio_asociados.findIndex(
             (elemento) => motivos[0].id === elemento.id_motivo_repositorio &&
                 submotivos[0].id === elemento.id_submotivo_repositorio);
@@ -23,7 +26,7 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
             dispatch(addMotivosSubmotivosToMotivoOv({ motivoOv, motivo, submotivo, codigoRubro }));
         }
         else {
-            alert("Ya esxiste");
+            setAlert(true);
         }       
     };
 
@@ -32,7 +35,7 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
             <Row className="mt-5 mb-5">
                 <Col xs={12} lg={5}>
                     <Form.Label
-                        className="nuevo-tramite-label"
+                        className="nuevo-tramite-label mt-4"
                         htmlFor={`typeahead-motivos_${motivoOv.id}_${index}`}
                     >
                         Motivos Repositorio
@@ -70,17 +73,14 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
                             }}
                             disabled={!selectedMotivo || !activo}
                         >
-                            <BiEraser
-                                className="repositorio-icon"
-                                size={22}
-                            />
+                            <BiEraser className="repositorio-icon" size={22} />
                         </Button>
                     </div>
                 </Col>
 
                 <Col xs={12} lg={5}>
                     <Form.Label
-                        className="nuevo-tramite-label"
+                        className="nuevo-tramite-label mt-4"
                         htmlFor={`typeahead-submotivos_${motivoOv.id}_${index}`}
                     >
                         Submotivos Repositorio
@@ -120,16 +120,18 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
                             onClick={() => setSelectedSubmotivo(null)}
                             disabled={!selectedSubmotivo || !activo}
                         >
-                            <BiEraser
-                                className="repositorio-icon"
-                                size={22}
-                            />
+                            <BiEraser className="repositorio-icon" size={22} />
                         </Button>
                     </div>
                 </Col>
 
-                <Col xs={12} lg={2} className="d-flex justify-content-center align-items-center mt-4">
+                <Col
+                    xs={12}
+                    lg={2}
+                    className="d-flex justify-content-center align-items-center"
+                >
                     <Button
+                        className="mt-5"
                         style={{ width: "100%" }}
                         variant="primary"
                         onClick={() =>
@@ -147,6 +149,26 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
                     </Button>
                 </Col>
             </Row>
+
+            {alert && (
+                <Row className="d-flex justify-content-center align-items-center mb-3">
+                    <Col xs={12} lg={4}>
+                        <Alert
+                            style={{ color: "#E41625", border: "none" }}
+                            className="mt-3"
+                            variant="danger"
+                        >
+                            <div className="d-flex align-items-center">
+                                <AiOutlineWarning
+                                    size={30}
+                                    style={{ marginRight: "1rem" }}
+                                />
+                                <strong>La asociación ya existe!</strong>
+                            </div>
+                        </Alert>
+                    </Col>
+                </Row>
+            )}
         </Container>
     );
 };

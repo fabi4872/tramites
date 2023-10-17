@@ -1,19 +1,21 @@
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import HandleSweetAlert from "../shared/AlertModal";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { addMotivoOv } from "../../../../../modules/motivosOv";
+import { AiOutlineWarning } from "react-icons/ai";
 
 const InputMotivosOv = ({ codigoRubro, motivosOv }) => {
     const dispatch = useDispatch();
-
+    const [alert, setAlert] = useState(false);
     const [motivoInput, setMotivoInput] = useState('');
     
     // Handlers
     const handleAgregarMotivoOv = () => {
         const esRevertible = false;
-        
+        setAlert(false);
+
         !existeMotivoOv() ? (
             HandleSweetAlert(
                 () => {
@@ -24,7 +26,7 @@ const InputMotivosOv = ({ codigoRubro, motivosOv }) => {
                 esRevertible
             )
         ) : (
-            alert("Ya existe")
+            setAlert(true)
         )
     };
 
@@ -38,6 +40,27 @@ const InputMotivosOv = ({ codigoRubro, motivosOv }) => {
     return (
         <>
             <Form.Group style={{ margin: "6rem 0" }}>
+                {alert && (
+                    <Row className="d-flex justify-content-center align-items-center mb-3">
+                        <Col xs={12} lg={4}>
+                            <Alert
+                                style={{ color: "#E41625", border: "none" }}
+                                className="mt-3"
+                                variant="danger"
+                            >
+                                <div className="d-flex align-items-center">
+                                    <AiOutlineWarning
+                                        size={30}
+                                        style={{ marginRight: "1rem" }}
+                                    />
+                                    <strong>
+                                        El motivo ingresado ya existe!
+                                    </strong>
+                                </div>
+                            </Alert>
+                        </Col>
+                    </Row>
+                )}
                 <Row>
                     <Col
                         xs={12}
@@ -64,7 +87,7 @@ const InputMotivosOv = ({ codigoRubro, motivosOv }) => {
                             }}
                             htmlFor="consulta"
                         >
-                            Seleccione un motivo para su edición
+                            Ingrese un nuevo motivo
                         </small>
                     </Col>
                 </Row>

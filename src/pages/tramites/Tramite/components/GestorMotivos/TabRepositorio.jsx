@@ -6,7 +6,7 @@ const TabRepositorio = ({ codigoRubro, motivosOv, motivosRepositorio }) => {
     return (
         <>
             <InputMotivosOv codigoRubro={ codigoRubro } motivosOv={ motivosOv } />
-            <ListadoMotivosOv motivosOv={ motivosOv } motivosRepositorio={ motivosRepositorio } codigoRubro={codigoRubro} />
+            <ListadoMotivosOv motivosOv={ motivosOv } motivosRepositorio={ motivosRepositorio } codigoRubro={ codigoRubro } />
         </>
     )
 }
