@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import EditDescripcionMotivo from './EditDescripcionMotivo';
 import ToastEstado from './ToastEstado';
 import Swal from 'sweetalert2';
+import SimuladorCombosEtiquetas from './SimuladorCombosEtiquetas';
 
 const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {    
     const dispatch = useDispatch();
@@ -111,6 +112,12 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
     return (
         <>
         {alert && modal("Descripción existente o inválida!")}
+
+            <Container>
+                <Row>
+                    <SimuladorCombosEtiquetas motivosOv={motivosOv} />
+                </Row>
+            </Container>
             <Container style={{ marginBottom: "4rem" }}>
                 {motivosOv.length > 0 &&
                     motivosOv.map((m, i) => (

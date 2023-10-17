@@ -84,6 +84,7 @@ const TablaAsociaciones = ({ motivoOv, motivosRepositorioAsociados, codigoRubro,
                             <thead>
                                 <tr className="text-center">
                                     <th># Ord</th>
+                                    <th>Motivo Repositorio</th>
                                     <th>Submotivo Repositorio</th>
                                     <th>Submotivo OV - Editable</th>
                                     <th>Estado</th>
@@ -107,10 +108,19 @@ const TablaAsociaciones = ({ motivoOv, motivosRepositorioAsociados, codigoRubro,
                                 {motivosRepositorioAsociados.length > 0 &&
                                     motivosRepositorioAsociados.map(
                                         (item, i) => (
-                                            <tr key={i}>
+                                            <tr key={item.id}>
                                                 <td>
                                                     <div className="d-flex justify-content-center align-items-center">
                                                         <small>{i + 1}</small>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="d-flex align-items-center">
+                                                        <small>
+                                                            {
+                                                                item.descripcion_motivo_repositorio
+                                                            }
+                                                        </small>
                                                     </div>
                                                 </td>
                                                 <td>
