@@ -34,6 +34,22 @@ const NavbarMenu = ({ codigoRubro, motivosOv, motivosRepositorio }) => {
         )
     }
 
+    const handleChangeFiltro = (tipo) => {
+        switch (tipo) {
+            case "Activos":
+                setListaBusqueda([...motivosOv.filter((elemento) => elemento.sn_activo)])
+                break;
+            case "Eliminados":
+                setListaBusqueda([...motivosOv.filter((elemento) => !elemento.sn_activo)])
+                break;
+            case "Todos":
+                setListaBusqueda([...motivosOv])
+                break;
+            default:
+                break;
+        }
+    }
+
     const handleAgregarMotivoOv = () => {
         const esRevertible = false;
         setAlert(false);
@@ -99,15 +115,21 @@ const NavbarMenu = ({ codigoRubro, motivosOv, motivosRepositorio }) => {
                                 title="Filtros"
                                 id="navbarScrollingDropdown"
                             >
-                                <NavDropdown.Item href="#action3">
-                                    Action
+                                <NavDropdown.Item
+                                    onClick={() => handleChangeFiltro("Activos")}
+                                >
+                                    Activos
                                 </NavDropdown.Item>
-                                <NavDropdown.Item href="#action4">
-                                    Another action
+                                <NavDropdown.Item
+                                    onClick={() => handleChangeFiltro("Eliminados")}
+                                >
+                                    Eliminados
                                 </NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action5">
-                                    Something else here
+                                <NavDropdown.Item
+                                    onClick={() => handleChangeFiltro("Todos")}
+                                >
+                                    Todos
                                 </NavDropdown.Item>
                             </NavDropdown>
                             <div>

@@ -1,4 +1,4 @@
-import { Accordion, Button, Col, Container, Row } from 'react-bootstrap';
+import { Accordion, Alert, Button, Col, Container, Row } from 'react-bootstrap';
 import PropTypes from "prop-types";
 import TablaAsociaciones from './TablaAsociaciones';
 import ListadoMotivosSubmotivos from './ListadoMotivosSubmotivos';
@@ -110,8 +110,9 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
 
     return (
         <>
-        {alert && modal("Descripción existente o inválida!")}
+            {alert && modal("Descripción existente o inválida!")}
             <Container style={{ marginTop: "7rem", marginBottom: "4rem" }}>
+                <h6><strong>{motivosOv.length}</strong><small style={{ color: "#333", marginLeft: ".5rem" }}>RESULTADOS DISPONIBLES</small></h6>
                 {motivosOv.length > 0 &&
                     motivosOv.map((m, i) => (
                         <Row key={m.id}>
@@ -119,6 +120,35 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
                                 <Accordion.Item eventKey={m.id}>
                                     <Accordion.Header>
                                         {m.descripcion.toUpperCase()}
+                                        {m.sn_activo ? (
+                                            <Alert
+                                                className="d-flex justify-content-center align-items-center"
+                                                variant="success"
+                                                style={{
+                                                    padding: ".5rem 1rem",
+                                                    margin: "0",
+                                                    position: "absolute",
+                                                    right: "3.7rem",
+                                                    width: "7rem"
+                                                }}
+                                            >
+                                                Activo
+                                            </Alert>
+                                        ) : (
+                                            <Alert
+                                                className="d-flex justify-content-center align-items-center"
+                                                variant="danger"
+                                                style={{
+                                                    padding: ".5rem 1rem",
+                                                    margin: "0",
+                                                    position: "absolute",
+                                                    right: "3.7rem",
+                                                    width: "7rem"
+                                                }}
+                                            >
+                                                Eliminado
+                                            </Alert>
+                                        )}
                                     </Accordion.Header>
                                     <Accordion.Body
                                         mt={3}
