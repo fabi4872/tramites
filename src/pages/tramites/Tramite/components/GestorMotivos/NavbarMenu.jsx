@@ -58,7 +58,6 @@ const NavbarMenu = ({ codigoRubro, motivosOv }) => {
             <Navbar
                 expand="lg"
                 style={{
-                    marginBottom: "7rem",
                     borderBottom: ".1rem solid #F1F1F1",
                     boxShadow: "0 .15rem 0 0 #F8F8F8",
                 }}
@@ -167,7 +166,7 @@ const NavbarMenu = ({ codigoRubro, motivosOv }) => {
             </Navbar>
 
             {showCombosEtiquetas && (
-                <Container style={{ marginBottom: "6rem" }}>
+                <Container style={{ marginBottom: "6rem", boxShadow: "0 .5rem .5rem 0 #CCC", padding: "1rem" }}>
                     <Row>
                         <SimuladorCombosEtiquetas motivosOv={motivosOv} />
                     </Row>

@@ -111,7 +111,7 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
     return (
         <>
         {alert && modal("Descripción existente o inválida!")}
-            <Container style={{ marginBottom: "4rem" }}>
+            <Container style={{ marginTop: "7rem", marginBottom: "4rem" }}>
                 {motivosOv.length > 0 &&
                     motivosOv.map((m, i) => (
                         <Row key={m.id}>
