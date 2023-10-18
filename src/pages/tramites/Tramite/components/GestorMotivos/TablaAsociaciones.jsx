@@ -41,7 +41,7 @@ const TablaAsociaciones = ({ motivoOv, motivosRepositorioAsociados, codigoRubro,
         let elemento = { ...motivosRepositorioAsociados.find(item => item.id === idItem) };
         if (elemento) {
             elemento.descripcion_submotivo_ov = valorNuevo.trim();
-            updatedMotivoOv.motivos_submotivos_repositorio_asociados = [ ...motivosRepositorioAsociados.filter((elemento) => elemento.id !== idItem), elemento ];
+            updatedMotivoOv.motivos_submotivos_repositorio_asociados = [ elemento, ...motivosRepositorioAsociados.filter((elemento) => elemento.id !== idItem) ];
             dispatch(editMotivoOv({ motivoOv: updatedMotivoOv, codigoRubro }));
             setEdicion((currentData) => {
                 const updatedData = [...currentData];
@@ -60,7 +60,7 @@ const TablaAsociaciones = ({ motivoOv, motivosRepositorioAsociados, codigoRubro,
         let elemento = { ...motivosRepositorioAsociados.find(item => item.id === idItem) };
         if (elemento) {
             elemento.sn_activo = valorNuevo;
-            updatedMotivoOv.motivos_submotivos_repositorio_asociados = [ ...motivosRepositorioAsociados.filter((elemento) => elemento.id !== idItem), elemento ];
+            updatedMotivoOv.motivos_submotivos_repositorio_asociados = [ elemento, ...motivosRepositorioAsociados.filter((elemento) => elemento.id !== idItem) ];
             dispatch(editMotivoOv({ motivoOv: updatedMotivoOv, codigoRubro }));
         }
     };

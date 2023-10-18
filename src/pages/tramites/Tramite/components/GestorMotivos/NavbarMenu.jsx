@@ -167,7 +167,7 @@ const NavbarMenu = ({ codigoRubro, motivosOv }) => {
             </Navbar>
 
             {showCombosEtiquetas && (
-                <Container style={{ marginBottom: "8rem" }}>
+                <Container style={{ marginBottom: "6rem" }}>
                     <Row>
                         <SimuladorCombosEtiquetas motivosOv={motivosOv} />
                     </Row>

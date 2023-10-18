@@ -31,10 +31,12 @@ const SimuladorCombosEtiquetas = ({ motivosOv }) => {
         setSelectedSubmotivoRepositorio([]);
         setMotivosRepositorioCombo([]);
         setSubmotivosRepositorioCombo([]);
-        const uniqueMotivosOv = [...new Set(motivosOv.map((item) => ({
-            id: item.id,
-            descripcion: item.descripcion,
-            asociados: item.motivos_submotivos_repositorio_asociados
+        const uniqueMotivosOv = [...new Set(motivosOv
+            .filter(item => item.sn_activo)
+            .map((item) => ({
+                id: item.id,
+                descripcion: item.descripcion,
+                asociados: item.motivos_submotivos_repositorio_asociados
         })))];
     
         setMotivosOvCombo(uniqueMotivosOv);
@@ -59,7 +61,7 @@ const SimuladorCombosEtiquetas = ({ motivosOv }) => {
     useEffect(() => {
         if (selectedMotivoRepositorio.length > 0) {
             const submotivosRepositorio = [...new Set(selectedMotivoOv[0].asociados
-                .filter(item => item.id_motivo_repositorio === selectedMotivoRepositorio[0].id)
+                .filter(item => item.id_motivo_repositorio === selectedMotivoRepositorio[0].id && item.sn_activo)
                 .map(item => ({
                     id: item.id_submotivo_repositorio,
                     descripcion: item.descripcion_submotivo_repositorio
@@ -73,9 +75,10 @@ const SimuladorCombosEtiquetas = ({ motivosOv }) => {
     
     return (
         <>
+            <h5 style={{ fontStyle: "italic", color: "#A1A1A1", fontWeight: "400" }}>Simulador de combos de etiquetas</h5>
             <Col xs={12} lg={4}>
                 <Form.Label
-                    className="nuevo-tramite-label mt-4"
+                    className="nuevo-tramite-label mt-3"
                     htmlFor={`typeahead-motivos_ov`}
                 >
                     Motivos OV
