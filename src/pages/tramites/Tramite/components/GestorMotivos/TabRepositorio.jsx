@@ -1,13 +1,12 @@
 import PropTypes from "prop-types";
-import ListadoMotivosOv from "./ListadoMotivosOv";
 import NavbarMenu from "./NavbarMenu";
 
 const TabRepositorio = ({ codigoRubro, motivosOv, motivosRepositorio }) => {
     return (
         <>
-            <NavbarMenu codigoRubro={ codigoRubro } motivosOv={ motivosOv } />
+            <NavbarMenu codigoRubro={ codigoRubro } motivosOv={ motivosOv } motivosRepositorio={ motivosRepositorio } />
             {/* <InputMotivosOv codigoRubro={ codigoRubro } motivosOv={ motivosOv } /> */}
-            <ListadoMotivosOv motivosOv={ motivosOv } motivosRepositorio={ motivosRepositorio } codigoRubro={ codigoRubro } />
+            {/* <ListadoMotivosOv motivosOv={ motivosOv } motivosRepositorio={ motivosRepositorio } codigoRubro={ codigoRubro } /> */}
         </>
     )
 }

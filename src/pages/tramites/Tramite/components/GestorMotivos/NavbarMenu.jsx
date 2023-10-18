@@ -10,18 +10,30 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { BsEye, BsEyeSlash, BsSearch } from 'react-icons/bs';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import HandleSweetAlert from '../shared/AlertModal';
 import { addMotivoOv } from '../../../../../modules/motivosOv';
 import SimuladorCombosEtiquetas from './SimuladorCombosEtiquetas';
+import ListadoMotivosOv from './ListadoMotivosOv';
 
-const NavbarMenu = ({ codigoRubro, motivosOv }) => {
+const NavbarMenu = ({ codigoRubro, motivosOv, motivosRepositorio }) => {
     const dispatch = useDispatch();
     const [alert, setAlert] = useState(false);
     const [motivoInput, setMotivoInput] = useState('');
     const [showCombosEtiquetas, setShowCombosEtiquetas] = useState(false);
+    const [listaBusqueda, setListaBusqueda] = useState([]);
     
     // Handlers
+    const handleChangeBusqueda = (e) => {
+        let {value} = e.target;
+        value = value.trim();
+        value ? (
+            setListaBusqueda([...motivosOv.filter((elemento) => elemento.descripcion.toLowerCase() === value.toLowerCase())])
+        ) : (
+            setListaBusqueda([...motivosOv])
+        )
+    }
+
     const handleAgregarMotivoOv = () => {
         const esRevertible = false;
         setAlert(false);
@@ -52,6 +64,11 @@ const NavbarMenu = ({ codigoRubro, motivosOv }) => {
         setAlert(false);
     }
 
+    // useEffect
+    useEffect(() => {
+        setListaBusqueda([...motivosOv]);
+    }, [motivosOv])
+    
     return (
         <>
             {alert && modal("Motivo existente o inválido!")}
@@ -152,6 +169,7 @@ const NavbarMenu = ({ codigoRubro, motivosOv }) => {
                                     placeholder="Buscar motivo..."
                                     className="me-2"
                                     aria-label="Buscar"
+                                    onChange={(e) => handleChangeBusqueda(e)}
                                 />
                                 <Button variant="outline-danger">
                                     <BsSearch
@@ -172,13 +190,16 @@ const NavbarMenu = ({ codigoRubro, motivosOv }) => {
                     </Row>
                 </Container>
             )}
+
+            <ListadoMotivosOv motivosOv={ listaBusqueda } motivosRepositorio={ motivosRepositorio } codigoRubro={ codigoRubro } />
         </>
     );
 };
 
 NavbarMenu.propTypes = {
     codigoRubro: PropTypes.number,
-    motivosOv: PropTypes.array
+    motivosOv: PropTypes.array,
+    motivosRepositorio: PropTypes.array
 }
 
 export default NavbarMenu;
