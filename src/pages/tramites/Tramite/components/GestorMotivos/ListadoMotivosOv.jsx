@@ -112,7 +112,11 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
         <>
             {alert && modal("Descripción existente o inválida!")}
             <Container style={{ marginTop: "7rem", marginBottom: "4rem" }}>
-                <h6><strong>{motivosOv.length}</strong><small style={{ color: "#333", marginLeft: ".5rem" }}>RESULTADOS DISPONIBLES</small></h6>
+                {
+                    motivosOv.length > 0 && (
+                        <h6><strong>{motivosOv.length}</strong><small style={{ color: "#333", marginLeft: ".5rem" }}>RESULTADOS DISPONIBLES</small></h6>
+                    )
+                }
                 {motivosOv.length > 0 &&
                     motivosOv.map((m, i) => (
                         <Row key={m.id}>
