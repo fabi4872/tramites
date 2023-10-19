@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { addMotivosSubmotivosToMotivoOv } from "../../../../../modules/motivosOv";
+import { addAsociadoMotivoOv } from "../../../../../modules/motivosOv";
 import { BiEraser } from "react-icons/bi";
 import HandleSweetAlert from "../shared/AlertModal";
 import Swal from "sweetalert2";
 
-const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio, codigoRubro }) => {
+const ListadoMotivosSubmotivos = ({ motivoOv, index, activo }) => {
     const dispatch = useDispatch();
-
+    const { motivosRepositorio } = useSelector((state) => state.motivos);
     const [selectedMotivo, setSelectedMotivo] = useState();
     const [selectedSubmotivo, setSelectedSubmotivo] = useState();
     const [alert, setAlert] = useState(false);
@@ -26,7 +26,7 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
             const submotivo = submotivos[0];            
             HandleSweetAlert(
                 () => {
-                    dispatch(addMotivosSubmotivosToMotivoOv({ motivoOv, motivo, submotivo, codigoRubro }));
+                    dispatch(addAsociadoMotivoOv({ motivoOv, motivo, submotivo }));
                 },
                 false
             )
@@ -169,9 +169,7 @@ const ListadoMotivosSubmotivos = ({ motivoOv, index, activo, motivosRepositorio,
 ListadoMotivosSubmotivos.propTypes = {
     motivoOv: PropTypes.object,
     index: PropTypes.number,
-    activo: PropTypes.bool,
-    motivosRepositorio: PropTypes.array,
-    codigoRubro: PropTypes.number
+    activo: PropTypes.bool
 }
 
 export default ListadoMotivosSubmotivos;

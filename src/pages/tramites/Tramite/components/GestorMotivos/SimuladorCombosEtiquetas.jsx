@@ -1,10 +1,11 @@
-import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { Button, Col, Form } from "react-bootstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { BiEraser } from "react-icons/bi";
+import { useSelector } from "react-redux";
 
-const SimuladorCombosEtiquetas = ({ motivosOv }) => {
+const SimuladorCombosEtiquetas = () => {
+    const { motivosOv } = useSelector((state) => state.motivosOv);
     const [selectedMotivoOv, setSelectedMotivoOv] = useState([]);
     const [selectedMotivoRepositorio, setSelectedMotivoRepositorio] = useState([]);
     const [selectedSubmotivoRepositorio, setSelectedSubmotivoRepositorio] = useState([]);
@@ -23,14 +24,19 @@ const SimuladorCombosEtiquetas = ({ motivosOv }) => {
             setSelectedSubmotivoRepositorio(items);
         }
     }
-    
-    // useEffect
-    useEffect(() => {
+
+    // Funciones
+    const limpiarCombos = () => {
         setSelectedMotivoOv([]);
         setSelectedMotivoRepositorio([]);
         setSelectedSubmotivoRepositorio([]);
         setMotivosRepositorioCombo([]);
         setSubmotivosRepositorioCombo([]);
+    }
+    
+    // useEffect
+    useEffect(() => {
+        limpiarCombos();
         const uniqueMotivosOv = [...new Set(motivosOv
             .filter(item => item.sn_activo)
             .map((item) => ({
@@ -98,11 +104,7 @@ const SimuladorCombosEtiquetas = ({ motivosOv }) => {
                         variant="default"
                         className="btn-limpiar-submotivo"
                         onClick={() => {
-                            setSelectedMotivoOv([]);
-                            setSelectedMotivoRepositorio([]);
-                            setSelectedSubmotivoRepositorio([]);
-                            setMotivosRepositorioCombo([]);
-                            setSubmotivosRepositorioCombo([]);
+                            limpiarCombos();
                         }}
                         disabled={!selectedSubmotivoRepositorio}
                     >
@@ -195,10 +197,6 @@ const SimuladorCombosEtiquetas = ({ motivosOv }) => {
             </Col>
         </>
     );
-};
-
-SimuladorCombosEtiquetas.propTypes = {
-    motivosOv: PropTypes.array,
 };
 
 export default SimuladorCombosEtiquetas;

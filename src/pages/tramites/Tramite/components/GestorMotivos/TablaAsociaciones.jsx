@@ -5,10 +5,10 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { BiEditAlt, BiListCheck } from "react-icons/bi";
 import { useDispatch } from "react-redux";
-import { editMotivoOv } from "../../../../../modules/motivosOv";
+import { editDescripcionAsociadoMotivoOv, eliminarActivarAsociadoMotivoOv } from "../../../../../modules/motivosOv";
 import HandleSweetAlert from "../shared/AlertModal";
 
-const TablaAsociaciones = ({ motivoOv, motivosRepositorioAsociados, codigoRubro, activo }) => {
+const TablaAsociaciones = ({ motivoOv, motivosRepositorioAsociados, activo }) => {
     const dispatch = useDispatch();
     const [edicion, setEdicion] = useState([]);
   
@@ -36,32 +36,27 @@ const TablaAsociaciones = ({ motivoOv, motivosRepositorioAsociados, codigoRubro,
         });
     }
 
-    const handleOnClickEditConfirm = (numeroItem, idItem, valorNuevo) => {
-        const updatedMotivoOv = { ...motivoOv };
-        let elemento = { ...motivosRepositorioAsociados.find(item => item.id === idItem) };
-        if (elemento) {
-            elemento.descripcion_submotivo_ov = valorNuevo.trim();
-            updatedMotivoOv.motivos_submotivos_repositorio_asociados = [ elemento, ...motivosRepositorioAsociados.filter((elemento) => elemento.id !== idItem) ];
-            dispatch(editMotivoOv({ motivoOv: updatedMotivoOv, codigoRubro }));
+    const handleOnClickEditConfirm = (numeroItem, idItem, descripcion) => {
+        descripcion = descripcion.trim();
+        let asociado = { ...motivosRepositorioAsociados.find(item => item.id === idItem) };
+        if (asociado) {
+            dispatch(editDescripcionAsociadoMotivoOv({ motivoOv, asociado, descripcion }));
             setEdicion((currentData) => {
                 const updatedData = [...currentData];
                 updatedData[numeroItem] = {
                     ...updatedData[numeroItem],
                     esEdicion: false,
-                    input: valorNuevo,
+                    input: descripcion,
                 };
                 return updatedData;
             });
         }
     };
 
-    const handleEliminarActivarAsociacion = (idItem, valorNuevo) => {
-        const updatedMotivoOv = { ...motivoOv };
-        let elemento = { ...motivosRepositorioAsociados.find(item => item.id === idItem) };
-        if (elemento) {
-            elemento.sn_activo = valorNuevo;
-            updatedMotivoOv.motivos_submotivos_repositorio_asociados = [ elemento, ...motivosRepositorioAsociados.filter((elemento) => elemento.id !== idItem) ];
-            dispatch(editMotivoOv({ motivoOv: updatedMotivoOv, codigoRubro }));
+    const handleEliminarActivarAsociacion = (idItem) => {
+        let asociado = { ...motivosRepositorioAsociados.find(item => item.id === idItem) };
+        if (asociado) {
+            dispatch(eliminarActivarAsociadoMotivoOv({ motivoOv, asociado }));
         }
     };
 
@@ -248,8 +243,7 @@ const TablaAsociaciones = ({ motivoOv, motivosRepositorioAsociados, codigoRubro,
                                                                 HandleSweetAlert(
                                                                     () =>
                                                                         handleEliminarActivarAsociacion(
-                                                                            item.id,
-                                                                            !item.sn_activo
+                                                                            item.id
                                                                         ),
                                                                     true
                                                                 )
@@ -284,7 +278,6 @@ const TablaAsociaciones = ({ motivoOv, motivosRepositorioAsociados, codigoRubro,
 TablaAsociaciones.propTypes = {
     motivoOv: PropTypes.object,
     motivosRepositorioAsociados: PropTypes.array,
-    codigoRubro: PropTypes.number,
     activo: PropTypes.bool
 }
 

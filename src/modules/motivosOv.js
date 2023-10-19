@@ -2,44 +2,29 @@ import { createSlice, configureStore } from "@reduxjs/toolkit";
 import md5 from "md5";
 
 const initialStateMotivosOv = {
-    motivosOvART: [],
-    motivosOvGenerales: [],
-    motivosOvLife: []
+    motivosOv: []
 };
 
 export const motivosOvSlice = createSlice({
-    name: 'motivosOv',
+    name: "motivosOv",
     initialState: initialStateMotivosOv,
     reducers: {
         addMotivoOv: (state, action) => {
-            const { motivoInput, codigoRubro } = action.payload;
+            const { motivoInput } = action.payload;
             const fecha = new Date().toISOString();
             const nuevoMotivo = {
                 id: md5(motivoInput + fecha),
                 descripcion: motivoInput,
                 sn_activo: true,
                 fecha_alta: fecha,
-                motivos_submotivos_repositorio_asociados: []
+                motivos_submotivos_repositorio_asociados: [],
             };
 
-            // Actualizar el estado en función de la colección a la que pertenece motivoOv
-            switch (codigoRubro) {
-                case 1:
-                    state.motivosOvART.unshift(nuevoMotivo);
-                    break;
-                case 2:
-                    state.motivosOvGenerales.unshift(nuevoMotivo)
-                    break;
-                case 3:
-                    state.motivosOvLife.unshift(nuevoMotivo);
-                    break;
-                default:
-                    break;
-            }
+            state.motivosOv.unshift(nuevoMotivo);
         },
-        addMotivosSubmotivosToMotivoOv: (state, action) => {
-            const { motivoOv, motivo, submotivo, codigoRubro } = action.payload;
-            
+        addAsociadoMotivoOv: (state, action) => {
+            const { motivoOv, motivo, submotivo } = action.payload;
+
             const nuevaAsociacion = {
                 id: md5(motivoOv.id + motivo.id + submotivo.id),
                 sn_activo: true,
@@ -47,67 +32,70 @@ export const motivosOvSlice = createSlice({
                 descripcion_motivo_repositorio: motivo.descripcion,
                 id_submotivo_repositorio: submotivo.id,
                 descripcion_submotivo_repositorio: submotivo.descripcion,
-                descripcion_submotivo_ov: ""
+                descripcion_submotivo_ov: "",
             };
 
-            // Copiar el motivoOv actual del estado
             const motivoOvActualizado = {
                 ...motivoOv,
                 motivos_submotivos_repositorio_asociados: [
                     ...motivoOv.motivos_submotivos_repositorio_asociados,
-                    nuevaAsociacion
-                ]
+                    nuevaAsociacion,
+                ],
             };
 
-            // Actualizar el estado en función de la colección a la que pertenece motivoOv
-            switch (codigoRubro) {
-                case 1:
-                    state.motivosOvART = state.motivosOvART.map((item) =>
-                        item.id === motivoOvActualizado.id ? motivoOvActualizado : item
-                    );
-                    break;
-                case 2:
-                    state.motivosOvGenerales = state.motivosOvGenerales.map((item) =>
-                        item.id === motivoOvActualizado.id ? motivoOvActualizado : item
-                    );
-                    break;
-                case 3:
-                    state.motivosOvLife = state.motivosOvLife.map((item) =>
-                        item.id === motivoOvActualizado.id ? motivoOvActualizado : item
-                    );
-                    break;
-                default:
-                    break;
+            state.motivosOv = state.motivosOv.map((item) =>
+                item.id === motivoOvActualizado.id ? motivoOvActualizado : item
+            );
+        },
+        editDescripcionMotivoOv: (state, action) => {
+            const { motivoOv, descripcion } = action.payload;
+            const motivoOvEncontrado = state.motivosOv.find((item) => item.id === motivoOv.id);
+            if (motivoOvEncontrado) {
+                motivoOvEncontrado.descripcion = descripcion;
             }
         },
-        editMotivoOv: (state, action) => {
-            const { motivoOv, codigoRubro } = action.payload;
-
-            // Actualizar el estado en función de la colección a la que pertenece motivoOv
-            switch (codigoRubro) {
-                case 1:
-                    state.motivosOvART = state.motivosOvART.map((item) =>
-                        item.id === motivoOv.id ? motivoOv : item
-                    );
-                    break;
-                case 2:
-                    state.motivosOvGenerales = state.motivosOvGenerales.map((item) =>
-                        item.id === motivoOv.id ? motivoOv : item
-                    );
-                    break;
-                case 3:
-                    state.motivosOvLife = state.motivosOvLife.map((item) =>
-                        item.id === motivoOv.id ? motivoOv : item
-                    );
-                    break;
-                default:
-                    break;
+        eliminarActivarMotivoOv: (state, action) => {
+            const { motivoOv } = action.payload;
+            const motivoOvEncontrado = state.motivosOv.find((item) => item.id === motivoOv.id);
+            if (motivoOvEncontrado) {
+                motivoOvEncontrado.sn_activo = !motivoOvEncontrado.sn_activo;
             }
-        }
+        },
+        editDescripcionAsociadoMotivoOv: (state, action) => {
+            const { motivoOv, asociado, descripcion } = action.payload;
+            const motivoOvEncontrado = state.motivosOv.find(
+                (item) => item.id === motivoOv.id
+            );
+            if (motivoOvEncontrado) {
+                const asociadoEncontrado =
+                    motivoOvEncontrado.motivos_submotivos_repositorio_asociados.find(
+                        (item) => item.id === asociado.id
+                    );
+                if (asociadoEncontrado) {
+                    asociadoEncontrado.descripcion_submotivo_ov = descripcion;
+                }
+            }
+        },
+        eliminarActivarAsociadoMotivoOv: (state, action) => {
+            const { motivoOv, asociado } = action.payload;
+            const motivoOvEncontrado = state.motivosOv.find(
+                (item) => item.id === motivoOv.id
+            );
+            if (motivoOvEncontrado) {
+                const asociadoEncontrado =
+                    motivoOvEncontrado.motivos_submotivos_repositorio_asociados.find(
+                        (item) => item.id === asociado.id
+                    );
+                if (asociadoEncontrado) {
+                    asociadoEncontrado.sn_activo =
+                        !asociadoEncontrado.sn_activo;
+                }
+            }
+        },
     },
 });
 
-export const { addMotivoOv, addMotivosSubmotivosToMotivoOv, editMotivoOv } =
+export const { addMotivoOv, addAsociadoMotivoOv, editDescripcionMotivoOv, eliminarActivarMotivoOv, editDescripcionAsociadoMotivoOv, eliminarActivarAsociadoMotivoOv } =
     motivosOvSlice.actions;
 
 export const store = configureStore({

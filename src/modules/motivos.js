@@ -1,8 +1,7 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
 
 const initialState = {
-    motivosART: [],
-    motivosGenerales: [
+    motivosRepositorio: [
         {
             id: "Seguros - Modificaciones en póliza",
             descripcion: "Modificaciones en póliza",
@@ -139,8 +138,7 @@ const initialState = {
                 }
             ]
         }
-    ],
-    motivosLife: []
+    ]
 };
 
 const motivosSlice = createSlice({

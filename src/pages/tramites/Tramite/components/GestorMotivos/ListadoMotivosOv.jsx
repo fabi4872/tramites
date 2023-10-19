@@ -1,16 +1,16 @@
 import { Accordion, Alert, Button, Col, Container, Row } from 'react-bootstrap';
-import PropTypes from "prop-types";
 import TablaAsociaciones from './TablaAsociaciones';
 import ListadoMotivosSubmotivos from './ListadoMotivosSubmotivos';
 import { useDispatch } from 'react-redux';
 import HandleSweetAlert from '../shared/AlertModal';
-import { editMotivoOv } from '../../../../../modules/motivosOv';
+import { editDescripcionMotivoOv, eliminarActivarMotivoOv } from '../../../../../modules/motivosOv';
 import { useEffect, useState } from 'react';
 import EditDescripcionMotivo from './EditDescripcionMotivo';
 import ToastEstado from './ToastEstado';
 import Swal from 'sweetalert2';
+import PropTypes from "prop-types";
 
-const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {    
+const ListadoMotivosOv = ({ motivosOv }) => {    
     const dispatch = useDispatch();
     const [alert, setAlert] = useState(false);
     const [edicion, setEdicion] = useState([]);
@@ -20,23 +20,19 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
         const buscado =  motivosOv.find((item) => {
             return item.id === idMotivoOv
         })
-             
         return (buscado) ? buscado.motivos_submotivos_repositorio_asociados : [];
     }
 
-    const handleEliminarActivarMotivo = (motivoOv, nuevoValor) => {
-        const updatedMotivoOv = { ...motivoOv };
-        updatedMotivoOv.sn_activo = nuevoValor;
-        motivosOv = [ ...motivosOv.filter((elemento) => elemento.id !== motivoOv.id), updatedMotivoOv ];
-        dispatch(editMotivoOv({ motivoOv: updatedMotivoOv, codigoRubro }));
+    const handleEliminarActivarMotivo = (motivoOv) => {
+        dispatch(eliminarActivarMotivoOv({ motivoOv }));
     };
 
-    const handleOnClickEdit = (numeroItem, valorNuevo) => {
+    const handleOnClickEdit = (numeroItem) => {
         setEdicion((currentData) => {
             const updatedData = [...currentData];
             updatedData[numeroItem] = {
                 ...updatedData[numeroItem],
-                esEdicion: valorNuevo,
+                esEdicion: !edicion.esEdicion,
             };
             return updatedData;
         });
@@ -54,19 +50,13 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
         });
     }
 
-    const handleOnClickEditConfirm = (motivoOv, numeroItem, valorNuevo) => {
+    const handleOnClickEditConfirm = (motivoOv, numeroItem, descripcion) => {
         setAlert(false);
-        if (valorNuevo.trim() !== "" && !existeMotivoOv(valorNuevo)) {
-            const updatedMotivoOv = { ...motivoOv };
-            updatedMotivoOv.descripcion = valorNuevo.trim();
-            motivosOv = [
-                ...motivosOv.filter((elemento) => elemento.id !== motivoOv.id),
-                updatedMotivoOv,
-            ];
-
+        descripcion = descripcion.trim();
+        if (descripcion !== "" && !existeMotivoOv(descripcion)) {
             HandleSweetAlert(() => {
                 dispatch(
-                    editMotivoOv({ motivoOv: updatedMotivoOv, codigoRubro })
+                    editDescripcionMotivoOv({ motivoOv, descripcion })
                 );
                 setEdicion(
                     (currentData) => {
@@ -74,7 +64,7 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
                         updatedData[numeroItem] = {
                             ...updatedData[numeroItem],
                             esEdicion: false,
-                            input: valorNuevo,
+                            input: descripcion,
                         };
                         return updatedData;
                     },
@@ -172,7 +162,6 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
 
                                         <ToastEstado
                                             motivoOv={m}
-                                            esEdicion={edicion[i]?.esEdicion}
                                             item={i}
                                             handleOnClickEdit={
                                                 handleOnClickEdit
@@ -186,10 +175,6 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
                                             motivoOv={m}
                                             index={i}
                                             activo={m.sn_activo}
-                                            motivosRepositorio={
-                                                motivosRepositorio
-                                            }
-                                            codigoRubro={codigoRubro}
                                         />
 
                                         <TablaAsociaciones
@@ -197,7 +182,6 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
                                             motivosRepositorioAsociados={handleGetAsociacionesByMotivoOv(
                                                 m.id
                                             )}
-                                            codigoRubro={codigoRubro}
                                             activo={m.sn_activo}
                                         />
                                         <Container>
@@ -232,9 +216,7 @@ const ListadoMotivosOv = ({ motivosOv, motivosRepositorio, codigoRubro }) => {
 }
 
 ListadoMotivosOv.propTypes = {
-    motivosOv: PropTypes.array,
-    motivosRepositorio: PropTypes.array,
-    codigoRubro: PropTypes.number
+    motivosOv: PropTypes.array
 }
 
 export default ListadoMotivosOv;
