@@ -3,9 +3,9 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { addAsociadoMotivoOv } from "../../../../../modules/motivosOv";
+import { addAsociadoMotivoOv } from "../../../../../../modules/motivosOv";
 import { BiEraser } from "react-icons/bi";
-import HandleSweetAlert from "../shared/AlertModal";
+import HandleSweetAlert from "../../shared/AlertModal";
 import Swal from "sweetalert2";
 
 const ListadoMotivosSubmotivos = ({ motivoOv, index, activo }) => {

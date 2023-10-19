@@ -2,8 +2,8 @@ import { Accordion, Alert, Button, Col, Container, Row } from 'react-bootstrap';
 import TablaAsociaciones from './TablaAsociaciones';
 import ListadoMotivosSubmotivos from './ListadoMotivosSubmotivos';
 import { useDispatch } from 'react-redux';
-import HandleSweetAlert from '../shared/AlertModal';
-import { editDescripcionMotivoOv, eliminarActivarMotivoOv } from '../../../../../modules/motivosOv';
+import HandleSweetAlert from '../../shared/AlertModal';
+import { editDescripcionMotivoOv, eliminarActivarMotivoOv } from '../../../../../../modules/motivosOv';
 import { useEffect, useState } from 'react';
 import EditDescripcionMotivo from './EditDescripcionMotivo';
 import ToastEstado from './ToastEstado';
@@ -32,7 +32,7 @@ const ListadoMotivosOv = ({ motivosOv }) => {
             const updatedData = [...currentData];
             updatedData[numeroItem] = {
                 ...updatedData[numeroItem],
-                esEdicion: !edicion.esEdicion,
+                esEdicion: !updatedData[numeroItem].esEdicion,
             };
             return updatedData;
         });
@@ -53,7 +53,7 @@ const ListadoMotivosOv = ({ motivosOv }) => {
     const handleOnClickEditConfirm = (motivoOv, numeroItem, descripcion) => {
         setAlert(false);
         descripcion = descripcion.trim();
-        if (descripcion !== "" && !existeMotivoOv(descripcion)) {
+        if (descripcion !== "" && !existeMotivoOv(motivoOv.id, descripcion)) {
             HandleSweetAlert(() => {
                 dispatch(
                     editDescripcionMotivoOv({ motivoOv, descripcion })
@@ -77,8 +77,10 @@ const ListadoMotivosOv = ({ motivosOv }) => {
     };    
 
     // Funciones
-    const existeMotivoOv = (descripcion) => {
-        return motivosOv.some((item) => {
+    const existeMotivoOv = (idMotivoOv, descripcion) => {
+        return motivosOv
+        .filter((item) => item.id !== idMotivoOv)
+        .some((item) => {
             return item.descripcion.toLowerCase() === descripcion.trim().toLowerCase();
         });
     }
@@ -123,7 +125,8 @@ const ListadoMotivosOv = ({ motivosOv }) => {
                                                     margin: "0",
                                                     position: "absolute",
                                                     right: "3.7rem",
-                                                    width: "7rem"
+                                                    width: "7rem",
+                                                    zIndex: 98
                                                 }}
                                             >
                                                 Activo
@@ -137,7 +140,8 @@ const ListadoMotivosOv = ({ motivosOv }) => {
                                                     margin: "0",
                                                     position: "absolute",
                                                     right: "3.7rem",
-                                                    width: "7rem"
+                                                    width: "7rem",
+                                                    zIndex: 98
                                                 }}
                                             >
                                                 Eliminado

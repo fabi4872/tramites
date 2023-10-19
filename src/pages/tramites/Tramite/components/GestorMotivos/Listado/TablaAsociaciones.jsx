@@ -5,8 +5,8 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { BiEditAlt, BiListCheck } from "react-icons/bi";
 import { useDispatch } from "react-redux";
-import { editDescripcionAsociadoMotivoOv, eliminarActivarAsociadoMotivoOv } from "../../../../../modules/motivosOv";
-import HandleSweetAlert from "../shared/AlertModal";
+import { editDescripcionAsociadoMotivoOv, eliminarActivarAsociadoMotivoOv } from "../../../../../../modules/motivosOv";
+import HandleSweetAlert from "../../shared/AlertModal";
 
 const TablaAsociaciones = ({ motivoOv, motivosRepositorioAsociados, activo }) => {
     const dispatch = useDispatch();

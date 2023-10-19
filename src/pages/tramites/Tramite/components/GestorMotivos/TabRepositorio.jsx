@@ -3,7 +3,7 @@ import NavbarMenu from "./Navbar/NavbarMenu";
 import SimuladorCombosEtiquetas from "./SimuladorCombosEtiquetas";
 import { Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import ListadoMotivosOv from "./ListadoMotivosOv";
+import ListadoMotivosOv from "./Listado/ListadoMotivosOv";
 
 const TabRepositorio = () => {
     const { motivosOv } = useSelector((state) => state.motivosOv);

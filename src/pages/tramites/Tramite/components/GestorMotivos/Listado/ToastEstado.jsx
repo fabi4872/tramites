@@ -1,5 +1,5 @@
 import { Button, Row, Toast } from "react-bootstrap";
-import HandleSweetAlert from "../shared/AlertModal";
+import HandleSweetAlert from "../../shared/AlertModal";
 import { BiEditAlt } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
 import { ImSwitch } from "react-icons/im";

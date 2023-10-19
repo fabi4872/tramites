@@ -6,8 +6,8 @@ const EditDescripcionMotivo = ({ input, motivoOv, indice, handleChange, handleOn
     return (
         <>
             <Col
-                xs={10}
-                lg={6}
+                xs={6}
+                lg={4}
                 style={{
                     position: "absolute",
                     top: "-3.35rem",
