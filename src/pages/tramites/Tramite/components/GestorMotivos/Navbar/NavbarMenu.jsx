@@ -19,9 +19,9 @@ const NavbarMenu = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleChan
     const handleAgregarMotivoOv = () => {
         const esRevertible = false;
         setAlert(false);
-        setMotivoInput(motivoInput.trim());
+        setMotivoInput(motivoInput);
 
-        motivoInput && !existeMotivoOv()
+        motivoInput.trim() !== "" && !existeMotivoOv()
             ? HandleSweetAlert(() => {
                   dispatch(addMotivoOv({ motivoInput }));
                   setMotivoInput("");
