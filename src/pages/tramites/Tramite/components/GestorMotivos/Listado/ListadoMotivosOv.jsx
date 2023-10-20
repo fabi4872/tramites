@@ -40,11 +40,21 @@ const ListadoMotivosOv = ({ motivosOv }) => {
 
     const handleChange = (e, numeroItem) => {
         const { value } = e.target;
+        let descripcionFormateada = "";
+
+        // Verifica que la entrada no sea un espacio en blanco vacío
+        if (value.trim() === "") {
+            descripcionFormateada = value;
+        } else {
+            // Reemplaza múltiples espacios en blanco con uno solo
+            descripcionFormateada = value.replace(/\s+/g, ' ');
+        }
+
         setEdicion((currentData) => {
             const updatedData = [...currentData];
             updatedData[numeroItem] = {
                 ...updatedData[numeroItem],
-                input: value,
+                input: descripcionFormateada,
             };
             return updatedData;
         });
@@ -81,7 +91,7 @@ const ListadoMotivosOv = ({ motivosOv }) => {
         return motivosOv
         .filter((item) => item.id !== idMotivoOv)
         .some((item) => {
-            return item.descripcion.toLowerCase() === descripcion.trim().toLowerCase();
+            return item.descripcion.trim().toLowerCase() === descripcion.trim().toLowerCase();
         });
     }
 

@@ -17,13 +17,21 @@ const TabRepositorio = () => {
 
     const handleChangeBusqueda = (e) => {
         let { value } = e.target;
-        value = value.trim();
-        value
+        let descripcionFormateada = "";
+
+        if (value.trim() === "") {
+            descripcionFormateada = value;
+        } else {
+            // Reemplaza múltiples espacios en blanco con uno solo
+            descripcionFormateada = value.replace(/\s+/g, ' ');
+        }
+
+        descripcionFormateada !== ""
             ? setListaBusqueda([
                   ...motivosOv.filter(
                       (elemento) =>
-                          elemento.descripcion.toLowerCase() ===
-                          value.toLowerCase()
+                          elemento.descripcion.trim().toLowerCase() ===
+                          descripcionFormateada.trim().toLowerCase()
                   ),
               ])
             : setListaBusqueda([...motivosOv]);

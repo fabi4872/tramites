@@ -19,8 +19,7 @@ const NavbarMenu = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleChan
     const handleAgregarMotivoOv = () => {
         const esRevertible = false;
         setAlert(false);
-        setMotivoInput(motivoInput);
-
+        
         motivoInput.trim() !== "" && !existeMotivoOv()
             ? HandleSweetAlert(() => {
                   dispatch(addMotivoOv({ motivoInput }));
@@ -31,15 +30,24 @@ const NavbarMenu = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleChan
 
     const handleMotivo = (e) => {
         const { value } = e.target;
-        setMotivoInput(value);
-        !value.trim() && setAlert(false);
+    
+        // Verifica que la entrada no sea un espacio en blanco vacío
+        if (value.trim() === "") {
+            setMotivoInput(value);
+            setAlert(false);
+        } else {
+            // Reemplaza múltiples espacios en blanco con uno solo
+            const descripcionFormateada = value.replace(/\s+/g, ' ');
+            setMotivoInput(descripcionFormateada);
+            setAlert(false);
+        }
     }
-
+    
     // Funciones
     const existeMotivoOv = () => {
         return motivosOv.some((item) => {
             return (
-                item.descripcion.toLowerCase() ===
+                item.descripcion.trim().toLowerCase() ===
                 motivoInput.trim().toLowerCase()
             );
         });
