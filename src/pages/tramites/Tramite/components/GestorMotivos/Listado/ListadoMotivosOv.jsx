@@ -27,12 +27,13 @@ const ListadoMotivosOv = ({ motivosOv }) => {
         dispatch(eliminarActivarMotivoOv({ motivoOv }));
     };
 
-    const handleOnClickEdit = (numeroItem) => {
+    const handleOnClickEdit = (numeroItem, descripcionMotivoOvActual) => {
         setEdicion((currentData) => {
             const updatedData = [...currentData];
             updatedData[numeroItem] = {
                 ...updatedData[numeroItem],
                 esEdicion: !updatedData[numeroItem].esEdicion,
+                input: descripcionMotivoOvActual
             };
             return updatedData;
         });
@@ -68,19 +69,19 @@ const ListadoMotivosOv = ({ motivosOv }) => {
                 dispatch(
                     editDescripcionMotivoOv({ motivoOv, descripcion })
                 );
-                setEdicion(
-                    (currentData) => {
-                        const updatedData = [...currentData];
-                        updatedData[numeroItem] = {
-                            ...updatedData[numeroItem],
-                            esEdicion: false,
-                            input: descripcion,
-                        };
-                        return updatedData;
-                    },
-                    true
-                );
             });
+            setEdicion(
+                (currentData) => {
+                    const updatedData = [...currentData];
+                    updatedData[numeroItem] = {
+                        ...updatedData[numeroItem],
+                        esEdicion: false,
+                        input: descripcion,
+                    };
+                    return updatedData;
+                },
+                true
+            );
         } else {
             setAlert(true);
         }

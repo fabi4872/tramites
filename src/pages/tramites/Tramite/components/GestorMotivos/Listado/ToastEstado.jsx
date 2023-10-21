@@ -46,7 +46,7 @@ const ToastEstado = ({ motivoOv, item, handleOnClickEdit, handleEliminarActivarM
                 <Button
                     variant="default"
                     className="btn repositorio-icon-margin repositorio-icon-button"
-                    onClick={() => handleOnClickEdit(item)}
+                    onClick={() => handleOnClickEdit(item, motivoOv.descripcion)}
                     disabled={!motivoOv.sn_activo}
                 >
                     <BiEditAlt className="repositorio-icon-yellow" size={25} />
