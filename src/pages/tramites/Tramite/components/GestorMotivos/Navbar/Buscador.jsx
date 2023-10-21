@@ -6,7 +6,7 @@ const Buscador = ({ handleChangeBusqueda }) => {
     return (
         <>
             <Col xs={12} lg={4}>
-                <Form className="d-flex">
+                <Form className="d-flex mt-3 mb-3">
                     <Form.Control
                         type="search"
                         placeholder="Buscar motivo..."
