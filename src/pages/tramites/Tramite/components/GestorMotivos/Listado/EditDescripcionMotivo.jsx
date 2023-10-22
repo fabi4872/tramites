@@ -1,8 +1,9 @@
 import { Button, Col, Form } from "react-bootstrap";
-import { BiListCheck } from "react-icons/bi";
 import PropTypes from "prop-types";
+import { FiCheck } from "react-icons/fi";
+import { IoMdClose } from "react-icons/io";
 
-const EditDescripcionMotivo = ({ input, motivoOv, indice, handleChange, handleOnClickEditConfirm }) => {
+const EditDescripcionMotivo = ({ input, motivoOv, indice, handleChange, handleOnClickEditConfirm, handleOnClickEditCancel }) => {
     return (
         <>
             <Col
@@ -24,12 +25,19 @@ const EditDescripcionMotivo = ({ input, motivoOv, indice, handleChange, handleOn
                 />
                 <Button
                     variant="default"
-                    className="repositorio-icon-button"
+                    className="repositorio-icon-button p-1"
+                    onClick={() => handleOnClickEditCancel(indice)}
+                >
+                    <IoMdClose className="repositorio-icon-red" size={20} />
+                </Button>
+                <Button
+                    variant="default"
+                    className="repositorio-icon-button p-0"
                     onClick={() =>
                         handleOnClickEditConfirm(motivoOv, indice, input)
                     }
                 >
-                    <BiListCheck className="repositorio-icon-green" size={25} />
+                    <FiCheck className="repositorio-icon-green" size={20} />
                 </Button>
             </Col>
         </>
@@ -41,7 +49,8 @@ EditDescripcionMotivo.propTypes = {
     motivoOv: PropTypes.object,
     indice: PropTypes.number,
     handleChange: PropTypes.func,
-    handleOnClickEditConfirm: PropTypes.func
+    handleOnClickEditConfirm: PropTypes.func,
+    handleOnClickEditCancel: PropTypes.func
 }
 
 export default EditDescripcionMotivo;

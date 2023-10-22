@@ -5,7 +5,7 @@ import { BsTrash } from "react-icons/bs";
 import { ImSwitch } from "react-icons/im";
 import PropTypes from "prop-types";
 
-const ToastEstado = ({ motivoOv, item, handleOnClickEdit, handleEliminarActivarMotivo }) => {
+const ToastEstado = ({ motivoOv, esEdicion, item, handleOnClickEdit, handleEliminarActivarMotivo }) => {
     return (
         <div style={{ position: "relative" }}>
             <Row
@@ -47,7 +47,7 @@ const ToastEstado = ({ motivoOv, item, handleOnClickEdit, handleEliminarActivarM
                     variant="default"
                     className="btn repositorio-icon-margin repositorio-icon-button"
                     onClick={() => handleOnClickEdit(item, motivoOv.descripcion)}
-                    disabled={!motivoOv.sn_activo}
+                    disabled={!motivoOv.sn_activo || esEdicion}
                 >
                     <BiEditAlt className="repositorio-icon-yellow" size={25} />
                 </Button>
@@ -77,6 +77,7 @@ const ToastEstado = ({ motivoOv, item, handleOnClickEdit, handleEliminarActivarM
 
 ToastEstado.propTypes = {
     motivoOv: PropTypes.object,
+    esEdicion: PropTypes.bool,
     item: PropTypes.number,
     handleOnClickEdit: PropTypes.func,
     handleEliminarActivarMotivo: PropTypes.func

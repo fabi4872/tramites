@@ -27,6 +27,17 @@ const ListadoMotivosOv = ({ motivosOv }) => {
         dispatch(eliminarActivarMotivoOv({ motivoOv }));
     };
 
+    const handleOnClickEditCancel = (numeroItem) => {
+        setEdicion((currentData) => {
+            const updatedData = [...currentData];
+            updatedData[numeroItem] = {
+                ...updatedData[numeroItem],
+                esEdicion: !updatedData[numeroItem].esEdicion,
+            };
+            return updatedData;
+        });
+    };
+
     const handleOnClickEdit = (numeroItem, descripcionMotivoOvActual) => {
         setEdicion((currentData) => {
             const updatedData = [...currentData];
@@ -142,7 +153,7 @@ const ListadoMotivosOv = ({ motivosOv }) => {
                                                     margin: "0",
                                                     position: "absolute",
                                                     right: "3.7rem",
-                                                    width: "7rem",
+                                                    width: "6rem",
                                                     zIndex: 98
                                                 }}
                                             >
@@ -157,7 +168,7 @@ const ListadoMotivosOv = ({ motivosOv }) => {
                                                     margin: "0",
                                                     position: "absolute",
                                                     right: "3.7rem",
-                                                    width: "7rem",
+                                                    width: "6rem",
                                                     zIndex: 98
                                                 }}
                                             >
@@ -178,11 +189,15 @@ const ListadoMotivosOv = ({ motivosOv }) => {
                                                 handleOnClickEditConfirm={
                                                     handleOnClickEditConfirm
                                                 }
+                                                handleOnClickEditCancel={
+                                                    handleOnClickEditCancel
+                                                }
                                             />
                                         )}
 
                                         <ToastEstado
                                             motivoOv={m}
+                                            esEdicion={edicion[i]?.esEdicion}
                                             item={i}
                                             handleOnClickEdit={
                                                 handleOnClickEdit
