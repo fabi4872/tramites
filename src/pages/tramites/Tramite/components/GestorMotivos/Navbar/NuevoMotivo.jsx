@@ -8,7 +8,7 @@ const NuevoMotivo = ({ motivoInput, handleMotivo, handleAgregarMotivoOv }) => {
             <Col xs={12} lg={4}>
                 <Form className="d-flex mt-3 mb-3">
                     <Form.Control
-                        style={{ borderRadius: ".5rem 0 0 .5rem" }}
+                        style={{ borderRadius: ".3rem 0 0 .3rem" }}
                         type="text"
                         placeholder="Nuevo motivo..."
                         className="me-0"
@@ -20,7 +20,7 @@ const NuevoMotivo = ({ motivoInput, handleMotivo, handleAgregarMotivoOv }) => {
                         onChange={(e) => handleMotivo(e)}
                     />
                     <Button
-                        style={{ borderRadius: "0 .5rem .5rem 0" }}
+                        style={{ borderRadius: "0 .3rem .3rem 0" }}
                         variant="outline-danger"
                         onClick={handleAgregarMotivoOv}
                     >

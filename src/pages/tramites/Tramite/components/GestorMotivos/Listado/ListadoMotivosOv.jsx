@@ -88,11 +88,17 @@ const ListadoMotivosOv = ({ motivosOv }) => {
     };    
 
     // Funciones
+    function removeAccents(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
     const existeMotivoOv = (idMotivoOv, descripcion) => {
+        const descripcionNormalized = removeAccents(descripcion.trim().toLowerCase());
         return motivosOv
-        .filter((item) => item.id !== idMotivoOv)
-        .some((item) => {
-            return item.descripcion.trim().toLowerCase() === descripcion.trim().toLowerCase();
+            .filter((item) => item.id !== idMotivoOv)
+            .some((item) => {
+                const itemDescripcionNormalized = removeAccents(item.descripcion.trim().toLowerCase());
+                return itemDescripcionNormalized === descripcionNormalized;
         });
     }
 
@@ -114,7 +120,7 @@ const ListadoMotivosOv = ({ motivosOv }) => {
     return (
         <>
             {alert && modal("Descripción existente o inválida!")}
-            <Container style={{ marginTop: "7rem", marginBottom: "4rem" }}>
+            <Container style={{ marginTop: "7rem", marginBottom: "4rem" }} className="fade-in">
                 {
                     motivosOv.length > 0 && (
                         <h6><strong>{motivosOv.length}</strong><small style={{ color: "#333", marginLeft: ".5rem" }}>RESULTADOS DISPONIBLES</small></h6>

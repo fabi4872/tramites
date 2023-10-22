@@ -4,6 +4,7 @@ import SimuladorCombosEtiquetas from "./SimuladorCombosEtiquetas";
 import { Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import ListadoMotivosOv from "./Listado/ListadoMotivosOv";
+import SinResultados from "./Navbar/SinResultados";
 
 const TabRepositorio = () => {
     const { motivosOv } = useSelector((state) => state.motivosOv);
@@ -19,6 +20,7 @@ const TabRepositorio = () => {
         let { value } = e.target;
         let descripcionFormateada = "";
 
+        // Verifica que la entrada no sea un espacio en blanco vacío
         if (value.trim() === "") {
             descripcionFormateada = value;
         } else {
@@ -30,8 +32,8 @@ const TabRepositorio = () => {
             ? setListaBusqueda([
                   ...motivosOv.filter(
                       (elemento) =>
-                          elemento.descripcion.trim().toLowerCase() ===
-                          descripcionFormateada.trim().toLowerCase()
+                          removeAccents(elemento.descripcion.trim().toLowerCase()) ===
+                          removeAccents(descripcionFormateada.trim().toLowerCase())
                   ),
               ])
             : setListaBusqueda([...motivosOv]);
@@ -56,6 +58,11 @@ const TabRepositorio = () => {
                 break;
         }
     };
+
+    // Funciones
+    function removeAccents(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
 
     // useEffect
     useEffect(() => {
@@ -85,7 +92,11 @@ const TabRepositorio = () => {
                 </Container>
             )}
 
-            <ListadoMotivosOv motivosOv={ listaBusqueda } />
+            {listaBusqueda.length > 0 ? (
+                <ListadoMotivosOv motivosOv={listaBusqueda} />
+            ) : (
+                <SinResultados />
+            )}
         </>
     );
 }

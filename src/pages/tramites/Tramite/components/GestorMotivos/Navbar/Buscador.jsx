@@ -8,7 +8,7 @@ const Buscador = ({ handleChangeBusqueda }) => {
             <Col xs={12} lg={4} style={{ marginRight: "1rem" }}>
                 <Form className="d-flex mt-3 mb-3">
                     <Form.Control
-                        style={{ borderRadius: ".5rem 0 0 .5rem" }}
+                        style={{ borderRadius: ".3rem 0 0 .3rem" }}
                         type="search"
                         placeholder="Buscar motivo..."
                         className="me-0"
@@ -17,7 +17,7 @@ const Buscador = ({ handleChangeBusqueda }) => {
                     />
                     <Button
                         disabled 
-                        style={{ borderRadius: "0 .5rem .5rem 0", border: ".1rem solid #CCC", background: "#EAEAEA" }}
+                        style={{ borderRadius: "0 .3rem .3rem 0", border: ".1rem solid #CCC", background: "#EAEAEA" }}
                         variant="outline-default"
                     >
                         <BsSearch

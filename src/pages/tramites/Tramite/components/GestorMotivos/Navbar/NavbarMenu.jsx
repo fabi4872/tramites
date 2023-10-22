@@ -44,12 +44,16 @@ const NavbarMenu = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleChan
     }
     
     // Funciones
+    function removeAccents(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
     const existeMotivoOv = () => {
+        const motivoInputNormalized = removeAccents(motivoInput.trim().toLowerCase());
+      
         return motivosOv.some((item) => {
-            return (
-                item.descripcion.trim().toLowerCase() ===
-                motivoInput.trim().toLowerCase()
-            );
+            const itemDescripcionNormalized = removeAccents(item.descripcion.trim().toLowerCase());
+            return itemDescripcionNormalized === motivoInputNormalized;
         });
     };
 
