@@ -32,8 +32,8 @@ const TabRepositorio = () => {
             ? setListaBusqueda([
                   ...motivosOv.filter(
                       (elemento) =>
-                          removeAccents(elemento.descripcion.trim().toLowerCase()) ===
-                          removeAccents(descripcionFormateada.trim().toLowerCase())
+                          removeAccents(elemento.descripcion.trim().toLowerCase())
+                              .includes(removeAccents(descripcionFormateada.trim().toLowerCase()))
                   ),
               ])
             : setListaBusqueda([...motivosOv]);
