@@ -79,8 +79,8 @@ const NavbarMenu = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleChan
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <OpcionesNav showCombosEtiquetas={showCombosEtiquetas} handleShowCombosEtiquetas={handleShowCombosEtiquetas} handleChangeFiltro={handleChangeFiltro} />                        
-                        <NuevoMotivo motivoInput={motivoInput} handleMotivo={handleMotivo} handleAgregarMotivoOv={handleAgregarMotivoOv} />
                         <Buscador handleChangeBusqueda={handleChangeBusqueda} />
+                        <NuevoMotivo motivoInput={motivoInput} handleMotivo={handleMotivo} handleAgregarMotivoOv={handleAgregarMotivoOv} />
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
