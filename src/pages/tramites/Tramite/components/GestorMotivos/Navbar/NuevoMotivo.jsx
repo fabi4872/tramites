@@ -1,5 +1,5 @@
 import { Button, Col, Form } from "react-bootstrap";
-import { AiOutlinePlus } from "react-icons/ai";
+import { FaPlus } from "react-icons/fa";
 import PropTypes from "prop-types";
 
 const NuevoMotivo = ({ motivoInput, handleMotivo, handleAgregarMotivoOv }) => {
@@ -20,11 +20,11 @@ const NuevoMotivo = ({ motivoInput, handleMotivo, handleAgregarMotivoOv }) => {
                         onChange={(e) => handleMotivo(e)}
                     />
                     <Button
-                        style={{ borderRadius: "0 .5rem .5rem 0", border: ".15rem solid red" }}
+                        style={{ borderRadius: "0 .5rem .5rem 0" }}
                         variant="outline-danger"
                         onClick={handleAgregarMotivoOv}
                     >
-                        <AiOutlinePlus
+                        <FaPlus
                             style={{ paddingBottom: ".2rem" }}
                             size={20}
                         />
