@@ -80,7 +80,7 @@ const SimuladorCombosEtiquetas = () => {
     
     return (
         <>
-            <h5 style={{ fontStyle: "italic", color: "#A1A1A1", fontWeight: "400" }}>Combos de etiquetas</h5>
+            <h5 style={{ fontStyle: "italic", color: "#A1A1A1", fontWeight: "400" }}>Simulador de combos consultas por</h5>
             <Col xs={12} lg={4}>
                 <Form.Label
                     className="nuevo-tramite-label mt-3"

@@ -189,3 +189,7 @@ td {
       opacity: 1;
     }
 }
+
+.opcion-nav :hover{
+    color: #0066ff;
+}

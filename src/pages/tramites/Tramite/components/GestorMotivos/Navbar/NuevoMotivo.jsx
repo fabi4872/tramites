@@ -5,10 +5,10 @@ import PropTypes from "prop-types";
 const NuevoMotivo = ({ motivoInput, handleMotivo, handleAgregarMotivoOv }) => {
     return (
         <>
-            <Col xs={12} lg={4}>
+            <Col xs={12} lg={3}>
                 <Form className="d-flex mt-3 mb-3">
                     <Form.Control
-                        style={{ borderRadius: ".3rem 0 0 .3rem" }}
+                        style={{ borderRadius: "1rem 0 0 1rem", padding: ".7rem 1rem" }}
                         type="text"
                         placeholder="Nuevo motivo..."
                         className="me-0"
@@ -20,8 +20,8 @@ const NuevoMotivo = ({ motivoInput, handleMotivo, handleAgregarMotivoOv }) => {
                         onChange={(e) => handleMotivo(e)}
                     />
                     <Button
-                        style={{ borderRadius: "0 .3rem .3rem 0" }}
-                        variant="outline-danger"
+                        style={{ borderRadius: "0 1rem 1rem 0", margin: 0 }}
+                        variant="danger"
                         onClick={handleAgregarMotivoOv}
                     >
                         <FaPlus

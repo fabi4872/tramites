@@ -74,12 +74,12 @@ const NavbarMenu = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleChan
                 className="mt-5"
             >
                 <Container fluid>
-                    <Navbar.Brand
+                    {/* <Navbar.Brand
                         href="#"
                         style={{ color: "#E41625", fontWeight: "bold" }}
                     >
                         Motivos y submotivos
-                    </Navbar.Brand>
+                    </Navbar.Brand> */}
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <OpcionesNav showCombosEtiquetas={showCombosEtiquetas} handleShowCombosEtiquetas={handleShowCombosEtiquetas} handleChangeFiltro={handleChangeFiltro} />                        

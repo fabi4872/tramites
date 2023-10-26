@@ -86,7 +86,7 @@ const TabRepositorio = () => {
                         padding: "1rem",
                     }}
                 >
-                    <Row>
+                    <Row className="fade-in">
                         <SimuladorCombosEtiquetas />
                     </Row>
                 </Container>

@@ -1,10 +1,10 @@
+import HeaderMotivo from '../components/GestorMotivos/HeaderMotivo';
 import MotivosABM from '../components/GestorMotivos/MotivosABM';
-import Header from '../components/shared/Header';
 
 const GestorMotivosAdmin = () => {
     return (
         <>
-            <Header titulo={ 'Gestor de Trámites' } esGestor={ true } />
+            <HeaderMotivo />
             <MotivosABM />
         </>
     )
