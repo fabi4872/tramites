@@ -1,9 +1,58 @@
-import { Button, Nav, NavDropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { BsEye, BsEyeSlash } from "react-icons/bs";
+import { Button, Col, Nav, NavDropdown, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import { BsArrowDown, BsArrowUp, BsCalendar2Check, BsCheckAll } from "react-icons/bs";
+import { VscCloseAll } from "react-icons/vsc";
 import PropTypes from "prop-types";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { LuListTodo } from "react-icons/lu";
+import { FcAlphabeticalSortingAz, FcAlphabeticalSortingZa } from "react-icons/fc";
+import { TbHelpOff, TbHelp } from "react-icons/tb";
+import { useDispatch, useSelector } from "react-redux";
+import { activarDesactivarAyudas, changeFiltro, changeOrden } from "../../../../../../modules/motivosOv";
 
-const OpcionesNav = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleChangeFiltro }) => {
+const OpcionesNav = ({ showCombosEtiquetas, handleShowCombosEtiquetas }) => {
+    const dispatch = useDispatch();
+    const showAyudas = useSelector((state) => state.motivosOv.showAyudas);
+    const filtro = useSelector((state) => state.motivosOv.filtro);
+    const orden = useSelector((state) => state.motivosOv.orden);
+
+    // Handlers
+    const handlerActivarDesactivarAyudas = () => {
+        dispatch(
+            activarDesactivarAyudas()
+        );
+    }
+
+    const handleChangeFiltro = (filtro_nuevo) => {
+        const filtro_actual = obtenerPropiedadFiltroActual();
+        dispatch(
+            changeFiltro({ filtro_actual, filtro_nuevo })
+        );
+    }
+
+    const handleChangeOrden = (orden_nuevo) => {
+        const orden_actual = obtenerPropiedadOrdenActual();
+        dispatch(
+            changeOrden({ orden_actual, orden_nuevo })
+        );
+    }
+
+    // Funciones
+    const obtenerPropiedadFiltroActual = () => {
+        for (const key in filtro) {
+            if (filtro[key] === true) {
+                return key;
+            }
+        }
+    }
+
+    const obtenerPropiedadOrdenActual = () => {
+        for (const key in orden) {
+            if (orden[key] === true) {
+                return key;
+            }
+        }
+    }
+
     return (
         <>
             <Nav
@@ -11,52 +60,185 @@ const OpcionesNav = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleCha
                 style={{ maxHeight: "200px" }}
                 navbarScroll
             >
-                <NavDropdown
-                    className="mt-3 px-3 mb-3"
-                    style={{ fontWeight: "500", background: "#D3DCFF", borderRadius: ".5rem" }}
-                    title="Filtros"
-                    id="navbarScrollingDropdown"
-                >
-                    <NavDropdown.Item
-                        onClick={() => handleChangeFiltro("Activos")}
-                    >
-                        Activos
-                    </NavDropdown.Item>
-                    <NavDropdown.Item
-                        onClick={() => handleChangeFiltro("Eliminados")}
-                    >
-                        Eliminados
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item
-                        onClick={() => handleChangeFiltro("Todos")}
-                    >
-                        Todos
-                    </NavDropdown.Item>
-                </NavDropdown>
-                <div className="mt-3 mb-3">
-                    <OverlayTrigger
-                        placement="bottom"
-                        overlay={
-                            <Tooltip>
-                                Mostrar u ocultar simulador de combos consultas por 
-                            </Tooltip>
-                        }
-                    >
-                        <Button
-                            className="mx-5 opcion-nav"
-                            variant="default"
-                            onClick={handleShowCombosEtiquetas}
-                            style={{ color: "#8A8A8A", background: "#F2F3F7", borderRadius: "50%" }}
+                <Row>
+                    <Col>
+                        <NavDropdown
+                            className="mt-3 px-3 mb-3"
+                            style={{
+                                fontWeight: "500",
+                                background: "#F2F3F7",
+                                borderRadius: ".5rem",
+                            }}
+                            title="Filtros"
+                            id="navbarScrollingDropdown"
                         >
-                            {showCombosEtiquetas ? (
-                                <FaEyeSlash size={25} />
-                            ) : (
-                                <FaEye size={25} />
-                            )}
-                        </Button>
-                    </OverlayTrigger>
-                </div>
+                            <NavDropdown.Item
+                                onClick={() => handleChangeFiltro("activos")}
+                            >
+                                <div className="d-flex align-items-center repositorio-option-nav">
+                                    Activos
+                                    <BsCheckAll
+                                        className="mx-2 repositorio-icon-green"
+                                        size={20}
+                                    />
+                                </div>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item
+                                onClick={() => handleChangeFiltro("eliminados")}
+                            >
+                                <div className="d-flex align-items-center repositorio-option-nav">
+                                    Eliminados
+                                    <VscCloseAll
+                                        className="mx-2 repositorio-icon-red"
+                                        size={20}
+                                    />
+                                </div>
+                            </NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item
+                                onClick={() => handleChangeFiltro("todos")}
+                            >
+                                <div className="d-flex align-items-center repositorio-option-nav">
+                                    Todos
+                                    <LuListTodo
+                                        className="mx-2 repositorio-icon-blue"
+                                        size={20}
+                                    />
+                                </div>
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                    </Col>
+
+                    <Col>
+                        <NavDropdown
+                            className="mt-3 px-3 mb-3"
+                            style={{
+                                fontWeight: "500",
+                                background: "#F2F3F7",
+                                borderRadius: ".5rem",
+                            }}
+                            title="Orden"
+                            id="navbarScrollingDropdown"
+                        >
+                            <NavDropdown.Item
+                                onClick={() => handleChangeOrden("alfabetico_ascendente")}
+                            >
+                                <div className="d-flex align-items-center repositorio-option-nav">
+                                    Alfabético ascendente
+                                    <FcAlphabeticalSortingAz
+                                        className="mx-2 repositorio-icon-green"
+                                        size={20}
+                                    />
+                                </div>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item
+                                onClick={() => handleChangeOrden("alfabetico_descendente")}
+                            >
+                                <div className="d-flex align-items-center repositorio-option-nav">
+                                    Alfabético descendente
+                                    <FcAlphabeticalSortingZa
+                                        className="mx-2 repositorio-icon"
+                                        size={20}
+                                    />
+                                </div>
+                            </NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item
+                                onClick={() => handleChangeOrden("fecha_alta_ascendente")}
+                            >
+                                <div className="d-flex align-items-center repositorio-option-nav">
+                                    Fecha de alta ascendente
+                                    <BsCalendar2Check
+                                        style={{ marginLeft: ".5rem" }}
+                                        className="repositorio-icon-blue"
+                                        size={16}
+                                    />
+                                    <BsArrowUp
+                                        style={{ color: "#333333" }}
+                                        size={16}
+                                    />
+                                </div>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item
+                                onClick={() => handleChangeOrden("fecha_alta_descendente")}
+                            >
+                                <div className="d-flex align-items-center repositorio-option-nav">
+                                    Fecha de alta descendente
+                                    <BsCalendar2Check
+                                        style={{ marginLeft: ".5rem" }}
+                                        className="repositorio-icon-blue"
+                                        size={16}
+                                    />
+                                    <BsArrowDown
+                                        style={{ color: "#333333" }}
+                                        size={16}
+                                    />
+                                </div>
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                    </Col>
+
+                    <Col>
+                        <div className="mt-3 mb-3 text-center">
+                            <OverlayTrigger
+                                placement="bottom"
+                                overlay={
+                                    <Tooltip>
+                                        Mostrar u ocultar simulador de combos en
+                                        ABM de etiquetas.
+                                    </Tooltip>
+                                }
+                            >
+                                <Button
+                                    className="opcion-nav"
+                                    variant="default"
+                                    onClick={handleShowCombosEtiquetas}
+                                    style={{
+                                        color: "#8A8A8A",
+                                        background: "#F2F3F7",
+                                        borderRadius: "50%",
+                                    }}
+                                >
+                                    {showCombosEtiquetas ? (
+                                        <FaEyeSlash size={25} />
+                                    ) : (
+                                        <FaEye size={25} />
+                                    )}
+                                </Button>
+                            </OverlayTrigger>
+                        </div>
+                    </Col>
+
+                    <Col>
+                        <div className="mt-3 mb-3 text-center">
+                            <OverlayTrigger
+                                placement="bottom"
+                                overlay={
+                                    <Tooltip>
+                                        Mostrar u ocultar ayudas sugeridas.
+                                    </Tooltip>
+                                }
+                            >
+                                <Button
+                                    className="opcion-nav"
+                                    variant="default"
+                                    onClick={handlerActivarDesactivarAyudas}
+                                    style={{
+                                        color: "#8A8A8A",
+                                        background: "#F2F3F7",
+                                        borderRadius: "50%",
+                                    }}
+                                >
+                                    {showAyudas ? (
+                                        <TbHelpOff size={25} />
+                                    ) : (
+                                        <TbHelp size={25} />
+                                    )}
+                                </Button>
+                            </OverlayTrigger>
+                        </div>
+                    </Col>
+                </Row>
             </Nav>
         </>
     );
@@ -64,8 +246,7 @@ const OpcionesNav = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleCha
 
 OpcionesNav.propTypes = {
     showCombosEtiquetas: PropTypes.bool,
-    handleShowCombosEtiquetas: PropTypes.func,
-    handleChangeFiltro: PropTypes.func
+    handleShowCombosEtiquetas: PropTypes.func
 }
 
 export default OpcionesNav;

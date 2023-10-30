@@ -2,13 +2,42 @@ import { createSlice, configureStore } from "@reduxjs/toolkit";
 import md5 from "md5";
 
 const initialStateMotivosOv = {
-    motivosOv: []
+    motivosOv: [],
+    showAyudas: true,
+    filtro: {
+        activos: false,
+        eliminados: false,
+        todos: true
+    },
+    orden: {
+        alfabetico_ascendente: false,
+        alfabetico_descendente: false,
+        fecha_alta_ascendente: false,
+        fecha_alta_descendente: true
+    }
 };
 
 export const motivosOvSlice = createSlice({
     name: "motivosOv",
     initialState: initialStateMotivosOv,
     reducers: {
+        activarDesactivarAyudas: (state) => {
+            state.showAyudas = !state.showAyudas;
+        },
+        changeFiltro: (state, action) => {
+            const { filtro_actual, filtro_nuevo } = action.payload;
+            if (state.filtro[filtro_actual] && state.filtro[filtro_nuevo]) {
+                state.filtro[filtro_actual] = !state.filtro[filtro_actual];
+                state.filtro[filtro_nuevo] = !state.filtro[filtro_nuevo];
+            } 
+        },
+        changeOrden: (state, action) => {
+            const { orden_actual, orden_nuevo } = action.payload;
+            if (state.orden[orden_actual] && state.orden[orden_nuevo]) {
+                state.orden[orden_actual] = !state.orden[orden_actual];
+                state.orden[orden_nuevo] = !state.orden[orden_nuevo];
+            } 
+        },
         addMotivoOv: (state, action) => {
             const { motivoInput } = action.payload;
             const fecha = new Date().toISOString();
@@ -95,8 +124,17 @@ export const motivosOvSlice = createSlice({
     },
 });
 
-export const { addMotivoOv, addAsociadoMotivoOv, editDescripcionMotivoOv, eliminarActivarMotivoOv, editDescripcionAsociadoMotivoOv, eliminarActivarAsociadoMotivoOv } =
-    motivosOvSlice.actions;
+export const {
+    activarDesactivarAyudas,
+    changeFiltro,
+    changeOrden,
+    addMotivoOv,
+    addAsociadoMotivoOv,
+    editDescripcionMotivoOv,
+    eliminarActivarMotivoOv,
+    editDescripcionAsociadoMotivoOv,
+    eliminarActivarAsociadoMotivoOv,
+} = motivosOvSlice.actions;
 
 export const store = configureStore({
     reducer: {

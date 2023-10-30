@@ -8,9 +8,9 @@ const NuevoMotivo = ({ motivoInput, handleMotivo, handleAgregarMotivoOv }) => {
             <Col xs={12} lg={3}>
                 <Form className="d-flex mt-3 mb-3">
                     <Form.Control
-                        style={{ borderRadius: "1rem 0 0 1rem", padding: ".7rem 1rem" }}
+                        style={{ borderRadius: "1rem 0 0 1rem", padding: ".5rem 1rem" }}
                         type="text"
-                        placeholder="Nuevo motivo..."
+                        placeholder="Nuevo"
                         className="me-0"
                         aria-label="Guardar"
                         id="motivoInput"

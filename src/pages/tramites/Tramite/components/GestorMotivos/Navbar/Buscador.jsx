@@ -8,9 +8,9 @@ const Buscador = ({ handleChangeBusqueda }) => {
             <Col xs={12} lg={3} style={{ marginRight: "1rem" }}>
                 <Form className="d-flex mt-3 mb-3">
                     <Form.Control
-                        style={{ borderRadius: "1rem 0 0 1rem", padding: ".7rem 1rem", borderRight: "none" }}
+                        style={{ borderRadius: "1rem 0 0 1rem", padding: ".5rem 1rem", borderRight: "none" }}
                         type="search"
-                        placeholder="Buscar motivo..."
+                        placeholder="Buscar"
                         className="me-0"
                         aria-label="Buscar"
                         onChange={(e) => handleChangeBusqueda(e)}

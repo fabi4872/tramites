@@ -190,6 +190,9 @@ td {
     }
 }
 
-.opcion-nav :hover{
-    color: #0066ff;
+.repositorio-option-nav{
+    padding: .2rem 0 !important;
+}
+.opcion-nav:hover{
+    color: #0066ff !important;
 }
