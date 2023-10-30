@@ -7,50 +7,17 @@ import { LuListTodo } from "react-icons/lu";
 import { FcAlphabeticalSortingAz, FcAlphabeticalSortingZa } from "react-icons/fc";
 import { TbHelpOff, TbHelp } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
-import { activarDesactivarAyudas, changeFiltro, changeOrden } from "../../../../../../modules/motivosOv";
+import { activarDesactivarAyudas } from "../../../../../../modules/motivosOv";
 
-const OpcionesNav = ({ showCombosEtiquetas, handleShowCombosEtiquetas }) => {
+const OpcionesNav = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleChangeFiltro, handleChangeOrden }) => {
+    const { showAyudas } = useSelector((state) => state.motivosOv);
     const dispatch = useDispatch();
-    const showAyudas = useSelector((state) => state.motivosOv.showAyudas);
-    const filtro = useSelector((state) => state.motivosOv.filtro);
-    const orden = useSelector((state) => state.motivosOv.orden);
-
+    
     // Handlers
     const handlerActivarDesactivarAyudas = () => {
         dispatch(
             activarDesactivarAyudas()
         );
-    }
-
-    const handleChangeFiltro = (filtro_nuevo) => {
-        const filtro_actual = obtenerPropiedadFiltroActual();
-        dispatch(
-            changeFiltro({ filtro_actual, filtro_nuevo })
-        );
-    }
-
-    const handleChangeOrden = (orden_nuevo) => {
-        const orden_actual = obtenerPropiedadOrdenActual();
-        dispatch(
-            changeOrden({ orden_actual, orden_nuevo })
-        );
-    }
-
-    // Funciones
-    const obtenerPropiedadFiltroActual = () => {
-        for (const key in filtro) {
-            if (filtro[key] === true) {
-                return key;
-            }
-        }
-    }
-
-    const obtenerPropiedadOrdenActual = () => {
-        for (const key in orden) {
-            if (orden[key] === true) {
-                return key;
-            }
-        }
     }
 
     return (
@@ -246,7 +213,9 @@ const OpcionesNav = ({ showCombosEtiquetas, handleShowCombosEtiquetas }) => {
 
 OpcionesNav.propTypes = {
     showCombosEtiquetas: PropTypes.bool,
-    handleShowCombosEtiquetas: PropTypes.func
+    handleShowCombosEtiquetas: PropTypes.func,
+    handleChangeFiltro: PropTypes.func,
+    handleChangeOrden: PropTypes.func
 }
 
 export default OpcionesNav;

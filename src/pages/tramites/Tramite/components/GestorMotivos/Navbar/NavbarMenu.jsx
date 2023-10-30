@@ -9,7 +9,7 @@ import Buscador from "./Buscador";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-const NavbarMenu = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleChangeBusqueda, handleChangeFiltro }) => {
+const NavbarMenu = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleChangeBusqueda, handleChangeFiltro, handleChangeOrden }) => {
     const { motivosOv } = useSelector((state) => state.motivosOv);
     const [alert, setAlert] = useState(false);
     const [motivoInput, setMotivoInput] = useState("");
@@ -74,15 +74,9 @@ const NavbarMenu = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleChan
                 className="mt-5"
             >
                 <Container fluid>
-                    {/* <Navbar.Brand
-                        href="#"
-                        style={{ color: "#E41625", fontWeight: "bold" }}
-                    >
-                        Motivos y submotivos
-                    </Navbar.Brand> */}
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
-                        <OpcionesNav showCombosEtiquetas={showCombosEtiquetas} handleShowCombosEtiquetas={handleShowCombosEtiquetas} handleChangeFiltro={handleChangeFiltro} />                        
+                        <OpcionesNav showCombosEtiquetas={showCombosEtiquetas} handleShowCombosEtiquetas={handleShowCombosEtiquetas} handleChangeFiltro={handleChangeFiltro} handleChangeOrden={handleChangeOrden} />                        
                         <Buscador handleChangeBusqueda={handleChangeBusqueda} />
                         <NuevoMotivo motivoInput={motivoInput} handleMotivo={handleMotivo} handleAgregarMotivoOv={handleAgregarMotivoOv} />
                     </Navbar.Collapse>
@@ -96,7 +90,8 @@ NavbarMenu.propTypes = {
     showCombosEtiquetas: PropTypes.bool,
     handleShowCombosEtiquetas: PropTypes.func,
     handleChangeBusqueda: PropTypes.func,
-    handleChangeFiltro: PropTypes.func
+    handleChangeFiltro: PropTypes.func,
+    handleChangeOrden: PropTypes.func
 }
 
 export default NavbarMenu;
