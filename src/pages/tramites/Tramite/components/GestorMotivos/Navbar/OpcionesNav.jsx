@@ -88,7 +88,9 @@ const OpcionesNav = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleCha
                             id="navbarScrollingDropdown"
                         >
                             <NavDropdown.Item
-                                onClick={() => handleChangeOrden("alfabetico_ascendente")}
+                                onClick={() =>
+                                    handleChangeOrden("alfabetico_ascendente")
+                                }
                             >
                                 <div className="d-flex align-items-center repositorio-option-nav">
                                     Alfabético ascendente
@@ -99,7 +101,9 @@ const OpcionesNav = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleCha
                                 </div>
                             </NavDropdown.Item>
                             <NavDropdown.Item
-                                onClick={() => handleChangeOrden("alfabetico_descendente")}
+                                onClick={() =>
+                                    handleChangeOrden("alfabetico_descendente")
+                                }
                             >
                                 <div className="d-flex align-items-center repositorio-option-nav">
                                     Alfabético descendente
@@ -111,7 +115,9 @@ const OpcionesNav = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleCha
                             </NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item
-                                onClick={() => handleChangeOrden("fecha_alta_ascendente")}
+                                onClick={() =>
+                                    handleChangeOrden("fecha_alta_ascendente")
+                                }
                             >
                                 <div className="d-flex align-items-center repositorio-option-nav">
                                     Fecha de alta ascendente
@@ -127,7 +133,9 @@ const OpcionesNav = ({ showCombosEtiquetas, handleShowCombosEtiquetas, handleCha
                                 </div>
                             </NavDropdown.Item>
                             <NavDropdown.Item
-                                onClick={() => handleChangeOrden("fecha_alta_descendente")}
+                                onClick={() =>
+                                    handleChangeOrden("fecha_alta_descendente")
+                                }
                             >
                                 <div className="d-flex align-items-center repositorio-option-nav">
                                     Fecha de alta descendente

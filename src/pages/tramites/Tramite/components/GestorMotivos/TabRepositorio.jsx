@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import NavbarMenu from "./Navbar/NavbarMenu";
 import SimuladorCombosEtiquetas from "./SimuladorCombosEtiquetas";
 import { Container, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ListadoMotivosOv from "./Listado/ListadoMotivosOv";
 import SinResultados from "./Navbar/SinResultados";
+import { changeFiltro, changeOrden } from "../../../../../modules/motivosOv";
+import InformacionBusqueda from "./Navbar/InformacionBusqueda";
 
 const TabRepositorio = () => {
+    const dispatch = useDispatch();
     const { motivosOv } = useSelector((state) => state.motivosOv);
     const [showCombosEtiquetas, setShowCombosEtiquetas] = useState(false);
     const [listaBusqueda, setListaBusqueda] = useState([]);
@@ -42,10 +45,16 @@ const TabRepositorio = () => {
     };
 
     const handleChangeFiltro = (filtro_nuevo) => {
+        dispatch(
+            changeFiltro({ filtro_nuevo })
+        );
         setFiltro(filtro_nuevo);
     }
 
     const handleChangeOrden = (orden_nuevo) => {
+        dispatch(
+            changeOrden({ orden_nuevo })
+        );
         setOrden(orden_nuevo);
     }
 
@@ -54,54 +63,7 @@ const TabRepositorio = () => {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
 
-    // const setListaBusquedaWithFiltroOrden = () => {
-    //     const filtro_actual = obtenerPropiedadFiltroActual();
-    //     const orden_actual = obtenerPropiedadOrdenActual();
-    //     console.log(filtro_actual);
-    //     switch (filtro_actual) {
-    //         case "activos":
-    //             setListaBusqueda([
-    //                 ...motivosOv.filter((elemento) => elemento.sn_activo),
-    //             ]);
-    //             break;
-    //         case "eliminados":
-    //             setListaBusqueda([
-    //                 ...motivosOv.filter((elemento) => !elemento.sn_activo),
-    //             ]);
-    //             break;
-    //         case "todos":
-    //             setListaBusqueda([...motivosOv]);
-    //             break;
-    //         default:
-    //             break;
-    //     }
-
-    //     switch (orden_actual) {
-    //         case "alfabetico_ascendente":
-    //             setListaBusqueda([
-    //                 ...listaBusqueda.sort((a, b) => b.descripcion < a.descripcion),
-    //             ]);
-    //             break;
-    //         case "alfabetico_descendente":
-    //             setListaBusqueda([
-    //                 ...listaBusqueda.sort((a, b) => a.descripcion < b.descripcion),
-    //             ]);
-    //             break;
-    //         case "fecha_alta_ascendente":
-    //             setListaBusqueda([
-    //                 ...listaBusqueda.sort((a, b) => b.fecha < a.fecha),
-    //             ]);
-    //             break;
-    //         case "fecha_alta_descendente":
-    //             setListaBusqueda([
-    //                 ...listaBusqueda.sort((a, b) => a.fecha < b.fecha),
-    //             ]);
-    //             break;
-    //         default:
-    //             break;
-    //     }        
-    // };
-
+    // useEffect
     useEffect(() => {
         // Aplicar filtro
         let filteredMotivosOv = [...motivosOv];
@@ -144,7 +106,7 @@ const TabRepositorio = () => {
             {showCombosEtiquetas && (
                 <Container
                     style={{
-                        marginBottom: "6rem",
+                        marginBottom: "1rem",
                         boxShadow: "0 .5rem .5rem 0 #CCC",
                         padding: "1rem",
                     }}
@@ -154,6 +116,8 @@ const TabRepositorio = () => {
                     </Row>
                 </Container>
             )}
+
+            <InformacionBusqueda numeroItems={listaBusqueda.length} />
 
             {listaBusqueda.length > 0 ? (
                 <ListadoMotivosOv motivosOv={listaBusqueda} />
