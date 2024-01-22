@@ -1,4 +1,4 @@
-import { Col, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 export const InputFormulario = ({ icon, label, type, id, ariaDescribedby }) => {
